@@ -144,7 +144,7 @@ $resourceGroupName = $rg.ResourceGroupName
 $deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["DeploymentId"]
 
 $branchName = "main";
-$workshopName = "security-defender-workshop-400";
+$workshopName = "sentinel-defender-workshop-400";
 
 #download the git repo...
 Write-Host "Download Git repo." -ForegroundColor Green -Verbose
@@ -248,7 +248,6 @@ $bacpacFilename = "Insurance.bacpac"
 # The ip address range that you want to allow to access your server
 $startip = "0.0.0.0"
 $endip = "0.0.0.0"
-
 
 $databaseName = "Insurance";
 

@@ -150,6 +150,7 @@ $repoUrl = "solliancenet/sentinel-defender-workshop-400";
 Write-Host "Download Git repo." -ForegroundColor Green -Verbose
 git clone https://github.com/solliancenet/$workshopName.git $workshopName
 
+$templatesFile = "c:\labfiles\$workshopName\artifacts\environment-setup\automation\00-template.json"
 $parametersFile = "c:\labfiles\$workshopName\artifacts\environment-setup\spektra\deploy.parameters.post.json"
 $content = Get-Content -Path $parametersFile -raw;
 
@@ -177,7 +178,7 @@ EnableAKSPolicy
 EnableOtherCompliancePolicy $resourceGroupName;
 
 Write-Host "Starting main deployment." -ForegroundColor Green -Verbose
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri "https://raw.githubusercontent.com/solliancenet/$workshopName/$branchName/artifacts/environment-setup/automation/00-template.json" -TemplateParameterFile "$($parametersFile).json"
+New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templatesFile -TemplateParameterFile "$($parametersFile).json"
 
 #connect the activity log - workspace must exist
 ConnectAzureActivityLog $resourceName $resourceGroupName;

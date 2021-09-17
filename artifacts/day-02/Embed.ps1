@@ -14,7 +14,7 @@ function EncodeScript($file)
     return $encoded;
 }
 
-$path = "C:\github\solliancenet\security-defender-workshop-400\artifacts\day-02";
+$path = "C:\github\solliancenet\sentinel-defender-workshop-400\artifacts\day-02";
 
 $file = "$path\Enumerate.ps1";
 

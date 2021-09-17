@@ -135,16 +135,16 @@ $cred = new-object -typename System.Management.Automation.PSCredential -argument
 Connect-AzAccount -Credential $cred | Out-Null
  
 # Template deployment
-$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEND*-02" });
+$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEND*-security" });
 $resourceGroupName = $rg.ResourceGroupName
 $region = $rg.Location;
-$deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["DeploymentId"]
+$deploymentId =  $rg.Tags["DeploymentId"]
 
 $resourceName = "wssecurity$deploymentId";
 
-$branchName = "master";
-$workshopName = "security-defender-workshop-400";
-$repoUrl = "solliancenet/security-defender-workshop-400";
+$branchName = "main";
+$workshopName = "sentinel-defender-workshop-400";
+$repoUrl = "solliancenet/sentinel-defender-workshop-400";
 
 #download the git repo...
 Write-Host "Download Git repo." -ForegroundColor Green -Verbose

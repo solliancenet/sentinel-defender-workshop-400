@@ -151,12 +151,12 @@
     "adBDCConfigurationModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureADBDC.zip', parameters('_artifactsLocationSasToken')))]",
     "adBDCConfigurationFunction": "ConfigureADBDC.ps1\\ConfigureADBDC",
     "kubernetesClusterName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
-    "kubernetesVersion": "1.19.9",
+    "kubernetesVersion": "1.21.2",
       "kubernetesDnsPrefix": "[concat('wssecurity',parameters('uniqueSuffix'), '-dns')]",
       "kubernetesAgentOsType": "Linux",
       "kubernetesAgentOsDiskSizeGB": 0,
       "kubernetesAgentCount": 2,
-      "kubernetesAgentVmSize": "Standard_DS1_v2",
+      "kubernetesAgentVmSize": "Standard_DS4_v2",
       "kubernetesNetworkProfilePlugin": "kubenet",
       "kubernetesRBACEnabled": true,
       "logAnalyticsName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
@@ -203,22 +203,22 @@
   "name": "[variables('resourceName')]",
       "location": "[resourceGroup().location]",
   "dependsOn": [
-      "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/publicIpAddresses', concat(variables('resourceName'),'-fw-pip'))]",
-      "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/virtualNetworks', concat(variables('resourceName'),'-web'))]",
-      "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/firewallPolicies', variables('resourceName'))]"
+      "[resourceId( 'Microsoft.Network/publicIpAddresses', concat(variables('resourceName'),'-fw-pip'))]",
+      "[resourceId( 'Microsoft.Network/virtualNetworks', concat(variables('resourceName'),'-web'))]",
+      "[resourceId( 'Microsoft.Network/firewallPolicies', variables('resourceName'))]"
   ],
   "tags": {},
-  "zones": "[variables('zones')]",
+  "zones": [],
   "properties": {
       "ipConfigurations": [
           {
-              "name": "[parameters('publicIpAddressName')]",
+              "name": "[variables('publicIpAddressName')]",
               "properties": {
                   "subnet": {
-                      "id": "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', concat(variables('resourceName'),'-web'), 'AzureFirewallSubnet')]"
+                      "id": "[resourceId( 'Microsoft.Network/virtualNetworks/subnets', concat(variables('resourceName'),'-web'), 'AzureFirewallSubnet')]"
                   },
                   "publicIpAddress": {
-                      "id": "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/publicIPAddresses', concat(variables('resourceName'),'-fw-pip'))]"
+                      "id": "[resourceId( 'Microsoft.Network/publicIPAddresses', concat(variables('resourceName'),'-fw-pip'))]"
                   }
               }
           }
@@ -227,7 +227,7 @@
           "tier": "Standard"
       },
       "firewallPolicy": {
-          "id": "[resourceId(parameters('resourceGroup'), 'Microsoft.Network/firewallPolicies', variables('resourceName'))]"
+          "id": "[resourceId( 'Microsoft.Network/firewallPolicies', variables('resourceName'))]"
       }
   }
 },
@@ -1943,7 +1943,8 @@
         "resourceId": "[resourceId('Microsoft.Automation/automationAccounts', variables('resourceName'))]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', variables('resourceName'))]"
+        "[resourceId('Microsoft.Automation/automationAccounts', variables('resourceName'))]",
+        "[resourceId('Microsoft.OperationalInsights', variables('resourceName'))]"
       ]
     },
     {
@@ -2386,7 +2387,7 @@
               "autoUpgradeMinorVersion": true,
               "settings": {
                   "fileUris": [
-                  "https://raw.githubusercontent.com/solliancenet/security-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
+                  "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
                   ]
               },
               "protectedSettings": {
@@ -2630,7 +2631,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "https://raw.githubusercontent.com/solliancenet/security-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
+                "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
               ]
             },
             "protectedSettings": {

@@ -1,4 +1,4 @@
-# Activity 01: Estimating Azure Sentinel + Log Analytics
+# Activity 3: Estimating Azure Sentinel + Log Analytics
 
 Wide World Importers would like to explore migrating from their on-premises SIEM/SOAR system to Azure Defender + Log Analytics + Azure Sentinel.  They would like to have Microsoft present a migration path and potential costs.
 
@@ -28,7 +28,8 @@ Open your whiteboard for the event, and in the area for Activity 1 provide your 
 
 Challenges
 
-1. What will the final cost of the solution be? Are there any programs WWI could take advantage of to keep costs low?
+1. What will the final cost of the solution be?
+2. Are there any programs WWI could take advantage of to keep costs low?
 
 ## Resources
 

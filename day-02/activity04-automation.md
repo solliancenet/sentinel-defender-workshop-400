@@ -1,4 +1,4 @@
-# Activity 01: Log Analytics + Azure Automation
+# Activity 4: Log Analytics + Azure Automation
 
 Wide World Importers has several automation commands setup in their on-premises Splunk instance that fire automatically when certain alerts are created. These commands do various things against both on-premises environments and cloud-based environments.  They would like to know how they would do the same with a cloud-based SEIM/SOAR software like Azure Sentinel.
 

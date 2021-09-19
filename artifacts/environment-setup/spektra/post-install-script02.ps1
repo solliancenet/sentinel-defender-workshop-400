@@ -116,6 +116,8 @@ InstallTor
 
 InstallPowerBI
 
+InstallOffice
+
 Uninstall-AzureRm -ea SilentlyContinue
 
 CreateLabFilesDirectory

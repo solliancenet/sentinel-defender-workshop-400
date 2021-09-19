@@ -135,7 +135,7 @@ $cred = new-object -typename System.Management.Automation.PSCredential -argument
 Connect-AzAccount -Credential $cred | Out-Null
  
 # Template deployment
-$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEND*-security" });
+$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEND*-02" });
 $resourceGroupName = $rg.ResourceGroupName
 $region = $rg.Location;
 $deploymentId =  $rg.Tags["DeploymentId"]
@@ -173,7 +173,8 @@ EnableASCAutoProvision
 EnableDefaultASCPolicy
 
 #enable the AKS policy
-EnableAKSPolicy
+EnableAKSPolicy $resourceGroupName;
+
 
 EnableOtherCompliancePolicy $resourceGroupName;
 

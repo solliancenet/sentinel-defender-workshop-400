@@ -118,7 +118,7 @@ $result;
 
 ### Task 2: Export to Power BI
 
-1. Open the `Azure Defender.pbix` file
+1. Open the `/artifacts/day-01/Azure Defender.pbix` file
 2. Right-click the `Alerts` data source, select **Edit**
 3. Select the `Alerts` data source, in the ribbon, select **Advanced Editor**.
 4. Review the query.  Repeat for all the data sources in the Power BI report.

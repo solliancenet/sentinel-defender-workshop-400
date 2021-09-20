@@ -218,7 +218,7 @@
 
     ![Machine Learning Workspace upload file.](./media/sentinel-notebook-mlworkspace-upload.png "Upload the notebook")
 
-9. Upload the `c:\LabFiles\artifacts\day-02\Azure Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
+9. Upload the `c:\LabFiles\workshopname\artifacts\day-01\Azure Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
 10. In the Compute area, select the **+** sign
 11. For the name, type **main**
 12. Select the **Standard_DS3_v2**

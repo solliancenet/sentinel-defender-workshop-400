@@ -41,17 +41,17 @@ $ht.add("#IP_2#", "80.89.137.214"); #russia
 $ht.add("#IP_3#", "117.82.191.160"); #china
 $ht.add("#WORKSHOP_NAME#", "#IN_WORKSHOP_NAME#");
 
-UpdateFile "./day-01/logfile.txt" $ht;
-UpdateFile "./day-01/logs.json" $ht;
-UpdateFile "./day-01/logs2.json" $ht;
-UpdateFile "./day-01/DataCollector.ps1" $ht;
+UpdateFile "./day-01/Azure Sentinel ML.ipynb" $ht;
 
+UpdateFile "./day-02/logfile.txt" $ht;
+UpdateFile "./day-02/logs.json" $ht;
+UpdateFile "./day-02/logs2.json" $ht;
+UpdateFile "./day-02/DataCollector.ps1" $ht;
 UpdateFile "./day-02/Attack_linux.ps1" $ht;
 UpdateFile "./day-02/Attack_windows.ps1" $ht;
 UpdateFile "./day-02/Enumerate.ps1" $ht;
 UpdateFile "./day-02/CreateExternalTable.ps1" $ht;
 UpdateFile "./day-02/CreateIncident.ps1" $ht;
-UpdateFile "./day-02/Azure Sentinel ML.ipynb" $ht;
 UpdateFile "./day-02/ExportLogsToStorage.ipynb" $ht;
 UpdateFile "./day-02/ExportLogsToStorage.ps1" $ht;
 UpdateFile "./day-02/storage_post.json" $ht;

@@ -31,7 +31,7 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
     > **NOTE** By default, all configuration changes are automatically pushed to all agents. For Linux agents, a configuration file is sent to the Fluentd data collector.
 
-18. Select **Choose File\Browse** and browse to the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-01\logfile.txt** sample file.
+18. Select **Choose File\Browse** and browse to the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-02\logfile.txt** sample file.
 19. Select **Next**. The Custom Log Wizard will upload the file and list the records that it identifies.
 20. On the `Select record delimiter`, select **Timestamp**
 21. Select **YYYY-MM-DD HH:MM:SS**
@@ -54,16 +54,16 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
 ### Task 3: Generate some log data
 
-1. In the **Paw-1** virtual machine, copy the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-01\logs-01** folder contents to the **c:\logs** folder
+1. In the **Paw-1** virtual machine, copy the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-02\logs-01** folder contents to the **c:\logs** folder
 
 ### Task 4: Setup Sysmon
 
-1. From the **paw-1** virtual machine, unzip the **c:\labfiles\security-workshop\artifacts\day-01\sysmon.zip** file
+1. From the **paw-1** virtual machine, unzip the **c:\labfiles\security-workshop\artifacts\day-02\sysmon.zip** file
 2. Right-click it and select **Extract All**, then select **Extract**
 3. Open a command prompt, run the following command:
 
     ```cmd
-    cd c:\labfiles\sentinel-defender-workshop-400\artifacts\day-01\sysmon
+    cd c:\labfiles\sentinel-defender-workshop-400\artifacts\day-02\sysmon
     sysmon -accepteula -I
     ```
 
@@ -161,7 +161,7 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
 1. Open a PowerShell ISE windows
 
-2. Open the `C:\labFiles\sentinel-defender-workshop-400\artifacts\day-01\DataCollector.ps1` script. Review the script, notice we have replaced the workspace ID and Key for you. Also notice the script uploads a JSON file to the Log Analytics REST API for custom logging purposes.
+2. Open the `C:\labFiles\sentinel-defender-workshop-400\artifacts\day-02\DataCollector.ps1` script. Review the script, notice we have replaced the workspace ID and Key for you. Also notice the script uploads a JSON file to the Log Analytics REST API for custom logging purposes.
 
 3. Run the script, press **F5**
 

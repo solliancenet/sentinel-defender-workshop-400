@@ -219,7 +219,7 @@ $dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resour
 $dataLakeContext = New-AzStorageContext -StorageAccountName $wsName -StorageAccountKey $dataLakeStorageAccountKey
 
 $storageContainerName = "sqlimport";
-$sqlImportContainer = New-AzStorageContainer -Permission Container -name $sqlimport -context $dataLakeContext;
+$sqlImportContainer = New-AzStorageContainer -Permission Container -name $storageContainerName -context $dataLakeContext;
 
 $container = New-AzStorageContainer -Permission Container -name "logs" -context $dataLakeContext;
 $destinationSasKey = New-AzStorageContainerSASToken -Container "logs" -Context $dataLakeContext -Permission rwdl
@@ -248,8 +248,10 @@ foreach ($singleFile in $singleFiles.Keys)
 $bacpacFilename = "Insurance.bacpac"
 
 # The ip address range that you want to allow to access your server
-$startip = "0.0.0.0"
-$endip = "0.0.0.0"
+$startip = "0.0.0.0";
+$endip = "0.0.0.0";
+
+cd "c:\labfiles\$workshopName\artifacts\environment-setup\automation";
 
 $databaseName = "Insurance";
 

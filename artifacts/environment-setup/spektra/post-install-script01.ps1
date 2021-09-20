@@ -175,7 +175,6 @@ EnableDefaultASCPolicy
 #enable the AKS policy
 EnableAKSPolicy $resourceGroupName;
 
-
 EnableOtherCompliancePolicy $resourceGroupName;
 
 Write-Host "Starting main deployment." -ForegroundColor Green -Verbose
@@ -185,7 +184,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFil
 ConnectAzureActivityLog $resourceName $resourceGroupName;
 
 #enable sql vulnerability
-EnableSQLVulnerability $resourceName $resourceName $AzureUserName;
+EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 
 #enable vm vulnerability
 EnableVMVulnerability;

@@ -19,6 +19,10 @@
       },
       "deploymentId": {
         "type": "string"
+      },
+      "assignmentId": {
+        "type": "string",
+        "defaultValue" : "[newGuid()]"
       }
     },
     "variables": {
@@ -130,7 +134,7 @@
       {
         "type": "Microsoft.Authorization/roleAssignments",
         "apiVersion": "2018-09-01-preview",
-        "name": "[concat(variables('vmName'),'contributor')]",
+        "name": "[parameters('assignmentId')]",
         "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
         ],

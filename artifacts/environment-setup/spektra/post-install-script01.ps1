@@ -188,12 +188,12 @@ ConnectAzureActivityLog $resourceName $resourceGroupName;
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName;
 
 #enable vm vulnerability
-EnableVMVulnerability
+EnableVMVulnerability;
 
 #set log analytics config
-SetLogAnalyticsAgentConfig $resourceName $resourceGroupName
+SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
-DeployAllSolutions resourceName
+DeployAllSolutions $resourceName $resourceGroupName;
 
 #enable JIT
 EnableJIT $resourceGroupName;

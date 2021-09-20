@@ -128,10 +128,26 @@
         }
       },
       {
+        "type": "Microsoft.Authorization/roleAssignments",
+        "apiVersion": "2018-09-01-preview",
+        "name": "[concat(variables('vmName'),'contributor')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+        ],
+        "properties": {
+            "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+            "principalId": "[reference(concat(resourceId('Microsoft.Compute/virtualMachines', variables('vmName')), '/providers/Microsoft.ManagedIdentity/Identities/default'), '2015-08-31-PREVIEW').principalId]",
+            "principalType": "ServicePrincipal"
+        }
+    },
+      {
         "type": "Microsoft.Compute/virtualMachines",
         "apiVersion": "2017-03-30",
         "name": "[variables('vmName')]",
         "location": "[variables('location')]",
+        "identity": {
+          "type": "SystemAssigned"
+        },
         "dependsOn": [
           "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
         ],

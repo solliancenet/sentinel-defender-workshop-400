@@ -108,11 +108,13 @@
     "eventsNumber": 10,
     "resourceName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
     "automationMap": {
+      "eastus2": { "region": "East US" },
       "eastus": { "region": "East US 2" },
       "southcentralus": { "region": "South Central US" },
       "westcentralus": { "region": "West Cental US" },
       "westus2": { "region": "West US 2" },
-      "westus": { "region": "West US" }
+      "westus": { "region": "West US" },
+      "NorthCentralUS" : { "region" : "NorthCentralUS"}
     },
     "vmName": "[concat('labvm-',parameters('uniqueSuffix'))]",
     "storageAccountType": "Premium_LRS",

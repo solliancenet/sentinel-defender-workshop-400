@@ -108,6 +108,8 @@ InstallPutty
 
 InstallFiddler
 
+InstallNotepadPP
+
 InstallChrome
         
 InstallAzureCli

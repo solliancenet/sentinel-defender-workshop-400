@@ -154,6 +154,8 @@ git clone https://github.com/solliancenet/$workshopName.git $workshopName
 
 cd "./$workshopName/artifacts/environment-setup/automation"
 
+Write-Host "Getting WAF settings"
+
 #get the waf public IP
 $wafName = "wssecurity" + $deploymentId + "-ag";
 $appGW = Get-AzApplicationGateway -name $wafName;
@@ -162,11 +164,15 @@ $pipName = "wssecurity" + $deploymentId + "-pip"
 $ip = Get-AzPublicIpAddress -name $pipName
 $wafIp = $ip.IpAddress;
 
+Write-Host "Getting App Svc settings"
+
 #get the app svc url
 $webAppName = "wssecurity" + $deploymentId;
 $app = Get-AzWebApp -Name $webAppName
 $appHost = $app.HostNames[0];
 $appUrlFull = "https://" + $app.HostNames[0];
+
+Write-Host "Getting Log Analytics settings"
 
 #get the workspace Id
 $wsName = "wssecurity" + $deploymentId;
@@ -192,6 +198,8 @@ $content = $content.replace("#IN_WAF_IP#",$wafIp);
 $content = $content.replace("#IN_APP_SVC_URL#",$appHost);
 
 set-content "c:\labfiles\$workshopName\artifacts\environment-setup\automation\updatedatafiles.ps1" $content;
+
+Write-Host "Updating all tokenized files";
 
 . "c:\labfiles\$workshopName\artifacts\environment-setup\automation\updatedatafiles.ps1"
 

@@ -61,7 +61,6 @@ UpdateFile "./day-02/users.csv" $ht;
 UpdateFile "./day-02/logfile.txt" $ht;
 UpdateFile "./day-02/host_logins.csv" $ht;
 UpdateFile "./day-02/logs.json" $ht;
-UpdateFile "./day-02/Azure Sentinel ML.ipynb" $ht;
 UpdateFile "./day-02/aad_logons.pkl" $ht;
 UpdateFile "./day-02/webattack.ps1" $ht;
 UpdateFile "./day-02/riskiq-runbook.json" $ht;

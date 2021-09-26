@@ -247,6 +247,7 @@ $resourceName = "wssecurity" + $deploymentId;
 
 $wsName = $resourceName;
 $serverName = $resourceName;
+$storageAccountName = $resourceName;
 
 $dataLakeStorageBlobUrl = "https://"+ $wsName + ".blob.core.windows.net/"
 $dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $wsName)[0].Value

@@ -135,7 +135,9 @@ function GoLateral()
 
 function EncryptFiles()
 {
-    #TODO
+    . "c:\labfiles\$workshopName\artifacts\environment-setup\automation\EncryptHelper.ps1"
+
+    EncryptFiles $env:OneDriveCommercial;
 }
 function SetRegistryKeys()
 {

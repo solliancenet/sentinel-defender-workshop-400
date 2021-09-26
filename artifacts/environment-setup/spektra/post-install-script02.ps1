@@ -116,6 +116,8 @@ InstallAzureCli
 
 InstallTor
 
+InstallFiddler
+
 InstallPowerBI
 
 InstallOffice
@@ -289,7 +291,13 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
 #create some files...
 . "c:\labfiles\$workshopName\artifacts\environment-setup\automation\EncryptHelper.ps1"
 
-CreateFiles 100;
+CreateFiles "C:\temp\generatedfiles" 100;
+
+#upload files to One drive
+$sourcePath = "C:\temp\generatedfiles";
+$targetPath = "";
+
+UploadFolderToOnedrive $sourcepath $targetpath;
 
 sleep 20
 

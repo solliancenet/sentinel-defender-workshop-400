@@ -1,6 +1,6 @@
-function CreateFiles($count)
+function CreateFiles($path, $count)
 {
-    mkdir $oneDrivePath -ea SilentlyContinue;
+    mkdir $path -ea SilentlyContinue;
 
     #This will generate several random text files.
     $i = 0;
@@ -8,7 +8,7 @@ function CreateFiles($count)
     while($i -le $count)
     {
         #add content
-        $filePath = "$oneDrivePath\$i.txt";
+        $filePath = "$path\$i.txt";
 
         while($j -le $count)
         {
@@ -22,7 +22,7 @@ function CreateFiles($count)
     }
 }
 
-function EncryptFiles($count)
+function EncryptFiles($path)
 {
     $cert = Get-Childitem -Path Cert:\CurrentUser\My -DocumentEncryptionCert;
 
@@ -31,7 +31,7 @@ function EncryptFiles($count)
         New-SelfSignedCertificate -DnsName defendme -CertStoreLocation "Cert:\CurrentUser\My" -KeyUsage KeyEncipherment,DataEncipherment, KeyAgreement -Type DocumentEncryptionCert
     }    
 
-    $di = new-object System.IO.DirectoryInfo($oneDrivePath);
+    $di = new-object System.IO.DirectoryInfo($path);
 
     $files = $di.getfiles("*.*");
 
@@ -46,4 +46,4 @@ function EncryptFiles($count)
 }
 
 $userPath = $env:USERPROFILE;
-$oneDrivePath = "$userPath\OneDrive";
+$oneDrivePath = $env:OneDriveCommercial;

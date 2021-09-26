@@ -19,6 +19,28 @@ Param (
   $deploymentId
 )
 
+function InstallICD()
+{
+  #https://docs.microsoft.com/en-us/windows-hardware/get-started/adk-install
+
+  #export the ICD.zip
+  $folderPath = "c:\labfiles\$workshopName\artifacts\environment-setup\tools";
+  $zipPath = "$folderPath\ICDTools.zip";
+
+  Expand-Archive $zipPath -DestinationPath ".\" -Force
+
+  #run the installers
+  msiexec.exe /I "$folderPath\Imaging And Configuration Designer (DesktopEditions)-x86_en-us.msi" /quiet
+
+  msiexec.exe /I "$folderPath\Imaging Designer (DesktopEditions)-x86_en-us.msi" /quiet
+
+  msiexec.exe /I "$folderPath\Imaging Tools Support (DesktopEditions)-x86_en-us.msi" /quiet
+
+  msiexec.exe /I "$folderPath\User State Migration Tool (DesktopEditions)-x86_en-us.msi" /quiet
+
+  msiexec.exe /I "$folderPath\Windows Assessment Toolkit (DesktopEditions)-x86_en-us.msi" /quiet
+}
+
 #Disable-InternetExplorerESC
 function DisableInternetExplorerESC
 {
@@ -298,6 +320,8 @@ $sourcePath = "C:\temp\generatedfiles";
 $targetPath = "";
 
 UploadFolderToOnedrive $sourcepath $targetpath;
+
+InstallICD
 
 sleep 20
 

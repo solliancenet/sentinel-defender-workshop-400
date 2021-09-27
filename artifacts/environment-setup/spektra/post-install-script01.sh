@@ -15,10 +15,10 @@ echo $AZURESUBSCRIPTIONID
 echo $ODLID
 echo $DEPLOYMENTID
 
-ACRNAME="wssecurity"
-ACRNAME+=$DEPLOYMENTID
-ACRURL=$ACRNAME
-ACRURL+=".azurecr.io";
+ACRNAME="wssecurity${DEPLOYMENTID}"
+#ACRNAME+=$DEPLOYMENTID
+ACRURL="${ACRNAME}.azurecr.io"
+#ACRURL+=".azurecr.io";
 
 sudo apt-get update
 

@@ -4,100 +4,103 @@
 
 ### Task 1: Log Analytics
 
-1. Open a Windows PowerShell window
-2. Run the following script:
+1. Log into the **wssecuritySUFFIX-win10** virtual machine
+2. Open a Windows PowerShell ISE window
+3. Run the following script:
 
-```PowerShell
-. C:\LabFiles\AzureCreds.ps1
+    ```PowerShell
+    . C:\LabFiles\AzureCreds.ps1
 
-$userName = $AzureUserName                # READ FROM FILE
-$password = $AzurePassword                # READ FROM FILE
-$clientId = $TokenGeneratorClientId       # READ FROM FILE
-$global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
+    $userName = $AzureUserName                # READ FROM FILE
+    $password = $AzurePassword                # READ FROM FILE
+    $clientId = $TokenGeneratorClientId       # READ FROM FILE
+    $global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
 
-$securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
+    $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
+    $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
 
-Connect-AzAccount -Credential $cred | Out-Null
+    Connect-AzAccount -Credential $cred | Out-Null
 
-$azToken = Get-AzAccessToken;
+    $azToken = Get-AzAccessToken;
 
-$token = $azToken.Token;
-$global:loginDomain = $azToken.TenantId;
+    $token = $azToken.Token;
+    $global:loginDomain = $azToken.TenantId;
 
-$ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
-$global:ropcBodyLogs = "$($ropcBodyCore)&scope=https://api.loganalytics.io/.default"
+    $ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
+    $global:ropcBodyLogs = "$($ropcBodyCore)&scope=https://api.loganalytics.io/.default"
 
-$result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
-    -Method POST -Body $global:ropcBodyLogs -ContentType "application/x-www-form-urlencoded"
+    $result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
+        -Method POST -Body $global:ropcBodyLogs -ContentType "application/x-www-form-urlencoded"
 
-$global:logsToken = $result.access_token
+    $global:logsToken = $result.access_token
 
-$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*-security" });
-$resourceGroupName = $rg.ResourceGroupName
-$deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["DeploymentId"]
+    $rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*-security" });
+    $resourceGroupName = $rg.ResourceGroupName
+    $deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["DeploymentId"]
 
-$wsName = "wssecurity" + $deploymentId;
-$ws = Get-AzOperationalInsightsWorkspace -Name $wsName -ResourceGroup $resourceGroupName;
-$workspaceId = $ws.CustomerId;
-$keys = Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroup $resourceGroupName -Name $wsName;
-$workspaceKey = $keys.PrimarySharedKey;
+    $wsName = "wssecurity" + $deploymentId;
+    $ws = Get-AzOperationalInsightsWorkspace -Name $wsName -ResourceGroup $resourceGroupName;
+    $workspaceId = $ws.CustomerId;
+    $keys = Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroup $resourceGroupName -Name $wsName;
+    $workspaceKey = $keys.PrimarySharedKey;
 
-$url = "https://api.loganalytics.io/v1/workspaces/" + $WorkspaceId + "/query";
+    $url = "https://api.loganalytics.io/v1/workspaces/" + $WorkspaceId + "/query";
 
-$query = "AzureActivity";
+    $query = "AzureActivity";
 
-$logQueryBody = @{"query" = $query} | convertTo-Json
+    $logQueryBody = @{"query" = $query} | convertTo-Json
 
-$result = Invoke-RestMethod  -Uri $url -Method POST -Body $logQueryBody -ContentType "application/json" -Headers @{"Authorization"="Bearer $logsToken"};
+    $result = Invoke-RestMethod  -Uri $url -Method POST -Body $logQueryBody -ContentType "application/json" -Headers @{"Authorization"="Bearer $logsToken"};
 
-$result;
-```
+    $result;
+    ```
+
+4. Review the results from the REST api call. You can make calls from your own applications to integrate with the Log Analytics data.
 
 ### Task 2: Azure Security Graph
 
-1. 1. Open a Windows PowerShell window
+1. Open a Windows PowerShell window
 2. Run the following script:
 
-```PowerShell
-. C:\LabFiles\AzureCreds.ps1
+    ```PowerShell
+    . C:\LabFiles\AzureCreds.ps1
 
-$userName = $AzureUserName                # READ FROM FILE
-$password = $AzurePassword                # READ FROM FILE
-$clientId = $TokenGeneratorClientId       # READ FROM FILE
-$global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
+    $userName = $AzureUserName                # READ FROM FILE
+    $password = $AzurePassword                # READ FROM FILE
+    $clientId = $TokenGeneratorClientId       # READ FROM FILE
+    $global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
 
-$securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
+    $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
+    $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
 
-Connect-AzAccount -Credential $cred | Out-Null
+    Connect-AzAccount -Credential $cred | Out-Null
 
-$azToken = Get-AzAccessToken;
-$token = $azToken.Token;
-$global:loginDomain = $azToken.TenantId;
+    $azToken = Get-AzAccessToken;
+    $token = $azToken.Token;
+    $global:loginDomain = $azToken.TenantId;
 
-$ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
-$global:ropcBodyManagement = "$($ropcBodyCore)&scope=https://management.azure.com/.default"
+    $ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
+    $global:ropcBodyManagement = "$($ropcBodyCore)&scope=https://management.azure.com/.default"
 
-$result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
-    -Method POST -Body $global:ropcBodyManagement -ContentType "application/x-www-form-urlencoded"
+    $result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
+        -Method POST -Body $global:ropcBodyManagement -ContentType "application/x-www-form-urlencoded"
 
-$global:managementToken = $result.access_token
+    $global:managementToken = $result.access_token
 
-$sub = Get-AzSubscription
-$subscriptionId = $sub.Id;
+    $sub = Get-AzSubscription
+    $subscriptionId = $sub.Id;
 
-$url = "https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview";
+    $url = "https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview";
 
-$query = "securityresources";
+    $query = "securityresources";
 
-$logQueryBody = @{"options" = $null; "subscriptions" = @( $subscriptionId); "query" = $query} | convertTo-Json
+    $logQueryBody = @{"options" = $null; "subscriptions" = @( $subscriptionId); "query" = $query} | convertTo-Json
 
-$result = Invoke-RestMethod  -Uri $url -Method POST -Body $logQueryBody -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+    $result = Invoke-RestMethod  -Uri $url -Method POST -Body $logQueryBody -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
 
-$result;
+    $result;
 
-```
+    ```
 
 ## Exercise 2: Visualize Recommendations with Power BI
 

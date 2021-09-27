@@ -27,7 +27,9 @@ function InstallICD()
   $folderPath = "c:\labfiles\$workshopName\artifacts\environment-setup\tools";
   $zipPath = "$folderPath\ICDTools.zip";
 
-  Expand-Archive $zipPath -DestinationPath ".\" -Force
+  cd $folderPath;
+
+  Expand-Archive $zipPath -DestinationPath $folderPath -Force
 
   #run the installers
   msiexec.exe /I "$folderPath\Imaging And Configuration Designer (DesktopEditions)-x86_en-us.msi" /quiet

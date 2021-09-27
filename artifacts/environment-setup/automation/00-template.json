@@ -97,6 +97,7 @@
     "domainJoinOptions": 3,
     "ouPath": "",
     "postInstallParameters": "[concat(' -azureUsername ', parameters('azureUsername'), ' -azurePassword ', parameters('azurePassword'), ' -azureTenantID ', variables('azureTenantID'), ' -azureSubscriptionID ', variables('azureSubscriptionID'), ' -odlId ', parameters('odlId'), ' -deploymentId ', parameters('deploymentId'))]",
+    "shPostInstallParameters": "[concat(parameters('azureUsername'), ' ', parameters('azurePassword'), ' ', variables('azureTenantID'), ' ', variables('azureSubscriptionID'), ' ', parameters('odlId'), ' ', parameters('deploymentId'))]",
     "location": "[resourceGroup().location]",
     "azureSubscriptionID": "[subscription().subscriptionId]",
     "azureTenantID": "[subscription().tenantId]",
@@ -2484,6 +2485,37 @@
         "[concat('Microsoft.Network/networkInterfaces/', concat(variables('resourceName'), '-linux-1-nic'))]",
         "[concat('Microsoft.Storage/storageAccounts/', variables('resourceName'))]"
       ],
+      "resources" : [
+        {
+            "name": "config-linxu-01",
+            "type": "extensions",
+            "location": "[variables('location')]",
+            "apiVersion": "2019-03-01",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', concat(variables('resourceName'),'-linux-1'))]"
+            ],
+            "tags": {
+                "displayName": "config-linux-01"
+            },
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.1",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                "skipDos2Unix":false,
+                "timestamp":123456789          
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('sh post-install-script01.sh ', variables('shPostInstallParameters'))]",
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/post-install-script01.sh"
+                        ],
+                    "managedIdentity" : {}
+                }
+            }
+            }
+        ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "Standard_DS1_v2"

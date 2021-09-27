@@ -4,21 +4,34 @@
 
 ### Task 1: Network Map
 
-1. Open the Azure Portal
-2. Search for Azure Security Center
-3. Select **Azure Defender**
-4. Select **Network Map**
-5. Select the **wssecuritySUFFIX-win10** virtual machine node, review the recommendations
-6. Select the **Management ports of virtual machines should be protected with just-in-time network access control** recommendation
-7. Select **Fix**
-8. Select **Save**
-9. Navigate back to the Network map via the bread crumb
-10. Select the **wssecuritySUFFIX-hub** virtual network node, review the recommendations
-11. Select the **DDoS Protection Standard should be enabled** recommendation
-12. Select **Take Action**
-13. Select **Enable**
-14. Select the **wssecuritySUFFIX** protection plan
-15. Select **Save**
+1. Open the Azure Portal.
+2. Search for `Security Center`, then select it.
+3. Under **Cloud Security**, select **Azure Defender**.
+4. Select **Network Map**.
+5. Change all the filters to be **All**
+
+   ![Network map filters are set to all](./media/asc_network_map_filters.png "Network map filters are set to all")
+
+6. Select the **wssecuritySUFFIX-win10** virtual machine node, review the recommendations
+
+    ![Device settings are displayed](./media/asc_networkmap_recommendations.png "Device settings are displayed")
+
+7. If you see any recommendations, select the **Management ports of virtual machines should be protected with just-in-time network access control** recommendation.
+
+    > **Note** You may not see any recommendations.
+
+8. Select **Fix**
+9. Select **Save**
+10. Navigate back to the Network map via the bread crumb
+11. Select the **wssecuritySUFFIX-hub** virtual network node, review the recommendations
+12. If you see any recommendations, select the **DDoS Protection Standard should be enabled** recommendation
+
+    > **Note** You may not see any recommendations.
+
+13. Select **Take Action**
+14. Select **Enable**
+15. Select the **wssecuritySUFFIX** protection plan
+16. Select **Save**
 
 ## Exercise 2: Azure Defender KQL Queries
 
@@ -33,7 +46,7 @@
     ![VM Vulnerabilities option.](./media/vm_vulnerabilities.png "VM Vulnerabilities item is highlighted")
 
 6. In the Azure Portal, search for **Resource Graph Explorer**
-7. In the query window, run the following query:
+7. In the query window, copy the following query:
 
         ```kql
         securityresources 
@@ -58,7 +71,10 @@
         | order by all desc, numOfResources desc
         ```
 
-8. You should see the same results as in the Azure Portal.
+8. Press **Run query**
+9. You should see the same results as in the Azure Portal.
+
+    ![Assessment results are displayed.](./media/resource_graph_assessments_query.png "Assessment results are displayed.")
 
 ### Task 2: SQL Vulnerability Assessment
 
@@ -115,6 +131,9 @@
 3. Under **General**, select **Logs**
 4. Close any dialogs
 5. Expand the **Change Tracking** category/solution, notice the two tables `ConfigurationChange` and `ConfigurationData`
+
+    ![Log analytics change tracking tables.](./media/log_analytics_change_tracking.png "Log analytics change tracking tables.")
+
 6. To find changes to files that contain a path, run the following query:
 
     ```kql
@@ -246,7 +265,7 @@
 2. Browse to the **wssecuritySUFFIX** log analytics workspace
 3. Under **General**, select **Logs**
 4. Close any dialogs
-5. To find deletion activities, run the following query:
+5. To find `deletion` activities, run the following query:
 
         ```kql
         AzureActivity
@@ -254,7 +273,7 @@
         | where OperationNameValue =~ "Microsoft.Security/locations/jitNetworkAccessPolicies/delete" 
         ```
 
- 6. To find initiation activities, run the following query:
+6. To find `initiation` activities, run the following query:
 
         ```kql
         AzureActivity
@@ -269,52 +288,54 @@
 
 ### Task 8: Network Map
 
-1. Open the Azure Portal
-2. Browse to the **wssecuritySUFFIX** log analytics workspace
-3. Under **General**, select **Logs**
-4. Close any dialogs
-5. Run the following PowerShell script:
+You can gain access to the data in the network map through the Azure Management REST endpoints.
 
-```PowerShell
-. C:\LabFiles\AzureCreds.ps1
+1. Login to the **wssecuritySUFFIX-win10** virtual machine.
+2. Open a PowerShell ISE window.
+3. Copy into the window and run the following PowerShell script:
 
-$userName = $AzureUserName                # READ FROM FILE
-$password = $AzurePassword                # READ FROM FILE
-$clientId = $TokenGeneratorClientId       # READ FROM FILE
-$global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
+    ```PowerShell
+    . C:\LabFiles\AzureCreds.ps1
 
-$securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
+    $userName = $AzureUserName                # READ FROM FILE
+    $password = $AzurePassword                # READ FROM FILE
+    $clientId = $TokenGeneratorClientId       # READ FROM FILE
+    $global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
 
-Connect-AzAccount -Credential $cred | Out-Null
+    $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
+    $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
 
-$azToken = Get-AzAccessToken;
-$token = $azToken.Token;
-$global:loginDomain = $azToken.TenantId;
+    Connect-AzAccount -Credential $cred | Out-Null
 
-$ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
-$global:ropcBodyManagement = "$($ropcBodyCore)&scope=https://management.azure.com/.default"
+    $azToken = Get-AzAccessToken;
+    $token = $azToken.Token;
+    $global:loginDomain = $azToken.TenantId;
 
-$result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
-    -Method POST -Body $global:ropcBodyManagement -ContentType "application/x-www-form-urlencoded"
+    $ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
+    $global:ropcBodyManagement = "$($ropcBodyCore)&scope=https://management.azure.com/.default"
 
-$global:managementToken = $result.access_token
+    $result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
+        -Method POST -Body $global:ropcBodyManagement -ContentType "application/x-www-form-urlencoded"
 
-$sub = Get-AzSubscription
-$subscriptionId = $sub.Id;
+    $global:managementToken = $result.access_token
 
-$url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/topologies?includeResourceInformation=true&api-version=2015-06-01-preview"
+    $sub = Get-AzSubscription
+    $subscriptionId = $sub.Id;
 
-$result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+    $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/topologies?includeResourceInformation=true&api-version=2015-06-01-preview"
 
-$result;
+    $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
 
-$url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/allowedConnections?api-version=2015-06-01-preview";
+    $result;
 
-$result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+    $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/allowedConnections?api-version=2015-06-01-preview";
 
-$result;
-```
+    $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+
+    $result;
+    ```
+
+4. Review the results in the output.
 
 ## Exercise 3: Continuous Export
 
@@ -327,7 +348,7 @@ $result;
     ![Pricing and settings.](./media/pricing_settings_subscription.png "Pricing and settings is displayed.")
 
 4. Under **Settings**, select **Continuous export**
-5. Select **Log Analytics workspace**
+5. Select the **Log Analytics workspace** tab
 6. Check all the **Exported data types** checkboxes
 7. Select the ***-security** resource group
 8. For the target workspace, select **wssecuritySUFFIX**
@@ -341,7 +362,7 @@ $result;
 10. Browse to the **wssecuritySUFFIX** log analytics workspace
 11. Under **General**, select **Logs**
 12. Close any dialogs
-13. Run the following query to query for security alerts:
+13. After a few hours, the data will start to flow into the log analytics workspace, run the following KQL to query for security alerts:
 
     ```kql
     SecurityAlert
@@ -360,14 +381,29 @@ $result;
 1. Open the Azure Portal
 2. Browse to the **wssecuritySUFFIX** IoT Hub
 3. Under **Security**, select **Overview**
-4. Select **Enable**, then refresh the page
-5. Select **Settings**
+4. Select **Secure your IoT solutions**, then refresh the page
+
+    ![Azure Defender for IoT.](./media/azure_defender_iot.png "Azure Defender for IoT.")
+
+5. Under **Security**, select **Settings**
 6. Select **Data Collection**
 7. For the workspace configuration, toggle to **On**
 8. Select the lab subscription
 9. Select the **wssecuritySUFFIX** workspace
+
+    ![Azure Defender for IoT settings.](./media/azure_defender_iot_data_settings.png "Azure Defender for IoT settings.")
+
 10. Select **Save**
 
 ## Reference Links
 
-- Network Map
+- [Network Map](https://docs.microsoft.com/en-us/azure/security-center/security-center-network-recommendations#network-map)
+- [VM Vulnerability Assessments](https://docs.microsoft.com/en-us/azure/security-center/deploy-vulnerability-assessment-vm)
+- [SQL Vulnerability Assessments](https://docs.microsoft.com/en-us/azure/azure-sql/database/sql-vulnerability-assessment)
+- [File Integrity](https://docs.microsoft.com/en-us/azure/security-center/security-center-file-integrity-monitoring)
+- [Container Image Scanning](https://docs.microsoft.com/en-us/azure/security-center/defender-for-container-registries-introduction)
+- [Adaptive Network Hardening](https://docs.microsoft.com/en-us/azure/security-center/security-center-adaptive-network-hardening)
+- [JIT VM Access](https://docs.microsoft.com/en-us/azure/security-center/security-center-just-in-time?tabs=jit-config-asc%2Cjit-request-asc)
+- [Continuos Export](https://docs.microsoft.com/en-us/azure/security-center/continuous-export?tabs=azure-portal)
+- [Azure Resource Graph](https://docs.microsoft.com/en-us/azure/governance/resource-graph/)
+- [Azure Defender for IoT](https://docs.microsoft.com/en-us/azure/defender-for-iot/)

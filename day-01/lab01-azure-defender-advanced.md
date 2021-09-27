@@ -84,7 +84,7 @@
 4. Under the **Controls** section, expand the **Remediate security configurations**
 5. Select the **SQL databases should have vulnerability findings resolved** item, you should see a set of recommendations.
 
-    ![SQL Vulnerabilities option.](./media/vm_vulnerabilities.png "SQL Vulnerabilities item is highlighted")
+    ![SQL Vulnerabilities option.](./media/sql_vulnerabilities.png "SQL Vulnerabilities item is highlighted")
 
 6. In the Azure Portal, search for **Resource Graph Explorer**
 7. In the query window, run the following query:
@@ -227,6 +227,8 @@
     ```
 
 ### Task 6: Adaptive Network Hardening
+
+You can review the adaptive network hardening recommendations via the Azure Resource Graph. This data takes 30 days to populate, so you may not see any results from the query.
 
 1. In the Azure Portal, search for **Resource Graph Explorer**
 2. In the query window, run the following query:

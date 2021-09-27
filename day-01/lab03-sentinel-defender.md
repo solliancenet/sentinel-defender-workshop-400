@@ -1,20 +1,14 @@
 # Configure Sentinel and Defender Integration
 
-- Configure Sentinel \ Log Analytics
-- Setup Defender Portal integrations
-- Sentinel APIs
-- 3rd party enrichment
-- Utilize notebooks and machine learning
-
 ## Exercise 1 : Azure Sentinel Basics
 
 1. Open the Azure Portal in your **paw-1** virtual machine
-2. Select **Azure Sentinel**
+2. Search for and select **Azure Sentinel**
 3. Select the **wssecuritySUFFIX** log analytics workspace
 4. Under **General**, select **Logs**
 5. If prompted with any dialogs, close them.
 6. You should see some previous queries that were run previously
-7. Continue to explore the various Azure Sentinel blade items
+7. Take a few minutes to explore the various Azure Sentinel blade items
 
     ![Azure Sentinel is displayed.](./media/sentinel-view.png "Browse the Sentinel blade")
 
@@ -34,9 +28,11 @@
 
     > **NOTE** You would need to have `global administrator` or `security administrator` access to the Azure AD tenant in order to make the connection. Unfortunately in these labs, your lab user does not have this level of access.
 
+5. Select all items
+
     ![The connector page is displayed.](./media/sentinel-data-connector-aad-connect.png "Review the connector page screenshot")
 
-5. Select all items, then select **Apply Changes**
+6. Select **Apply Changes**
 
 ### Task 2: Enable Azure Active Directory Identity Protection Connector
 
@@ -51,31 +47,32 @@
 2. Select **Open connector page**
 3. Select your subscription, then select **Connect**
 4. In the dialog, select **OK**
-5. For the **Azure Defender plans**, select **Enable all**
-6. Select the **Azure Defender on** box, then select **Enable all**
-7. Select **Save**
-8. Select **Enable** to create incidents
+5. Select **Enable** to create incidents
+
+    ![The connector page is displayed.](./media/sentinel-data-connector-aadidentity-connect.png "Review the connector page screenshot")
 
 ### Task 3: Enable Microsoft 365 Defender
 
 1. Navigate back to Azure Sentinel blade, select **Microsoft 365 Defender**
 2. Select **Open connector page**
-3. Select your subscription, then select **Connect incidents & alerts**
-4. Check the **Turn off all Microsoft incident creation rules...**
+3. Select **Connect incidents & alerts**
+4. Ensure the **Turn off all Microsoft incident creation rules...** checkbox is selected
 5. Check all the checkboxes, then select **Apply Changes**
 
 ### Task 4: Enable Cloud App Security
 
-1. Navigate back to Azure Sentinel blade, select **Microsoft 365 Defender**
+1. Navigate back to Azure Sentinel blade, select **Microsoft Cloud App Security**
 2. Select **Open connector page**
-3. Select **Cloud Discovery Logs**
+3. Select **Cloud Discovery Logs** checkbox
 4. Select **Apply Changes**
 
-### Task 5: Review connectors
+### Task 5: Enable Defender for Endpoint
 
 1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Endpoint**
 2. Select **Open connector page**
 3. Notice that the connector is already connected due to the parent connector **Microsoft 365 Defender** being connected
+
+    ![The connector page is displayed.](./media/sentinel-data-connector-mde-connect.png "Review the connector page screenshot")
 
 ## Exercise 3 : Azure Sentinel Workbooks
 
@@ -90,7 +87,7 @@
 
     ![IoT Workbook is displayed.](media/sentinel-workbook-iot-dashboard.png "Select the IoT Workbook")
 
-    > **NOTE** You would need to have setup the IoT labs in order to see events in this workbook.
+    > **NOTE** You would need to have setup the IoT labs in order to see events\data in this workbook.
 
 6. Browse back to the Sentinel Workbooks blade
 7. Select **Microsoft Web Application (WAF)- firewall events**
@@ -100,11 +97,15 @@
 
 9. Leave the selected workbook location, select **OK**
 10. Select **View saved workbook**
+
+    > **NOTE** You would need to have setup the Web Application Firewall in order to see events\data in this workbook.
+
 11. Browse back to the Sentinel Workbooks blade
 12. Select **MITRE ATT&CK Workbook**
 13. Select **Save**
 14. Leave the selected workbook location, select **OK**
 15. Select **View saved workbook**
+16. Click through the various tabs and review the pre-built reports based on MITRE.
 
 ## Exercise 4 : Azure Sentinel Hunting
 
@@ -119,18 +120,28 @@
 
 4. Select **Run all queries (Preview)**, you should see all queries start to execute.
 
+    > **Note** You can run these queries, then run them again at a future time to see what the delta is. Typically you would sort based on the number and then explore further if you see results.
+
 ## Exercise 5 : Azure Sentinel Entity Behavior
 
 1. In the Azure Sentinel blade, select **Entity Behavior**
 2. Select **Configure UEBA**
 3. Again, select **Configure UEBA**
-4. Ensure the **Anomalies** toggle is set to **On**
+4. Set the toggle to **On**
+5. Select the **Azure Activity** table
+6. Select **Apply**
+7. Ensure the **Anomalies** toggle is set to **On**
 
     > **NOTE** This feature allows you to track based on special types of entities such as Users, Resources, IP Address, etc. It must be enabled by a global admin, any unfortunately our lab environment does not allow for this.
 
+8. Expand the **Playbook permissions**
+9. Select **Configure permissions**
+10. Select all the resource groups
+11. Select **Apply**
+
 ## Exercise 6 : Threat Intelligence
 
-1. In the Azure Sentinel blade, select **Threat intelligence**
+1. In the Azure Sentinel blade, under **Threat Management**, select **Threat intelligence**
 2. In the top navigation, select **+Add new**
 3. For the type, select **ipv4-addr**
 4. For the address type **80.89.137.214**
@@ -145,61 +156,12 @@
 
 8. Select **Apply**
 
-## Exercise 7 : Azure Sentinel Incidents and Investigation
-
-### Task 1: Setup Query Rule
-
-1. In the Azure Sentinel blade, under **Configuration**, select **Analytics**
-2. Select **+Create**, then select **Schedule query rule**
-
-   ![The click path is displayed.](media/sentinel-analytics.png "Select to create a new scheduled query rule")
-
-3. For the name, type **Custom threats**
-4. For the tactics, select **Discovery**
-5. For the severity, select **High**
-6. Select **Next: Set rule logic**
-
-    ![Query rules details are displayed.](media/sentinel-query-rule.png "Enter the query rules details")
-
-7. For the rule query, type the following:
-
-    ```output
-    OrgSecurity_CL
-    | where IsThreat_b == true
-    | extend IPCustomEntity = IPAddress
-    | extend HostCustomEntity = Computer
-    ```
-
-8. Select **Next: Incident Settings**
-9. Ensure the **Create incidents from alerts trigger by this analytics rule** is toggled to **Enabled**
-10. Ensure the **Group related alerts, trigger by this analytics rule, into incidents** is toggled to **Enabled**
-11. Ensure the **Group related alerts, triggered by this analytics rule in incidents**
-12. For the time frame, select **5 Hours**
-13. For the grouping, select **Grouping alerts into a single incident if the selected entities match**
-14. Select the **IP** entity
-15. Select **Next: Automated response**
-16. Select **Next: Review**
-17. Select **Create**
-
-### Task 2: Investigate Incident
-
-1. In the **Azure Sentinel** blade, select **Incidents**.
-2. You should see a new incident displayed based on your previously created Alert:
-
-    ![New incident is displayed.](./media/sentinel-incident-new.png "Select the new incident")
-
-3. Select the incident, you will notice Sentinel is doing some prep work.
-
-    ![Incident data is being collected.](./media/sentinel-incident-prep.png "Review the dialog")
-
-4. Eventually the incident will be ready to be investigated, in the meantime we will continue with some other lab work.
-
-## Exercise 8 : Azure Sentinel Notebooks
+## Exercise 7 : Azure Sentinel Notebooks
 
 ### Task 1: Import Notebook
 
-1. In the **Azure Sentinel** blade, select **Notebooks**.
-2. Review the list of sample notebooks, select the **A Getting Started Guide for Azure Sentinel ML Notebooks**, in the dialog, select **Save notebook**
+1. In the **Azure Sentinel** blade, under **Threat Management**, select **Notebooks**.
+2. Review the list of sample notebooks, select the **A Getting Started Guide for Azure Sentinel ML Notebooks**, in the dialog, select **Clone notebook template**
 
     ![Notebook is highlighted.](./media/sentinel-notebook-launch.png "Launch the notebook")
 
@@ -218,7 +180,7 @@
 
     ![Machine Learning Workspace upload file.](./media/sentinel-notebook-mlworkspace-upload.png "Upload the notebook")
 
-9. Upload the `c:\LabFiles\workshopname\artifacts\day-01\Azure Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
+9. Upload the `c:\LabFiles\sentinel-defender-workshop-400\artifacts\day-01\Azure Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
 10. In the Compute area, select the **+** sign
 11. For the name, type **main**
 12. Select the **Standard_DS3_v2**
@@ -303,36 +265,38 @@
 
 12. Run the remaining cells, you will make calls to the external API providers to enrich the log data with threat levels and IP Address analysis
 
-## Exercise 9 : Export Log Analytics data to Azure Storage
+## Exercise 8 : Export Log Analytics data to Azure Storage
 
 In this exercise you will setup an export rule to send log data to Azure Storage as a backup.
 
 ### Task 1 : Create Export Rule
 
-1. Run the `\artifacts\day-02\ExportLogsToStorage.ps1` PowerShell script
-2. You should get a json response back
+1. Open the `\labfiles\sentinel-defender-workshop-400\artifacts\day-02\ExportLogsToStorage.ps1` PowerShell script in a PowerShell ISE.
+2. Review the script, notice the environment values have already been set for you.
+3. Press **F5** to run the script, when prompted, enter your lab credentials.
+4. You should get a json response back.
+
+    ![Export job created.](./media/log-analytics-export-storage.png "Export job created")
 
 ### Task 2 : Review data
 
-1. Switch to the Azure Portal
-2. Perform the following actions:
-   1. TODO
-3. Browse to the lab resource group
-4. Select the **wssecuritySUFFIX** storage account
-5. Under **Data storage**, select **Containers**
-6. Open the storage account, review the log data sent to it
+1. Switch to the Azure Portal.
+2. Browse to the lab resource group.
+3. Select the **wssecuritySUFFIX** storage account.
+4. Under **Data storage**, select **Containers**.
+5. Review the log data sent to the storage account.
 
 ### Task 3 : Query data with Notebooks
 
 1. Open Visual Studio Code
-2. Open the `\artifacts\day-02\ExportLogsToStorage.ipynb` notebook
+2. Open the `\labfiles\sentinel-defender-workshop-400\artifacts\day-02\ExportLogsToStorage.ipynb` notebook
 3. When prompted, select **Install** for recommended extensions, you should see the **Jupyter** extension get installed.
 4. Select **Trust** when prompted
 5. Select **Yes** when prompted for Python extensions
 6. Switch back to the notebook, replace all the values
 7. Run the notebook
 
-## Exercise 10 : Exporting Alerts via Logic Apps
+## Exercise 9 : Exporting Alerts via Logic Apps
 
 You can forward alerts from Sentinel to other SIEMs using the Sentinel APIs and Logic Apps.
 
@@ -352,7 +316,7 @@ You can forward alerts from Sentinel to other SIEMs using the Sentinel APIs and 
 - [QRadar](https://www.ibm.com/support/knowledgecenter/SS42VS_DSM/com.ibm.dsm.doc/t_dsm_guide_microsoft_azure_enable_event_hubs.html)
 - [Splunk](https://docs.splunk.com/Documentation/AddOns/released/MSCloudServices/Configureeventhubs)
 
-## Exercise 11 : Extending Azure Sentinel Incidents (Optional)
+## Exercise 10 : Extending Azure Sentinel Incidents (Optional)
 
 This task requires registration to gain access to an API Key. It can take a few days to do this action.
 

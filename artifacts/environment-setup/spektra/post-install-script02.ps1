@@ -144,6 +144,8 @@ InstallFiddler
 
 InstallPowerBI
 
+InstallVisualStudioCode
+
 InstallOffice
 
 Uninstall-AzureRm -ea SilentlyContinue

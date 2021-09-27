@@ -195,7 +195,9 @@ SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 DeployAllSolutions $resourceName $resourceGroupName;
 
 #enable JIT
-EnableJIT $resourceGroupName;
+$excludeVms = @("$resourceName-win10");
+
+EnableJIT $resourceGroupName $excludeVms;
 
 cd "./$workshopName/artifacts/environment-setup/automation"
 

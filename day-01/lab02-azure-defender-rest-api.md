@@ -1,4 +1,4 @@
-# Azure Security Center + Azure Defender Setup : Lab 2 : REST APIs
+# Azure Security Center + Azure Defender : Lab 2 : REST APIs
 
 ## Exercise 1: REST APIs
 
@@ -57,7 +57,7 @@
 
 4. Review the results from the REST api call. You can make calls from your own applications to integrate with the Log Analytics data.
 
-### Task 2: Azure Security Graph
+### Task 2: Azure Resource Graph Queries
 
 1. Open a Windows PowerShell window
 2. Run the following script:
@@ -132,6 +132,5 @@
 
 ## Reference Links
 
-- Azure Defender APIs
-- Azure Sentinel APIs
-- Power BI
+- [Azure Resource Graph APIs](https://docs.microsoft.com/en-us/rest/api/azure-resourcegraph/)
+- [Azure Log Analytics API](https://dev.loganalytics.io/)

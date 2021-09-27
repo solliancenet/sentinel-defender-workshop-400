@@ -370,6 +370,57 @@ users_lookup
 22. Select **Save**
 23. Select **Done Editing**, you should now see your logs mapped onto a world map.
 
+## Exercise 5 : Azure Sentinel Incidents and Investigation
+
+### Task 1: Setup Query Rule
+
+1. In the Azure Sentinel blade, under **Configuration**, select **Analytics**
+2. Select **+Create**, then select **Schedule query rule**
+
+   ![The click path is displayed.](media/sentinel-analytics.png "Select to create a new scheduled query rule")
+
+3. For the name, type **Custom threats**
+4. For the tactics, select **Discovery**
+5. For the severity, select **High**
+6. Select **Next: Set rule logic**
+
+    ![Query rules details are displayed.](media/sentinel-query-rule.png "Enter the query rules details")
+
+7. For the rule query, type the following:
+
+    ```output
+    OrgSecurity_CL
+    | where IsThreat_b == true
+    | extend IPCustomEntity = IPAddress
+    | extend HostCustomEntity = Computer
+    ```
+
+    > **Note** You would need to have imported data into the custom table log called **OrgSecurity** for this table to exist.
+
+8. Select **Next: Incident Settings**
+9. Ensure the **Create incidents from alerts trigger by this analytics rule** is toggled to **Enabled**
+10. Ensure the **Group related alerts, trigger by this analytics rule, into incidents** is toggled to **Enabled**
+11. Ensure the **Group related alerts, triggered by this analytics rule in incidents**
+12. For the time frame, select **5 Hours**
+13. For the grouping, select **Grouping alerts into a single incident if the selected entities match**
+14. Select the **IP** entity
+15. Select **Next: Automated response**
+16. Select **Next: Review**
+17. Select **Create**
+
+### Task 2: Investigate Incident
+
+1. In the **Azure Sentinel** blade, select **Incidents**.
+2. You should see a new incident displayed based on your previously created Alert:
+
+    ![New incident is displayed.](./media/sentinel-incident-new.png "Select the new incident")
+
+3. Select the incident, you will notice Sentinel is doing some prep work.
+
+    ![Incident data is being collected.](./media/sentinel-incident-prep.png "Review the dialog")
+
+4. Eventually the incident will be ready to be investigated, in the meantime we will continue with some other lab work.
+
 ## Reference Links
 
 - [Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/overview)

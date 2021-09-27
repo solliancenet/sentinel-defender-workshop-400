@@ -2509,7 +2509,7 @@
                 "protectedSettings": {
                     "commandToExecute": "[concat('sh post-install-script01.sh ', variables('shPostInstallParameters'))]",
                     "fileUris": [
-                        "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/post-install-script01.sh"
+                        "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/envrionment-setup/spektra/post-install-script01.sh"
                         ],
                     "managedIdentity" : {}
                 }

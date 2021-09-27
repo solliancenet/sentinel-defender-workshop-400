@@ -146,7 +146,7 @@ InstallPowerBI
 
 InstallPython
 
-$extensions = @("jupyter", "python");
+$extensions = @("jupyter", "python", "ipykernel");
 
 InstallVisualStudioCode $extensions;
 

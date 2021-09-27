@@ -2,17 +2,12 @@
 
 - Topics
   - End to end investigation (backwards from sentinel)
-  - Perform queries
   - Setup Alerts
   - Perform Investigations
   - Troubleshoot
   - KQL UNIONs
   - SIEM Integration
   - Create bookmarks...
-
-## Notes
-
-- create custom incident?
 
 ## Exercise 1: Execute Attack
 
@@ -131,31 +126,48 @@ As part of your investigation, you found out someone else had already discovered
 
 ### Task 1: Create TAXII Connections
 
-1. Open the Azure Portal in your **paw-1** virtual machine
+1. Open the Azure Portal in your **wssecuritySUFFIX-paw-1** virtual machine
 2. Select **Azure Sentinel**
-3. Under **Configuration**, select **Data Connectors**
-4. Select **Threat Intelligence – TAXII** from the list of the data connectors
-5. Click the **Open Connector page** button.
-6. For the **Friendly name**, type **Mitre**
-7. Enter the API Root, type **https://cti-taxii.mitre.org/stix**
-8. For Collection ID, type **95ecc380-afe9-11e4-9b6c-751b66dd541e**
-9. For username and password leave blank
-10. Click the **Add** button.
-11. For the **Friendly name**, type **Anomali**
-12. Enter the API Root, type **https://limo.anomali.com/api/v1/taxii2/feeds/**
-13. For Collection ID, type **107**
-14. For username and password, type **guest**
-15. Click the **Add** button.
-16. You should now see a confirmation on the notification dialog that the connection was established successfully. The TAXII Server will now show up in the List of the configured TAXII Servers.
-17. To view the threat indicators imported into Azure Sentinel, select **Logs**
+3. Select the log analytics workspace
+4. Under **Configuration**, select **Data Connectors**
+5. Select **Threat Intelligence – TAXII** from the list of the data connectors
+
+    ![TAXII Connector.](./media/sentinel_data_connector_taxii.png "TAXII Connector.")
+
+6. Click the **Open Connector page** button.
+7. For the **Friendly name**, type **Mitre**
+8. Enter the API Root, type **https://cti-taxii.mitre.org/stix**
+9. For Collection ID, type **95ecc380-afe9-11e4-9b6c-751b66dd541e**
+10. For username and password leave blank
+11. Click the **Add** button.
+
+    ![Mitre Taxii.](./media/sentinel_data_connector_taxii_config.png "Mitre Taxii")
+
+12. For the **Friendly name**, type **Anomali**
+13. Enter the API Root, type **https://limo.anomali.com/api/v1/taxii2/feeds/**
+14. For Collection ID, type **107**
+15. For username and password, type **guest**
+16. Click the **Add** button.
+
+    > **Note** If you get an error, make sure you entered guest for the username and password.
+
+17. You should now see a confirmation on the notification dialog that the connection was established successfully. The TAXII Server will now show up in the List of the configured TAXII Servers.
+
+    ![Taxii connections.](./media/sentinel_data_connector_taxii_config2.png "Taxii connections")
 
 ### Task 2: Create alerts
 
 1. Under **General**, select **Logs**
 2. You should now see an **Azure Sentinel** table category displayed
 3. Expand it and then expand **ThreatIntelligenceIndicator**. You should now see a list of all the alerts that were imported from the TAXII connectors
+
+    ![Taxii data.](./media/sentinel_data_connector_taxii_data.png "Taxii data")
+
 4. Under **Threat Management**, select **Threat Intelligence**
 5. You should notice several new items displayed based on type and the source (you should see Anomali and Mitre as sources)
+
+    ![Taxii data anomali.](./media/sentinel_data_connector_ti_anomali.png "Taxii data anomali")
+
 6. Select one of the items
 7. In the dialog on the right, click the **0 Alerts** area. You will be directed to Log Analytics with the query that represents the item
 8. Select **New alert rule->Create Azure Sentinel alert**, follow the dialogs as you have done before in previous labs.
@@ -169,6 +181,9 @@ You would like to measure your SOC efficiency, specifically around Incident resp
 
 1. Under **Threat Management**, select **Workbooks**
 2. Search for the **Security operations efficiency** workbook
+
+    ![SOC Efficiency workbook.](./media/sentinel_workbook_soc_efficiency.png "SOC Efficiency workbook")
+
 3. In the dialog, scroll to the bottom, select **Save**
 4. Select the region, then select **OK**
 5. Select **View template**

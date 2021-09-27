@@ -298,7 +298,7 @@ In this exercise you will setup an export rule to send log data to Azure Storage
 6. Switch back to the notebook, replace all the values
 7. Run the notebook, you should see the data get loaded from the storage account and then displayed to the output.
 
-IMAGE TODO
+    ![Notebook importing data.](./media/notebook-log-data-storage.png "Notebook importing data")
 
 ## Exercise 9 : Exporting Alerts via Logic Apps
 
@@ -339,13 +339,13 @@ This task requires registration to gain access to an API Key. It can take a few 
 ### Task 2 : Extend Azure Sentinel
 
 1. Switch to the Azure Portal, browse to your resource group
-2. Select **Create->Custom deployment**
-3. Select **Build your own template in the editor**
-4. Copy the **/artifacts/day-02/riskiq-runbook.json** into the template window.
-5. Click the **Deploy to Azure** button
-6. Be sure you are logged into your lab account
-7. Select your subscription and resource group
-8. For the playbook name, ensure **Recent-IP-Passive-DNS** is displayed
+2. Select **Create**
+3. Search for **Template deployment**, then select it
+4. Select **Create**
+5. Select **Build your own template in the editor**
+6. Copy the **/artifacts/day-02/riskiq-runbook.json** into the template window.
+7. Select **Save**
+8. For the playbook name, ensure **Recent-Host-Passive-DNS** is displayed
 9. For your username, type the lab username (ex: odl_user_SUFFIX@solliancelabs.onmicrosoft.com)
 
     ![The custom deployment parameters are displayed.](./media/riskiq-azure-deployment.png "Enter the template parameters")
@@ -353,36 +353,37 @@ This task requires registration to gain access to an API Key. It can take a few 
 10. Select **Review and create**
 11. Select **Create**
 12. In the Azure portal, navigate to your Azure Sentinel and your log analytics workspace
-13. Select **Automation** from the Azure Sentinel navigation menu, then select **Playbooks**
-14. Select the **Recent-IP-Passive-DNS** playbook by selecting the playbook name
+13. Select **Automation** from the Azure Sentinel navigation menu
+14. Select the **Playbooks** tab
+15. Select the **Recent-Host-Passive-DNS** playbook by selecting the playbook name
 
     ![The imported playbook is displayed.](./media/riskiq-playbook.png "Select the imported playbook")
 
-15. Select **Edit** from the top menu of the playbook
+16. Select **Edit** from the top menu of the playbook
 
     ![Edit is highlighted.](./media/riskiq-edit.png "Edit the imported playbook")
 
-16. There are four steps in this playbook requiring you to configure connections. Select a Connection from one of the steps requiring configuration and configure a new connection. Select the **Invalid** icon
+17. There are four steps in this playbook requiring you to configure connections. Select a Connection from one of the steps requiring configuration and configure a new connection. Select the **Invalid** icon
 
     ![Invalid icon error is highlighted.](./media/riskiq-edit-connection.png "Edit the connections")
 
-17. Select **Sign in**
+18. Select **Sign in**
 
     ![Sign in button is highlighted.](./media/riskiq-edit-connection-signin.png "Select Sign in")
 
-18. Enter your lab username and password.
+19. Enter your lab username and password.
 
     > **NOTE** For the connections to Azure Sentinel the user specified when establishing the connection must have sufficient permissions in the Azure Sentinel workspace to read the security alerts.
 
-19. Expand the **For each** activity, select the the RiskIQ connection
-20. Select the Invalid icon
-21. For the name, type **RiskIQ**
-22. Enter your RiskIQ API token and secret obtained from RiskIQ portal
+20. Expand the **For each** activity, select the the RiskIQ connection
+21. Select the Invalid icon
+22. For the name, type **RiskIQ**
+23. Enter your RiskIQ API token and secret obtained from RiskIQ portal
 
     ![RiskIQ settings are displayed.](./media/riskiq-edit-connection-riskiq.png "Enter your information")
 
-23. Select **Save** from the top menu of the playbook to save the playbook
-24. Navigate to your Azure Sentinel **Analytics** page, select the **Custom Threats** rule you created earlier, then select **Edit**
+24. Select **Save** from the top menu of the playbook to save the playbook
+25. Navigate to your Azure Sentinel **Analytics** page, select the **Custom Threats** rule you created earlier, then select **Edit**
 
     > **NOTE** The Recent-IP-Passive-DNS playbook works with analytics rules which map IP address entities so make sure you are working with such a rule. For simple testing of the playbook automation you can use rule logic as shown below to force an alert creation with a specific IP address.
 
@@ -392,10 +393,10 @@ This task requires registration to gain access to an API Key. It can take a few 
     | extend IPCustomEntity = "144.91.119.160"
     ```
 
-25. Navigate to the **Automated response** tab
-26. Place a check mark in the box for the Recent-IP-Passive-DNS playbook which will enable the playbook to run each time the analytic rule generates security alerts
-27. Select **Next: Review**
-28. Select **Save** to finish and return to the Analytics page
+26. Navigate to the **Automated response** tab
+27. Place a check mark in the box for the Recent-Host-Passive-DNS playbook which will enable the playbook to run each time the analytic rule generates security alerts
+28. Select **Next: Review**
+29. Select **Save** to finish and return to the Analytics page
 
 ### Task 3 : Review Incident
 
@@ -403,8 +404,8 @@ This task requires registration to gain access to an API Key. It can take a few 
 2. Locate the new incident generated from the analytic rule previously and select it
 3. Select **View full details** from the information pane
 4. Select the **View playbooks** on the far right
-5. For the **Recent-IP-Passive-DNS** playbook, select **Run**.  After a few moments you will see a new comment added.
-6. Select the **Comments** tab to see the enrichment added by the Recent-IP-Passive-DNS playbook automation. You can also view the information in the RiskIQ portal by following the link provided at the bottom of the comment.
+5. For the **Recent-Host-Passive-DNS** playbook, select **Run**.  After a few moments you will see a new comment added.
+6. Select the **Comments** tab to see the enrichment added by the Recent-Host-Passive-DNS playbook automation. You can also view the information in the RiskIQ portal by following the link provided at the bottom of the comment.
 
     ![Azure Sentinel incident is enriched with comments.](./media/sentinel-enrichment.png "Review the enrichment comments")
 

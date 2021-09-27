@@ -16,7 +16,7 @@ $post = get-content "storage_post.json";
 #$post = $post.replace("#STORAGE_ACCOUNT_NAME#",$storageAccountName);
 
 #login so you can get a token
-az login;
+az login -u #USERNAME# -p #PASSWORD#
 
 #get an access token...
 $tokenValue = ((az account get-access-token --resource https://management.azure.com) | ConvertFrom-Json).accessToken

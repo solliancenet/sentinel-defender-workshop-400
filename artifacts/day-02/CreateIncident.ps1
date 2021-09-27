@@ -15,7 +15,7 @@ $post = $post.replace("#RESOURCE_GROUP_NAME#",$resourceGroupName);
 $post = $post.replace("#WORKSPACE_NAME#",$workspaceName);
 
 #login so you can get a token
-az login;
+az login -u #USERNAME# -p #PASSWORD#
 
 #get an access token...
 $tokenValue = ((az account get-access-token --resource https://management.azure.com) | ConvertFrom-Json).accessToken

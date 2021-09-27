@@ -358,39 +358,46 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
     ![Workspace usage workbook.](./media/azure_monitor_workspace_usage.png "Workspace usage workbook")
 
-10.  Select **Edit**
-11.  At the bottom of the page, select **Add->Add query**
+10. Select **Edit**
+11. At the bottom of the page, select **Add->Add query**
+
+    ![Workspace usage workbook.](./media/azure_monitor_workspace_usage_add_query.png "Workspace usage workbook")
+
 12. Copy the following query, notice the replacement of the query items with workbook variables:
 
     ```kql
-        let myLongitude= -0.925915; 
-        let myLatitude = 51.461377; 
-        union isfuzzy=true 
-        (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
-        (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
-        (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
-        (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
-        | where TimeGenerated {TimeRange:query}
-        | where isnotempty(Country) and isnotempty(Latitude) and isnotempty(Longitude) 
-        | extend distance_in_kilometers = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1000.00 
-        | extend distance_in_miles = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1609.344 
-        | summarize count() by bin(TimeGenerated,1d), Country, DistanceKMandMiles = strcat(round(distance_in_kilometers,1)," / ",round(distance_in_miles,1) ), Type, TrafficDirection, IndicatorThreatType, DeviceVendor, Longitude, Latitude
-        | sort by TimeGenerated asc 
+    let myLongitude= -0.925915; 
+    let myLatitude = 51.461377; 
+    union isfuzzy=true 
+    (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
+    (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
+    (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
+    (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
+    | where TimeGenerated {TimeRange:query}
+    | where isnotempty(Country) and isnotempty(Latitude) and isnotempty(Longitude) 
+    | extend distance_in_kilometers = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1000.00 
+    | extend distance_in_miles = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1609.344 
+    | summarize count() by bin(TimeGenerated,1d), Country, DistanceKMandMiles = strcat(round(distance_in_kilometers,1)," / ",round(distance_in_miles,1) ), Type, TrafficDirection, IndicatorThreatType, DeviceVendor, Longitude, Latitude
+    | sort by TimeGenerated asc 
     ```
 
-13. For the **Log Analytics workspace** dropdown, select **Load all subscriptions**, then select the **wssecuritySUFFIX** workspace
-14. In the Visualization dropdown, select **Map**
-15. Select **Run Query**
-16. In the Map settings, set the latitude to **todo**
-17. In the Map settings, set the longitude to **todo**
-18. Select **Apply**, then select **Save & Close**
-19. Select **Save As**
-20. For the title, type **Malicious IP Map**
-21. For the resource group, select the lab resource group
-22. Select **Save**
-23. Select **Done Editing**, you should now see your logs mapped onto a world map.
+13. For the **Log Analytics workspace** dropdown, select **Load all subscriptions**
+
+    ![Workspace usage workbook.](./media/azure_monitor_workspace_usage_select_sub_filter.png "Workspace usage workbook")
+
+14. After selecting to load the subscriptions, select the **wssecuritySUFFIX** workspace
+15. In the Visualization dropdown, select **Map**
+16. Select **Run Query**
+17. In the Map settings, set the latitude to **TODO**
+18. In the Map settings, set the longitude to **TODO**
+19. Select **Apply**, then select **Save & Close**
+20. Select **Save As**
+21. For the title, type **Malicious IP Map**
+22. For the resource group, select the lab resource group
+23. Select **Save**
+24. Select **Done Editing**, you should now see your logs mapped onto a world map.
 
 ## Exercise 5 : Azure Sentinel Incidents and Investigation
 

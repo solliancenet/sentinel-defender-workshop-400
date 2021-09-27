@@ -30,6 +30,7 @@ $ht.add("#PASSWORD#", "#IN_PASSWORD#");
 $ht.add("#WORKSPACE_NAME#", "#IN_WORKSPACE_NAME#");
 $ht.add("#STORAGE_ACCOUNT_NAME#", "#IN_STORAGE_ACCOUNT_NAME#");
 $ht.add("#STORAGE_ACCOUNT_KEY#", "#IN_STORAGE_ACCOUNT_KEY#");
+$ht.add("#WORKSPACE_NAME#", "#IN_STORAGE_ACCOUNT_NAME#");
 $ht.add("#WORKSPACE_ID#", "#IN_WORKSPACE_ID#");
 $ht.add("#WORKSPACE_KEY#", "#IN_WORKSPACE_KEY#");
 $ht.add("#SUBSCRIPTION_ID#", "#IN_SUBSCRIPTION_ID#");
@@ -57,6 +58,7 @@ UpdateFile "./day-02/ExportLogsToStorage.ipynb" $ht;
 UpdateFile "./day-02/ExportLogsToStorage.ps1" $ht;
 UpdateFile "./day-02/storage_post.json" $ht;
 UpdateFile "./day-02/incident_post.json" $ht;
+UpdateFile "./day-02/EnableAzureAutomation.ps1" $ht;
 
 UpdateFile "./day-02/users.csv" $ht;
 UpdateFile "./day-02/logfile.txt" $ht;

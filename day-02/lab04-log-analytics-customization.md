@@ -20,8 +20,14 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 7. Type **Application**, then select the **+ Add windows event log** button
 8. Type **System**, then select the **+ Add windows event log** button
 9. Type **Microsoft-Windows-Sysmon/Operation**, then select the **Apply** button
+
+    ![Adding windows event logs](./media/log-analytics-agent-configuration-1.png "Adding windows event logs")
+
 10. Select the **Windows performance counters** tab
 11. Select **Add recommended counters**
+
+    ![Adding performance counters](./media/log-analytics-agent-configuration-2.png "Adding performance counters")
+
 12. Select **Apply**
 13. Select the **Linux performance counters** tab
 14. Select **Add recommended counters**
@@ -30,6 +36,8 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 17. Click **+ Add custom log** to open the Custom Log Wizard.
 
     > **NOTE** By default, all configuration changes are automatically pushed to all agents. For Linux agents, a configuration file is sent to the Fluentd data collector.
+
+    ![Adding custom logs.](./media/log-analytics-agent-configuration-3.png "Adding custom logs.")
 
 18. Select **Choose File\Browse** and browse to the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-02\logfile.txt** sample file.
 19. Select **Next**. The Custom Log Wizard will upload the file and list the records that it identifies.
@@ -215,14 +223,18 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 1. Open the Azure Portal
 2. Browse to the **wssecuritySUFFIX** Log Analytics portal
-3. Run the following kql query, be sure to replace the `SUFFIX`:
+3. Under **General**, select **Logs**
+4. Copy and run the following kql query, be sure to replace the `SUFFIX`:
 
     ```kql
     externaldata (UserPrincipalName: string) [h"https://wssecuritySUFFIX.blob.core.windows.net/logs/users.csv"] with (ignoreFirstRecord=true)
     ```
 
-4. Review the results, you should see the user name column displayed.
-5. Run the following query to do a filter based on the `externaldata` method:
+5. Review the results, you should see the user name column displayed.
+
+    ![Externaldata function in KQL.](./media/log-analytics-external-data.png "Externaldata function in KQL")
+
+6. Run the following query to do a filter based on the `externaldata` method:
 
     ```kql
     let timeRange = 1d;
@@ -238,15 +250,15 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 ### Task 2: Create Custom Table
 
 1. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
-2. Open the `` script in a Windows Powershell ISE window
+2. Open the `/labfiles/sentinel-defender-workshop-400/artifacts/day-02/CreateExternalTable.ps1` script in a Windows Powershell ISE window
 3. Press **F5** to run the script
 4. Switch to your Log Analytics workspace, run the following KQL query
 
-```KQL
-users_lookup
-```
+    ```KQL
+    users_lookup
+    ```
 
-> **Note** It can take up to 15 minutes for your custom table to be displayed.
+    > **Note** It can take up to 15 minutes for your custom table to be displayed.
 
 ### Task 3: Create query function
 
@@ -254,90 +266,100 @@ users_lookup
 2. Select **Logs**
 3. Review the following KQL query then run it.  Note how `datatable` is used to create a query time lookup:
 
-        ```KQL
-        let Lookup = datatable (UserName:string,DisplayName:string,Risk: int,Location:dynamic)
-        [
-        'chris@contoso.com','Chris Green',70,'{ "City": "Redmond", "State": "Washintgon", "Country": "US" }',
-        'ben@contoso.com','Ben Andrews',100,'{"City": "Oxford", "State": "Oxfordshare", "Country": "UK" }',
-        'nir@contoso.com','Nir Cohen',50,'{ "City": "Tel-Aviv", "State": "", "Country": "IL" }',
-        'Gabriela@contoso.com','Cynthia Silva',20,'{ "City": "Rio de Janeiro", "State": "Rio de Janeiro", "Country": "BR" }',
-        'melissa@contoso.com','Chandana  Agarwals' ,100,'{ "City": "Mumbai", "State": "Maharashtra", "Country": "IN" }'
-        ];
-        Lookup
-        ```
+    ```KQL
+    let Lookup = datatable (UserName:string,DisplayName:string,Risk: int,Location:dynamic)
+    [
+    'chris@contoso.com','Chris Green',70,'{ "City": "Redmond", "State": "Washintgon", "Country": "US" }',
+    'ben@contoso.com','Ben Andrews',100,'{"City": "Oxford", "State": "Oxfordshare", "Country": "UK" }',
+    'nir@contoso.com','Nir Cohen',50,'{ "City": "Tel-Aviv", "State": "", "Country": "IL" }',
+    'Gabriela@contoso.com','Cynthia Silva',20,'{ "City": "Rio de Janeiro", "State": "Rio de Janeiro", "Country": "BR" }',
+    'melissa@contoso.com','Chandana  Agarwals' ,100,'{ "City": "Mumbai", "State": "Maharashtra", "Country": "IN" }'
+    ];
+    Lookup
+    ```
 
 4. In the top navigation, select **Save->Save as function**
+
+    ![Save query as function.](./media/log-analytics-save-function.png "Save query as function.")
+
 5. For the name, type **users_lookup**
-6. For the category, select **Functions**
+6. For the legacy category, type **Functions**
 7. Select **Save**
 8. Run the following queries to see how to use this new function:
 
-        ```KQL
-        users_lookup | project UserName
-        ```
+    ```KQL
+    users_lookup | project UserName
+    ```
 
-        ```kql
-        let watchlist = users_lookup | where Risk > 90
-        ```
+    ```kql
+    let watchlist = users_lookup | where Risk > 90
+    ```
 
 ### Task 4: Create Sentinel Watchlist
 
 1. Browse to Azure Sentinel
 2. Select your lab workspace
-3. Under **Configuration**, select **Watchlists**
-4. Select **Add new**
+3. Under **Configuration**, select **Watchlist**
+4. Select **+ Add new**
 5. For the name, type **Users**
 6. For the alias, type **Users**
 7. Select **Next: Source>**
-8. Select **Browse for files**, browse to the `users.csv` file
-9. Select **Next: Review and create**
+8. Select **Browse for files**, browse to the `C:\labfiles\sentinel-defender-workshop-400\artifacts\day-02\users.csv` file
+9. For the search key field, select **UserName**
+10. Select **Next: Review and create**
+11. Select **Create**, you should see a new watchlist displayed:
+
+    ![New sentinel watchlist.](./media/sentinel_watchlist_users.png "New sentinel watchlist.")
 
 ## Exercise 4: Mapping Log Data
 
-### Task 1: Setup
+### Task 1: Mapping queries
 
 1. Open the Azure Portal
 2. Browse to the **wssecuritySUFFIX** workspace
 3. Select **Logs**
 4. Run the following query:
 
-        ```kql
-        union isfuzzy=true 
-        (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
-        (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
-        (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
-        (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
-        ```
+    ```kql
+    union isfuzzy=true 
+    (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
+    (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
+    (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
+    (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
+    ```
 
 5. Review the results, notice how the query combines data from several different tables
 6. Modify the query to the following, review the changes:
 
-        ```kql
-        let daystoSearch = 30d; 
-        let myLongitude= -0.925915; 
-        let myLatitude = 51.461377; 
-        union isfuzzy=true 
-        (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
-        (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
-        (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
-        (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
-        (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
-        | where TimeGenerated > startofday(ago(daystoSearch)) and TimeGenerated < startofday(now()) 
-        | where isnotempty(Country) and isnotempty(Latitude) and isnotempty(Longitude) 
-        | extend distance_in_kilometers = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1000.00 
-        | extend distance_in_miles = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1609.344 
-        | summarize count() by bin(TimeGenerated,1d), Country, DistanceKMandMiles = strcat(round(distance_in_kilometers,1)," / ",round(distance_in_miles,1) ), Type, TrafficDirection, IndicatorThreatType, DeviceVendor 
-        | sort by TimeGenerated asc 
-        ```
+    ```kql
+    let daystoSearch = 30d; 
+    let myLongitude= -0.925915; 
+    let myLatitude = 51.461377; 
+    union isfuzzy=true 
+    (W3CIISLog | extend TrafficDirection = "InboundOrUnknown", Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (DnsEvents | extend TrafficDirection = "InboundOrUnknown", Country= RemoteIPCountry, Latitude = RemoteIPLatitude, Longitude = RemoteIPLongitude), 
+    (WireData | extend TrafficDirection = iff(Direction != "Outbound","InboundOrUnknown", "Outbound"), Country=RemoteIPCountry, Latitude=RemoteIPLatitude, Longitude=RemoteIPLongitude), 
+    (WindowsFirewall | extend TrafficDirection = iff(CommunicationDirection != "SEND","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude), 
+    (CommonSecurityLog | extend TrafficDirection = iff(CommunicationDirection != "Outbound","InboundOrUnknown", "Outbound"), Country=MaliciousIPCountry, Latitude=MaliciousIPLatitude, Longitude=MaliciousIPLongitude, Confidence=ThreatDescription, Description=ThreatDescription), 
+    (VMConnection | where Type == "VMConnection" | extend TrafficDirection = iff(Direction != "outbound","InboundOrUnknown", "Outbound"), Country=RemoteCountry, Latitude=RemoteLatitude, Longitude=RemoteLongitude) 
+    | where TimeGenerated > startofday(ago(daystoSearch)) and TimeGenerated < startofday(now()) 
+    | where isnotempty(Country) and isnotempty(Latitude) and isnotempty(Longitude) 
+    | extend distance_in_kilometers = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1000.00 
+    | extend distance_in_miles = geo_distance_2points(Longitude, Latitude, myLongitude, myLatitude)/1609.344 
+    | summarize count() by bin(TimeGenerated,1d), Country, DistanceKMandMiles = strcat(round(distance_in_kilometers,1)," / ",round(distance_in_miles,1) ), Type, TrafficDirection, IndicatorThreatType, DeviceVendor 
+    | sort by TimeGenerated asc 
+    ```
 
 7. Open Azure Monitor by searching for **Monitor** in Azure global search
 8. Select **Workbooks**
 9. Select **Workspace Usage**
-10. Select **Edit**
-11. At the bottom of the page, select **Add->Add query**
+
+    ![Workspace usage workbook.](./media/azure_monitor_workspace_usage.png "Workspace usage workbook")
+
+10.  Select **Edit**
+11.  At the bottom of the page, select **Add->Add query**
 12. Copy the following query, notice the replacement of the query items with workbook variables:
 
     ```kql

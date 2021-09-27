@@ -144,7 +144,11 @@ InstallFiddler
 
 InstallPowerBI
 
-InstallVisualStudioCode
+InstallPython
+
+$extensions = @("jupyter", "python");
+
+InstallVisualStudioCode $extensions;
 
 InstallOffice
 
@@ -211,6 +215,9 @@ $workspaceId = $ws.CustomerId;
 $keys = Get-AzOperationalInsightsWorkspaceSharedKey -ResourceGroup $resourceGroupName -Name $wsName;
 $workspaceKey = $keys.PrimarySharedKey;
 
+#storage account key
+$dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $wsName)[0].Value
+
 #update the updatedatafiles.ps1
 $content = get-content "c:\labfiles\$workshopName\artifacts\environment-setup\automation\updatedatafiles.ps1" -raw
 $content = $content.replace("#IN_WORKSHOP_NAME#",$workshopName);
@@ -218,6 +225,7 @@ $content = $content.replace("#IN_USERNAME#",$userName);
 $content = $content.replace("#IN_PASSWORD#",$password);
 $content = $content.replace("#IN_WORKSPACE_NAME#",$wsName);
 $content = $content.replace("#IN_STORAGE_ACCOUNT_NAME#",$wsName);
+$content = $content.replace("#IN_STORAGE_ACCOUNT_KEY#",$dataLakeStorageAccountKey);
 $content = $content.replace("#IN_WORKSPACE_ID#",$workspaceId);
 $content = $content.replace("#IN_WORKSPACE_KEY#",$workspaceKey);
 $content = $content.replace("#IN_SUBSCRIPTION_ID#",$azureSubscriptionID);

@@ -284,7 +284,9 @@ In this exercise you will setup an export rule to send log data to Azure Storage
 2. Browse to the lab resource group.
 3. Select the **wssecuritySUFFIX** storage account.
 4. Under **Data storage**, select **Containers**.
-5. Review the log data sent to the storage account.
+5. After some log data is received, you can review the log data sent to the storage account.
+
+    ![Export job data.](./media/log-analytics-export-storage-data.png "Export job data")
 
 ### Task 3 : Query data with Notebooks
 
@@ -294,7 +296,9 @@ In this exercise you will setup an export rule to send log data to Azure Storage
 4. Select **Trust** when prompted
 5. Select **Yes** when prompted for Python extensions
 6. Switch back to the notebook, replace all the values
-7. Run the notebook
+7. Run the notebook, you should see the data get loaded from the storage account and then displayed to the output.
+
+IMAGE TODO
 
 ## Exercise 9 : Exporting Alerts via Logic Apps
 
@@ -306,9 +310,9 @@ You can forward alerts from Sentinel to other SIEMs using the Sentinel APIs and 
 2. Browse to your lab resource group
 3. Select the `get-sentinelalertsevidence` logic app
 4. Select **Edit**
-5. Review the steps of the logic app, notice that is exports data from Sentinel and then forwards it to an Event Hub
+5. Review the steps of the logic app, notice that it exports data from Sentinel and then forwards it to an Event Hub.
 
-> **NOTE** Most SIEMS can consume data from Event Hubs. Reference the following:
+> **NOTE** Most SIEMS can consume data from Event Hubs which would allow you to integrate your log analytics data with them. Reference the following:
 
 - [ArcSight](https://community.microfocus.com/t5/ArcSight-Connectors/SmartConnector-for-Microsoft-Azure-Monitor-Event-Hub/ta-p/1671292)
 - [LogRhythm](https://docs.logrhythm.com/docs/OCbeats/azure-event-hubs-beat-6-0-2)

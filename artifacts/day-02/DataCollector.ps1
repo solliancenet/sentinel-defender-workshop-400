@@ -46,7 +46,7 @@ Function Post-LogAnalyticsData($workspaceId, $key, $body, $logType)
 
 }
 
-cd "C:\labfiles\#WORKSHOP_NAME#\artifacts\day-01";
+cd "C:\labfiles\#WORKSHOP_NAME#\artifacts\day-02";
 
 # Replace with your Workspace ID
 $workspaceId = "#WORKSPACE_ID#"

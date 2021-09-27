@@ -225,7 +225,7 @@
 1. Switch back to the Machine Learning NoteBook, the compute should be provisioned
 2. If prompted, select **Start Jupyter kernel**
 3. If prompted, select **Authenticate**
-4. For each cell select **Run** and follow each of the cells as they are executed. Do not run the entire notebook.
+4. For each cell select **Run** and follow each of the cells as they are executed. **DO NOT** run the entire notebook.
 
     ![The Run button is highlighted.](./media/sentinel-notebook-run.png "Run the notebook")
 

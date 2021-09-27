@@ -123,12 +123,33 @@
 
 1. Open the `/artifacts/day-01/Azure Defender.pbix` file
 2. Right-click the `Alerts` data source, select **Edit**
+
+    ![Edit the data source.](./media/power-bi-alerts-edit.png "Edit the data source")
+
 3. Select the `Alerts` data source, in the ribbon, select **Advanced Editor**.
-4. Review the query.  Repeat for all the data sources in the Power BI report.
-5. Update the SubscriptionId, TenantId and WorkspaceId with the lab details
-6. Generate a new `https://management.azure.com` access token, replace it in the report
-7. When prompted, enter your lab credentials
-8. You should see all the tabs update with Azure Defender related items. Review each tab.
+4. Review the query.  
+
+    ![Open advanced editor.](./media/power-bi-alerts-advanced-edit.png "Open advanced editor")
+
+5. Repeat for all the data sources in the Power BI report.
+6. Update the SubscriptionId, TenantId and WorkspaceId with the lab details:
+
+   ![Edit parameters.](./media/power-bi-alerts-params.png "Edit parameters")
+
+7. Using the following PowerShell, generate a new `https://management.azure.com` access token, replace it in the report:
+
+    ```PowerShell
+    #login so you can get a token
+    az login -u #USERNAME# -p #PASSWORD#
+
+    #get an access token...
+    $tokenValue = ((az account get-access-token --resource https://management.azure.com) | ConvertFrom-Json).accessToken
+
+    $tokenValue
+    ```
+
+8. Select **Close & Apply**, when prompted, enter your lab credentials
+9. You should see all the tabs update with Azure Defender related items. Review each tab.
 
 ## Reference Links
 

@@ -6,6 +6,18 @@ AZURESUBSCRIPTIONID=${4}
 ODLID=${5}
 DEPLOYMENTID=${6}
 
+echo AZUREUSERNAME
+echo AZUREPASSWORD
+echo AZURETENANTID
+echo AZURESUBSCRIPTIONID
+echo ODLID
+echo DEPLOYMENTID
+
+ACRNAME="wssecurity"
+ACRNAME+=$DEPLOYMENTID
+ACRURL=$ACRNAME
+ACRURL+=".azurecr.io";
+
 sudo apt-get update
 
 sudo apt-get install pass gnupg2 -y
@@ -53,19 +65,15 @@ sudo apt-get install -y powershell
 sudo snap install powershell --classic
 
 #install jq - for json ease
-sudo apt-get install jq
+sudo apt-get install jq -y
 
 az login -u $AZUREUSERNAME -p $AZUREPASSWORD
 
-ACRNAME="wssecurity"
-ACRNAME+=$DEPLOYMENTID
-ACRURL=$ACRNAME
-ACRURL+=".azurecr.io";
-
 ACRPASSWORD=$(az acr credential show -n $ACRNAME |  jq ".passwords[0].value" | sed 's/"//g')
 
-echo $ACRURL
+echo $ACRNAME
 echo $ACRPASSWORD
+echo $ACRURL
 
 sudo docker login -u $ACRNAME -p $ACRPASSWORD $ACRURL
 

@@ -186,6 +186,13 @@
 
     ![Container Vulnerabilities.](./media/container_vulnerabilities.png "Container Vulnerabilities are displayed")
 
+  > **NOTE** If you don't see any recommendations, it is possible the images did not get deployed. The **wssecurity-linus-1** virtual machine is used to do this deployment.  If anything deploys incorrectly in the image via the Azure script extensions, you can check the Azure agent log files using:
+
+  ```bash
+  sudo nano /var/lib/waagent/custom-script/download/0/stdout
+  sudo nano /var/lib/waagent/custom-script/download/0/stderr
+  ```
+
 ### Task 5: Adaptive Application Control
 
 1. Open the Azure Portal

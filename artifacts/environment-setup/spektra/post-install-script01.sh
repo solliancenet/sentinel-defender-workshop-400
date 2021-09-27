@@ -52,12 +52,22 @@ sudo apt-get install -y powershell
 
 sudo snap install powershell --classic
 
-#get the key from azrue container instance
-ACRNAME=""
-ACRPASSWORD=""
+#install jq - for json ease
+sudo apt-get install jq
 
-#deploy the items
-sudo docker login $ACRNAME.azurecr.io -u $ACRNAME -p $ACRPASSWORD
+az login -u $AZUREUSERNAME -p $AZUREPASSWORD
+
+ACRNAME="wssecurity"
+ACRNAME+=$DEPLOYMENTID
+ACRURL=$ACRNAME
+ACRURL+=".azurecr.io";
+
+ACRPASSWORD=$(az acr credential show -n $ACRNAME |  jq ".passwords[0].value" | sed 's/"//g')
+
+echo $ACRURL
+echo $ACRPASSWORD
+
+sudo docker login -u $ACRNAME -p $ACRPASSWORD $ACRURL
 
 sudo docker tag docker.io/azurebellhop/engine:v0.4 $ACRNAME.azurecr.io/azurebellhop/engine:v0.4
 

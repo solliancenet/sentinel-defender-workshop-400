@@ -136,7 +136,9 @@
     "kubernetesNetworkProfilePlugin": "kubenet",
     "kubernetesRBACEnabled": true,
     "logAnalyticsName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
-    "logAnalyticsId": "[resourceId(resourceGroup().name, 'Microsoft.OperationalInsights/workspaces', variables('logAnalyticsName'))]"
+    "logAnalyticsId": "[resourceId(resourceGroup().name, 'Microsoft.OperationalInsights/workspaces', variables('logAnalyticsName'))]",
+    "storageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+    "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
   },
   "resources": [
     {
@@ -1028,7 +1030,7 @@
     },
     {
       "type": "Microsoft.Devices/provisioningServices",
-      "apiVersion": "2020-09-01-preview",
+      "apiVersion": "2020-03-01",
       "name": "[concat(variables('resourceName'),'-prov')]",
       "location": "[variables('location')]",
       "sku": { "name": "S1", "tier": "Standard", "capacity": 1 },
@@ -1373,6 +1375,20 @@
         "containerRegistry": "[resourceId('Microsoft.ContainerRegistry/registries', variables('resourceName'))]",
         "keyVault": "[resourceId('Microsoft.KeyVault/vaults', concat(variables('resourceName'), '-kv'))]",
         "applicationInsights": "[resourceId('microsoft.insights/components', variables('resourceName'))]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', variables('resourceName'), '2'))]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Synapse/workspaces/', variables('resourceName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
+        "principalId": "[reference(concat('Microsoft.MachineLearningServices/workspaces/', variables('resourceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+        "principalType": "ServicePrincipal"
       }
     },
     {

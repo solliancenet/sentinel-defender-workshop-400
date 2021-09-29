@@ -249,7 +249,7 @@ if (!$azCopyLink)
         $azCopyLink = "https://azcopyvnext.azureedge.net/release20200501/azcopy_windows_amd64_10.4.3.zip"
 }
 
-Invoke-WebRequest $azCopyLink -OutFile "azCopy.zip"
+Invoke-WebRequest $azCopyLink -OutFile "azCopy.zip" -UseBasicParsing
 Expand-Archive "azCopy.zip" -DestinationPath ".\" -Force
 $azCopyCommand = (Get-ChildItem -Path ".\" -Recurse azcopy.exe).Directory.FullName
 $azCopyCommand += "\azcopy"

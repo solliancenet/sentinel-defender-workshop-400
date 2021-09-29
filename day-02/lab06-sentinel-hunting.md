@@ -1,17 +1,19 @@
 # Sentinel Extensibility + Hunting
 
 - Topics
-  - End to end investigation (backwards from sentinel)
-  - Setup Alerts
-  - Perform Investigations
-  - Troubleshoot
-  - KQL UNIONs
-  - SIEM Integration
-  - Create bookmarks...
+  - TODO KQL UNIONs
+  - TODO Create bookmarks...
 
 ## Exercise 1: Execute Attack
 
 You will execute an attack on your paw virtual machine that will do some not so great things. Since your environment has Azure Sentinel configured with all the various data connectors, you should get a basic alert fired. It will be your job to determine what the attack did.
+
+### Task 0: Setup
+
+1. Open **OneDrive**
+2. Login as your lab credentials, open the OneDrive folder, ensure that you see the following files:
+
+    ![OneDrive initialize.](./media/one-drive-init.png "OneDrive initialize")
 
 ### Task 1: Execute Attack
 
@@ -32,7 +34,7 @@ The previous exercise created a breach in a system in your environment. You will
 
 1. Open Azure Security Center
 2. Under **General**, select **Security alerts**
-3. Select the first alert called **Potential attempt to bypass AppLocker detected**
+3. Select the alert called **Potential attempt to bypass AppLocker detected**
 
     ![Azure Security Center alerts.](./media/azure_security_center_alerts.png "Select the first alert")
 
@@ -52,21 +54,36 @@ The previous exercise created a breach in a system in your environment. You will
 
 ### Task 2: Go Hunting
 
-1. Under Threat Management, select **Hunting**
-2. Select **Run all queries**
-3. Sort by results delta, review any items that look suspicious
+1. Open Azure Sentinel
+2. Under Threat Management, select **Hunting**
+3. Select **Run all queries**
+
+    ![Run all the hunting queries.](./media/azure_sentinel_hunting.png "Run all the hunting queries")
 
 ### Task 3: Explore Hunting queries
 
-1. Select the **TODO** query
-2. Select **Run query**, then select **View Results**
+1. Sort by results or results delta, review any items that look suspicious
+2. Select the **Port opened for an Azure Resource** query
+
+    ![Hunting query.](./media/azure_sentinel_hunting_results.png "Hunting query")
+
+3. Select **Run query**, then select **View Results**.  
+
+    ![Run hunting query.](./media/azure_sentinel_hunting_run_query.png "Run hunting query")
+
+4. Does this give you any clues or is it a dead end?
 
 ### Task 4: Review Incidents
 
 1. Open Azure Sentinel
 2. Under Threat Management, select **Incidents**
-3. Do you see any new incidents?
+3. Answer the following questions:
+
+   - Do you see any new incidents?
+   - Did you expect to see something that you are not seeing?  If so, how might you make it surface?
+
 4. Review the Incidents, find any that were recently created (as of when you ran the above attack script)
+
 5. For each incident, select it and then assign yourself (the lab account)
 
 ### Task 5: Review Investigation Graphs
@@ -76,6 +93,7 @@ The previous exercise created a breach in a system in your environment. You will
     > **Note** You'll only be able to investigate the incident if you used the entity mapping fields when you set up your analytics rule. The investigation graph requires that your original incident includes entities. Azure Sentinel currently supports investigation of incidents up to 30 days old.
 
 2. Review the items that are displayed
+
 3. Hover over each entity type, then review the options available to you for that entity type
 
     > **Note** Each entity will reveal a list of questions designed by security experts and analysts to deepen your investigation. These are called exploration queries.
@@ -89,23 +107,38 @@ The previous exercise created a breach in a system in your environment. You will
 ### Task 6: Troubleshoot with KQL
 
 1. What kind of queries do you think you should run to get more details?
-2. Try running the following to look for entity related items
+2. Try running the following to look for entity related items, under **General**, select **Logs**
 3. Run the following KQL to find all entries related to a user:
 
     ```KQL
-    TODO
+    SigninLogs
+    | where Account in ('')
+    | where ResultType == "0"
+
+    OfficeActivity
+    | where Account in ('')
+    | where ResultType == "0"
     ```
 
 4. Run the following KQL to find all entries related to a device:
 
     ```KQL
-    TODO
+    search Computer !in ("-")
+    | summarize AggregatedValue = count() by Computer
+    | where Computer != ""
+    | extend ComputerName = toupper(split (Computer, ".",0))
     ```
 
 5. Run the following KQL to find all entries related to an IP address:
 
     ```KQL
-    TODO
+    SigninLogs
+    | where IPAddress in ('')
+    | where ResultType == "0"
+
+    OfficeActivity
+    | where IPAddress in ('')
+    | where ResultType == "0"
     ```
 
 ### Task 7: Answer the Questions

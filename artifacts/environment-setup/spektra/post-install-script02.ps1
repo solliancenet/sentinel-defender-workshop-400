@@ -336,6 +336,8 @@ UploadFolderToOnedrive $sourcepath $targetpath;
 
 InstallICD
 
+Install-WindowsFeature -Name Windows-Server-Antimalware
+
 sleep 20
 
 Stop-Transcript

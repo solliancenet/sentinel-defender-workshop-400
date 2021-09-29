@@ -1383,7 +1383,7 @@
       "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', variables('resourceName'), '2'))]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Synapse/workspaces/', variables('resourceName'))]"
+        "[concat('Microsoft.MachineLearningServices/workspaces/', variables('resourceName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",

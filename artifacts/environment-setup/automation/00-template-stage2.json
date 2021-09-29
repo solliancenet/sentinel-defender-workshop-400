@@ -1,0 +1,272 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "uniqueSuffix": {
+      "type": "String",
+      "metadata": {
+        "description": "Suffix added to all resource name to make them unique."
+      }
+    },
+    "region": {
+      "type": "String",
+      "metadata": { "description": "Region to deploy too." }
+    },
+    "adminUsername": {
+      "type": "String",
+      "defaultValue": "wsuser",
+      "metadata": { "description": "" }
+    },
+    "adminPassword": {
+      "type": "String",
+      "defaultValue": "Solliance123",
+      "metadata": { "description": "" }
+    },
+    "azureUsername": { "type": "string" },
+    "azurePassword": { "type": "string" },
+    "odlId": { "type": "string" },
+    "deploymentId": { "type": "string" },
+    "vmSize": { "defaultValue": "Standard_E2s_v3", "type": "string" },
+    "adVMSize": {
+      "type": "string",
+      "defaultValue": "Standard_DS2_v2",
+      "metadata": {
+        "description": "Size for the VM.  This sample uses premium disk and requires an 'S' sku."
+      }
+    },
+    "pdcRDPPort": {
+      "type": "int",
+      "metadata": { "description": "The public RDP port for the PDC VM" },
+      "defaultValue": 3389
+    },
+    "bdcRDPPort": {
+      "type": "int",
+      "metadata": { "description": "The public RDP port for the BDC VM" },
+      "defaultValue": 13389
+    },
+    "dnsPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+      },
+      "defaultValue": "[concat('ad', parameters('uniqueSuffix'))]"
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": { "description": "The FQDN of the AD Domain created " },
+      "defaultValue": "[concat('ad', parameters('uniqueSuffix'), '.com')]"
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": { "description": "The github location" }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": { "description": "SAS key if needed" },
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+    "domainJoinOptions": 3,
+    "ouPath": "",
+    "postInstallParameters": "[concat(' -azureUsername ', parameters('azureUsername'), ' -azurePassword ', parameters('azurePassword'), ' -azureTenantID ', variables('azureTenantID'), ' -azureSubscriptionID ', variables('azureSubscriptionID'), ' -odlId ', parameters('odlId'), ' -deploymentId ', parameters('deploymentId'))]",
+    "shPostInstallParameters": "[concat(parameters('azureUsername'), ' ', parameters('azurePassword'), ' ', variables('azureTenantID'), ' ', variables('azureSubscriptionID'), ' ', parameters('odlId'), ' ', parameters('deploymentId'))]",
+    "location": "[resourceGroup().location]",
+    "azureSubscriptionID": "[subscription().subscriptionId]",
+    "azureTenantID": "[subscription().tenantId]",
+    "rgName": "[resourceGroup().name]",
+    "playbookName": "get-sentinelalertsevidence",
+    "conn_azuresentinel": "[concat('azure_sentinel-',variables('playbookName'))]",
+    "conn_azuremonitorlogs": "[concat('azure_monitor-',variables('playbookName'))]",
+    "conn_eventhubs": "[concat('azure_eventhub-',variables('playbookName'))]",
+    "eventsNumber": 10,
+    "resourceName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
+    "automationMap": {
+      "eastus2": { "region": "East US" },
+      "eastus": { "region": "East US 2" },
+      "southcentralus": { "region": "South Central US" },
+      "westcentralus": { "region": "West Cental US" },
+      "westus2": { "region": "West US 2" },
+      "westus": { "region": "West US" },
+      "NorthCentralUS": { "region": "NorthCentralUS" }
+    },
+    "vmName": "[concat('labvm-',parameters('uniqueSuffix'))]",
+    "storageAccountType": "Premium_LRS",
+    "adPDCVMName": "[concat(variables('resourceName'),'-adPDC')]",
+    "adBDCVMName": "[concat(variables('resourceName'),'-adBDC')]",
+    "imagePublisher": "MicrosoftWindowsServer",
+    "imageOffer": "WindowsServer",
+    "imageSKU": "2016-Datacenter",
+    "adAvailabilitySetName": "[concat(variables('resourceName'),'-adset')]",
+    "publicIPAddressName": "[concat(variables('resourceName'),'-ad-pip')]",
+    "adLBFE": "LBFE",
+    "adLBBE": "LBBE",
+    "adPDCRDPNAT": "adPDCRDP",
+    "adBDCRDPNAT": "adBDCRDP",
+    "virtualNetworkName": "[concat(variables('resourceName'),'-ad')]",
+    "virtualNetworkAddressRange": "10.2.0.0/16",
+    "adSubnetName": "adSubnet",
+    "adSubnet": "10.2.0.0/24",
+    "adPDCNicName": "[concat(variables('resourceName'),'-adpdc-nic')]",
+    "adPDCNicIPAddress": "10.2.0.4",
+    "adBDCNicName": "[concat(variables('resourceName'),'-adbdc-nic')]",
+    "adBDCNicIPAddress": "10.2.0.5",
+    "adSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('adSubnetName'))]",
+    "adLBName": "[concat(variables('resourceName'),'-adlb')]",
+    "adlbFEConfigID": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', variables('adLBName'), variables('adLBFE'))]",
+    "adPDCRDPNATRuleID": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('adLBName'), variables('adPDCRDPNAT'))]",
+    "adBDCRDPNATRuleID": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('adLBName'), variables('adBDCRDPNAT'))]",
+    "adBEAddressPoolID": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('adLBName'), variables('adLBBE'))]",
+    "adDataDiskSize": 500,
+    "vnetwithDNSTemplateUri": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/vnet-with-dns-server.json',parameters('_artifactsLocationSasToken')))]",
+    "configureADBDCTemplateUri": "[uri(parameters('_artifactsLocation'), concat('nestedtemplates/configureADBDC.json', parameters('_artifactsLocationSasToken')))]",
+    "adPDCModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/CreateADPDC.zip', parameters('_artifactsLocationSasToken')))]",
+    "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+    "adBDCPreparationModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/PrepareADBDC.zip', parameters('_artifactsLocationSasToken')))]",
+    "adBDCPreparationFunction": "PrepareADBDC.ps1\\PrepareADBDC",
+    "adBDCConfigurationModulesURL": "[uri(parameters('_artifactsLocation'), concat('DSC/ConfigureADBDC.zip', parameters('_artifactsLocationSasToken')))]",
+    "adBDCConfigurationFunction": "ConfigureADBDC.ps1\\ConfigureADBDC",
+    "kubernetesClusterName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
+    "kubernetesVersion": "1.21.2",
+    "kubernetesDnsPrefix": "[concat('wssecurity',parameters('uniqueSuffix'), '-dns')]",
+    "kubernetesAgentOsType": "Linux",
+    "kubernetesAgentOsDiskSizeGB": 0,
+    "kubernetesAgentCount": 2,
+    "kubernetesAgentVmSize": "Standard_DS4_v2",
+    "kubernetesNetworkProfilePlugin": "kubenet",
+    "kubernetesRBACEnabled": true,
+    "logAnalyticsName": "[concat('wssecurity',parameters('uniqueSuffix'))]",
+    "logAnalyticsId": "[resourceId(resourceGroup().name, 'Microsoft.OperationalInsights/workspaces', variables('logAnalyticsName'))]",
+    "storageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+    "storageBlobDataOwnerRoleID": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/tags",
+      "apiVersion": "2021-04-01",
+      "name": "default",
+      "dependsOn": [],
+      "properties": {
+        "tags": { "DeploymentId": "[parameters('uniqueSuffix')]" }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2021-04-01",
+      "name": "[concat(variables('resourceName'),'-linux-1')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', concat(variables('resourceName'), '-linux-1-nic'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('resourceName'))]"
+      ],
+      "resources": [
+        {
+          "name": "config-linxu-01",
+          "type": "extensions",
+          "location": "[variables('location')]",
+          "apiVersion": "2019-03-01",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(variables('resourceName'),'-linux-1'))]",
+            "[resourceId('Microsoft.ContainerRegistry/registries', variables('resourceName'))]"
+          ],
+          "tags": { "displayName": "config-linux-01" },
+          "properties": {
+            "publisher": "Microsoft.Azure.Extensions",
+            "type": "CustomScript",
+            "typeHandlerVersion": "2.1",
+            "autoUpgradeMinorVersion": true,
+            "settings": { "skipDos2Unix": false, "timestamp": 123456789 },
+            "protectedSettings": {
+              "commandToExecute": "[concat('sh post-install-script01.sh ', variables('shPostInstallParameters'))]",
+              "fileUris": [
+                "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script01.sh"
+              ],
+              "managedIdentity": {}
+            }
+          }
+        }
+      ],
+      "properties": {
+        "hardwareProfile": { "vmSize": "Standard_DS1_v2" },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "18.04-LTS",
+            "version": "latest"
+          },
+          "osDisk": {
+            "osType": "Linux",
+            "name": "[concat(variables('resourceName'),'-linux-1-os')]",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "managedDisk": { "storageAccountType": "Premium_LRS" },
+            "diskSizeGB": 30
+          },
+          "dataDisks": []
+        },
+        "osProfile": {
+          "computerName": "linux-1",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": false,
+            "provisionVMAgent": true
+          },
+          "secrets": [],
+          "allowExtensionOperations": true
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('resourceName'), '-linux-1-nic'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference(resourceId(resourceGroup().name, 'Microsoft.Storage/storageAccounts', variables('resourceName')), '2015-06-15').primaryEndpoints['blob']]"
+          }
+        }
+      }
+    },
+    {
+      "name": "[concat(variables('resourceName'),'-linux-1-nic')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2021-02-01",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', concat(variables('resourceName'), '-hub'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', concat(variables('resourceName'), '-paw-1-nsg'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(variables('resourceName'), '-hub'), 'default')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', concat(variables('resourceName'), '-paw-1-nsg'))]"
+        },
+        "dnsSettings": {}
+      }
+    },
+    {
+      "name": "[variables('publicIPAddressName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2021-02-01",
+      "location": "[variables('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": { "domainNameLabel": "[parameters('dnsPrefix')]" }
+      }
+    }
+  ]
+}

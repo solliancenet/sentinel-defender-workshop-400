@@ -186,7 +186,7 @@
 
     ![Container Vulnerabilities.](./media/container_vulnerabilities.png "Container Vulnerabilities are displayed")
 
-    > **NOTE** If you don't see any recommendations, it is possible the images did not get deployed. The **wssecurity-linus-1** virtual machine is used to do this deployment.  If anything deploys incorrectly in the image via the Azure script extensions, you can check the Azure agent log files using:
+    > **NOTE** If you don't see any recommendations, it is possible the images did not get deployed. The **wssecurity-linux-1** virtual machine is used to do this deployment.  If anything deploys incorrectly in the image via the Azure script extensions, you can check the Azure agent log files using:
 
     ```bash
     find /var/ba/waagent/custom-script/download -type d -exec chmod 755 {} \;
@@ -201,13 +201,14 @@
 2. Browse to **Security Center**
 3. Under **Cloud Security**, select **Azure Defender**
 4. At the bottom of the page, select **Adaptive application control**
-5. Select the group
-6. Expand the **Recent Alerts** section, select the **Violations audited** item
+5. Select the group with the most machines:
 
-    ![Adaptive Application control violations are displayed.](./media/vm_vulnerabilities.png "Adaptive Application control violations are displayed.")
+    ![Adaptive Application control.](./media/adaptive_application_control.png "Adaptive Application control.")
 
-7. In the Azure Portal, search for **Resource Graph Explorer**
-8. In the query window, run the following query:
+6. Select **Audit**, wait for the protection mode to be **Auditing**
+7. Review each of the sections by expanding them.  You will likely not see any data for a few hours.
+8. In the Azure Portal, search for **Resource Graph Explorer**
+9. In the query window, run the following query to see application control events:
 
     ```kql
     securityresources

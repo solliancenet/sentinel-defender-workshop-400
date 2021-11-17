@@ -10,17 +10,22 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>&nbsp;</td>
             <td>Day 1</td>
+            <td></td>
             <td>Day 2</td>
+            <td></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td>Azure Defender</td>
+            <td>&nbsp;</td>
             <td>Azure Sentinel + Azure Defender</td>
         </tr>
         <tr>
             <td>08:00</td>
             <td rowspan=2>Keynote: Welcome, Objectives, Sentinel+ Azure Defender - Better together</td>
+            <td rowspan=10>Main</td>
             <td rowspan=4>Design Presentation: Azure Sentinel</td>
+            <td rowspan=3>Main</td>
         </tr>
         <tr><td>08:15</td></tr>
         <tr>
@@ -61,10 +66,12 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>11:15</td>
             <td rowspan=4><a href="./day-01/lab01-defender-identity-cloud-app-security.md">Hands-on: Azure Defender - Just-In-Time VM Access + File Integrity Monitoring + Container Image Scanning(***)</a></td>
+            <td rowspan=8>Table</td>
         </tr>
         <tr>
             <td>11:30</td>
             <td rowspan=3><a href="./day-02/lab03-sentinel-defender.md">Hands-on: Configure Azure Sentinel + Azure Defender (***)</a></td>
+            <td rowspan=13>Table</td>
         </tr>
             <tr><td>11:45</td></tr>
             <tr><td>12:00</td></tr>
@@ -79,6 +86,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>13:15</td>
             <td rowspan=4>Design Presentation: Azure Defender (VM/SQL Vulnerability Assessments) (*)</td>
+            <td rowspan=4>Main</td>
             <td rowspan=4>Q&A / Digital Cohort Activity: Implementing a Security Operations Center (**)</td>
         </tr>
         <tr><td>13:30</td></tr>
@@ -89,6 +97,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>14:15</td>
             <td rowspan=4><a href="./day-01/lab02-defender-office-365.md">Hands-on: Azure Defender (Adaptive application control, network hardening and vulnerability assessments) )(***)</a></td>
+            <td rowspan=4>Table</td>
             <td rowspan=4><a href="./day-02/lab04-sentinel-hunting.md">Hands-on: Azure Sentinel: Extending + Threat Hunting (***)</a></td>
         </tr>
         <tr><td>14:30</td></tr>

@@ -182,6 +182,9 @@ $deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["Deployment
 $branchName = "main";
 $workshopName = "sentinel-defender-workshop-400";
 
+#adding MS Defender exclude path...
+Add-MpPreference -ExclusionPath "C:\labfiles"
+
 #download the git repo...
 Write-Host "Download Git repo." -ForegroundColor Green -Verbose
 git clone https://github.com/solliancenet/$workshopName.git $workshopName

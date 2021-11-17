@@ -146,6 +146,9 @@ $branchName = "main";
 $workshopName = "sentinel-defender-workshop-400";
 $repoUrl = "solliancenet/sentinel-defender-workshop-400";
 
+#adding MS Defender exclude path...
+Add-MpPreference -ExclusionPath "C:\labfiles"
+
 #download the git repo...
 Write-Host "Download Git repo." -ForegroundColor Green -Verbose
 git clone https://github.com/solliancenet/$workshopName.git $workshopName
@@ -177,8 +180,21 @@ EnableAKSPolicy $resourceGroupName;
 
 EnableOtherCompliancePolicy $resourceGroupName;
 
-Write-Host "Starting main deployment." -ForegroundColor Green -Verbose
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templatesFile -TemplateParameterFile "$($parametersFile).json"
+Write-Host "Assiging Permissions"
+
+New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope "/subscriptions/$subscriptionId" -ErrorAction SilentlyContinue;
+New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" -Scope "/subscriptions/$subscriptionId" -ErrorAction SilentlyContinue;
+
+Write-Host "Executing main ARM deployment" -ForegroundColor Green -Verbose
+
+#OLD WAY...
+#New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templatesFile -TemplateParameterFile "$($parametersFile).json";
+
+#will fire deployment async so the main deployment shows "succeeded"
+ExecuteDeployment $templatesFile "$($parametersFile).json" $resourceGroupName;
+
+#wait for storage to be created...
+WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
 
 #connect the activity log - workspace must exist
 ConnectAzureActivityLog $resourceName $resourceGroupName;
@@ -188,6 +204,9 @@ EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroup
 
 #enable vm vulnerability
 EnableVMVulnerability;
+
+#wait for log analytics to be created...
+WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
 
 #set log analytics config
 SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;

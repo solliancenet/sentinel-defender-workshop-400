@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "5a550f98-8890-4319-aa33-36e3b2370eb0",
+		"name": "Azure Security Center REST APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ASC Alerts",
+			"id": "9fb854bc-e0d8-4694-bfe5-d845a021f1e3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{resource}}subscriptions/{{subscriptionId}}/providers/Microsoft.Security/alerts?api-version=2020-01-01",
+					"host": [
+						"{{resource}}subscriptions"
+					],
+					"path": [
+						"{{subscriptionId}}",
+						"providers",
+						"Microsoft.Security",
+						"alerts"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-01-01"
+						}
+					]
+				},
+				"description": "ASC Alerts"
+			},
+			"response": []
+		},
+		{
+			"name": "ASC Secure Score",
+			"id": "b1ff7978-a0ed-4c5a-8f43-c3073a6459d2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{resource}}subscriptions/{{subscriptionId}}/providers/Microsoft.Security/secureScores?api-version=2020-01-01",
+					"host": [
+						"{{resource}}subscriptions"
+					],
+					"path": [
+						"{{subscriptionId}}",
+						"providers",
+						"Microsoft.Security",
+						"secureScores"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ASC Assessments",
+			"id": "8b995483-0f83-4d95-94bb-b104267cf113",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{resource}}subscriptions/{{subscriptionId}}/providers/Microsoft.Security/assessments?api-version=2020-01-01&$expand=statusEvaluationDates",
+					"host": [
+						"{{resource}}subscriptions"
+					],
+					"path": [
+						"{{subscriptionId}}",
+						"providers",
+						"Microsoft.Security",
+						"assessments"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-01-01"
+						},
+						{
+							"key": "$expand",
+							"value": "statusEvaluationDates",
+							"description": "time indicators preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Azure Resource Graph",
+			"id": "649d47c4-d1a0-40ae-ae9f-d76bfe2906f5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"securityresources | where type =~ 'microsoft.security/assessments' | extend assessmentStatusCode = tostring(properties.status.code) | extend displayname = tostring(properties.displayName) | where assessmentStatusCode == 'Unhealthy' | extend resource = tostring(properties.resourceDetails.Id)\"\n}"
+				},
+				"url": {
+					"raw": "{{resource}}/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview",
+					"host": [
+						"{{resource}}"
+					],
+					"path": [
+						"providers",
+						"Microsoft.ResourceGraph",
+						"resources"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-04-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Azure Resource Graph - unhealthy resources",
+			"id": "38e7f1e1-557e-44e6-8426-8f8d94690710",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"securityresources | where type =~ 'microsoft.security/assessments' | extend assessmentStatusCode = tostring(properties.status.code) | where assessmentStatusCode =~ 'unhealthy' | extend firstEvaluationDate = todatetime(properties.status.firstEvaluationDate) | extend statusChangeDate = todatetime(properties.status.statusChangeDate) | extend resourceId = tostring(properties.resourceDetails.Id) | where statusChangeDate < todatetime(now(-7d))\"\n}"
+				},
+				"url": {
+					"raw": "{{resource}}/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview",
+					"host": [
+						"{{resource}}"
+					],
+					"path": [
+						"providers",
+						"Microsoft.ResourceGraph",
+						"resources"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-04-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Azure Resource Graph - unhealthy resourceIds",
+			"id": "1bba1d7b-6a78-41ac-869b-345d1c1cfaa8",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query\": \"securityresources | where type =~ 'microsoft.security/assessments' | extend assessmentStatusCode = tostring(properties.status.code) | where assessmentStatusCode =~ 'unhealthy' | extend firstEvaluationDate = todatetime(properties.status.firstEvaluationDate) | extend statusChangeDate = todatetime(properties.status.statusChangeDate) | extend resourceId = tostring(properties.resourceDetails.Id) | where statusChangeDate < todatetime(now(-7d)) | distinct resourceId\"\n}"
+				},
+				"url": {
+					"raw": "{{resource}}/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview",
+					"host": [
+						"{{resource}}"
+					],
+					"path": [
+						"providers",
+						"Microsoft.ResourceGraph",
+						"resources"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-04-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ASC Security Contacts",
+			"id": "7a042009-8aca-4853-a384-e88a0fdcfa04",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{resource}}subscriptions/{{subscriptionId}}/providers/Microsoft.Security/securityContacts?api-version=2020-01-01-preview",
+					"host": [
+						"{{resource}}subscriptions"
+					],
+					"path": [
+						"{{subscriptionId}}",
+						"providers",
+						"Microsoft.Security",
+						"securityContacts"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-01-01-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ASC External Security Solutions",
+			"id": "e75adf3b-4b78-43f9-a97d-01d99eee122b",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{resource}}subscriptions/{{subscriptionId}}/providers/Microsoft.Security/externalSecuritySolutions?api-version=2020-01-01",
+					"host": [
+						"{{resource}}subscriptions"
+					],
+					"path": [
+						"{{subscriptionId}}",
+						"providers",
+						"Microsoft.Security",
+						"externalSecuritySolutions"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2020-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{bearerToken}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "27b71889-428d-41c5-a01d-3be1fff38631",
+				"type": "text/javascript",
+				"exec": [
+					"if (!pm.collectionVariables.get(\"bearerToken\") || Date.now() > new Date(pm.collectionVariables.get(\"bearerTokenExpiresOn\") * 1000)) {",
+					"    pm.sendRequest({",
+					"        url: 'https://login.microsoftonline.com/' + pm.collectionVariables.get(\"tenantId\") + '/oauth2/token',",
+					"        method: 'POST',",
+					"        header: 'Content-Type: application/x-www-form-urlencoded',",
+					"        body: {",
+					"            mode: 'urlencoded',",
+					"            urlencoded: [",
+					"                { key: \"grant_type\", value: \"client_credentials\", disabled: false },",
+					"                { key: \"client_id\", value: pm.collectionVariables.get(\"clientId\"), disabled: false },",
+					"                { key: \"client_secret\", value: pm.collectionVariables.get(\"clientSecret\"), disabled: false },",
+					"                { key: \"resource\", value: pm.collectionVariables.get(\"resource\") || \"https://management.azure.com/\", disabled: false }",
+					"            ]",
+					"        }",
+					"    }, function (err, res) {",
+					"        if (err) {",
+					"            console.log(err);",
+					"        } else {",
+					"            let resJson = res.json();",
+					"            pm.collectionVariables.set(\"bearerTokenExpiresOn\", resJson.expires_on);",
+					"            pm.collectionVariables.set(\"bearerToken\", resJson.access_token);",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "69890346-2c3b-4146-addc-92d808f66b6b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "2e629829-bfe2-483e-be71-3eb34bbb738d",
+			"key": "clientId",
+			"value": "eff83ac2-3a00-4154-b70e-3c61e6dead32"
+		},
+		{
+			"id": "a8cb0bb0-dc95-464b-a7ee-1ce00fc49619",
+			"key": "clientSecret",
+			"value": "Ejs46uLr3cSR~62yrHAPP6f0KhQNYWN5.i"
+		},
+		{
+			"id": "19e8176d-0d48-47fd-919b-9cfadf393212",
+			"key": "tenantId",
+			"value": "fcfd8cf0-5436-4422-918d-dfcafba62a20"
+		},
+		{
+			"id": "54703912-ac62-4931-8937-f7d965c77273",
+			"key": "subscriptionId",
+			"value": "a6627d9f-1e09-4e46-8f37-8d65d41b1842"
+		},
+		{
+			"id": "415bb4bc-d0fc-4c91-ae7d-7552524c11f0",
+			"key": "resource",
+			"value": "https://management.azure.com/"
+		},
+		{
+			"id": "cddbd255-055f-4e1d-9063-0fb638084114",
+			"key": "bearerToken",
+			"value": ""
+		},
+		{
+			"id": "5dd11b18-82f0-4893-8d5e-d7992f1e530f",
+			"key": "bearerTokenExpiresOn",
+			"value": ""
+		}
+	]
+}

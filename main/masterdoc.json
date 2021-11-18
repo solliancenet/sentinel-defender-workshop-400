@@ -1,0 +1,60 @@
+[
+    {
+      "Name": "Microsoft Defender for Cloud L400 Workshop",
+      "Language": "English",
+      "Files": [
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity01-azure-defender-onboarding.md",
+          "Order": 1
+        },
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab01-azure-defender-part-i.md",
+          "Order": 2
+        },
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity02-azure-defender-onboarding-discussion.md",
+          "Order": 3
+        }     ,
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab02-azure-defender-part-ii.md",
+          "Order": 4
+        },
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab03-azure-defender-part-iii.md",
+          "Order": 5
+        }
+        ,
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab04-security-portals.md",
+          "Order": 6
+        }
+        ,
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity03-azure-defender.md",
+          "Order": 7
+        }
+        ,
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab05-azure-defender-part-iv.md",
+          
+          "Order": 8
+        }
+        ,
+        {
+            "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity04-attack-patterns.md",
+
+          "Order": 9
+        }
+        ,
+        {
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity05-restoring-systems.md",
+          "Order": 10
+        }
+        ,
+        {
+        "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab06-azure-defender-part-v.md",
+          "Order": 11
+        }
+      ]
+    }
+  ]

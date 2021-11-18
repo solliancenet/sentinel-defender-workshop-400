@@ -104,7 +104,7 @@ InstallChrome
 
 InstallNotepadPP
 
-InstallDocker
+InstallDockerDesktop
 
 InstallGit
         

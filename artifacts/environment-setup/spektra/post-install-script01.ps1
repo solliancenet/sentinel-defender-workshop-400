@@ -210,6 +210,38 @@ ConnectAzureActivityLog $resourceName $resourceGroupName;
 
 WaitForResource $resourceGroupName $resourceName "Microsoft.Sql/servers" 1000;
 
+#upload the bacpac file...
+$bacpacFilename = "Insurance.bacpac"
+
+# The ip address range that you want to allow to access your server
+$startip = "0.0.0.0";
+$endip = "0.0.0.0";
+
+cd "c:\labfiles\$workshopName\artifacts\environment-setup\automation";
+
+$databaseName = "Insurance";
+
+Set-AzStorageBlobContent -Container $storagecontainername -File $bacpacFilename -Context $dataLakeContext
+
+#create a database
+
+#allow azure
+$serverFirewallRule = New-AzSqlServerFirewallRule -ResourceGroupName $resourceGroupName -ServerName $serverName -AllowAllAzureIPs
+
+#deploy the bacpac file...
+$importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
+    -ServerName $serverName `
+    -DatabaseName $databaseName `
+    -DatabaseMaxSizeBytes 100GB `
+    -StorageKeyType "StorageAccessKey" `
+    -StorageKey $(Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName).Value[0] `
+    -StorageUri "https://$storageaccountname.blob.core.windows.net/$storageContainerName/$bacpacFilename" `
+    -Edition "Standard" `
+    -ServiceObjectiveName "S3" `
+    -AdministratorLogin "wsuser" `
+    -AdministratorLoginPassword $(ConvertTo-SecureString -String $password -AsPlainText -Force)
+
+
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 

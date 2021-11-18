@@ -140,8 +140,6 @@ InstallAzureCli
 
 InstallTor
 
-InstallFiddler
-
 InstallPowerBI
 
 InstallPython

@@ -20,6 +20,7 @@ $workshopName = "sentinel-defender-workshop-400";
 cd C:\LabFiles\"#IN_WORKSHOP_NAME#"\artifacts
 
 $ht = new-object System.Collections.Hashtable;
+$ht.add("#WORKSHOP_NAME#", "#IN_WORKSHOP_NAME#");
 $ht.add("#TODAY#",[DateTime]::NOW.ToString("yyyy-MM-dd"));
 $ht.add("#TOMORROW#",[DateTime]::NOW.AddDays(1).ToString("yyyy-MM-dd"));
 $ht.add("#YESTERDAY#",[DateTime]::NOW.AddDays(-1).ToString("yyyy-MM-dd"));
@@ -30,7 +31,6 @@ $ht.add("#PASSWORD#", "#IN_PASSWORD#");
 $ht.add("#WORKSPACE_NAME#", "#IN_WORKSPACE_NAME#");
 $ht.add("#STORAGE_ACCOUNT_NAME#", "#IN_STORAGE_ACCOUNT_NAME#");
 $ht.add("#STORAGE_ACCOUNT_KEY#", "#IN_STORAGE_ACCOUNT_KEY#");
-$ht.add("#WORKSPACE_NAME#", "#IN_STORAGE_ACCOUNT_NAME#");
 $ht.add("#WORKSPACE_ID#", "#IN_WORKSPACE_ID#");
 $ht.add("#WORKSPACE_KEY#", "#IN_WORKSPACE_KEY#");
 $ht.add("#SUBSCRIPTION_ID#", "#IN_SUBSCRIPTION_ID#");
@@ -41,7 +41,6 @@ $ht.add("#APP_SVC_URL#", "#IN_APP_SVC_URL#");
 $ht.add("#IP_1#", "203.160.71.100"); #china
 $ht.add("#IP_2#", "80.89.137.214"); #russia
 $ht.add("#IP_3#", "117.82.191.160"); #china
-$ht.add("#WORKSHOP_NAME#", "#IN_WORKSHOP_NAME#");
 
 UpdateFile "./day-01/Azure Sentinel ML.ipynb" $ht;
 

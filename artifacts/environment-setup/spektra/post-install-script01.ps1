@@ -105,7 +105,7 @@ InstallChrome
 
 InstallNotepadPP
 
-InstallDockerDesktop
+#InstallDockerDesktop "wsuser"
 
 InstallGit
         

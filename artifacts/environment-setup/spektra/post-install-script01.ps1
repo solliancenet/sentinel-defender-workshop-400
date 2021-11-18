@@ -194,25 +194,27 @@ Write-Host "Executing main ARM deployment" -ForegroundColor Green -Verbose
 #will fire deployment async so the main deployment shows "succeeded"
 ExecuteDeployment $templatesFile "$($parametersFile).json" $resourceGroupName;
 
+#wait for log analytics to be created...
+WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
+
+#set log analytics config
+SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
+
+DeployAllSolutions $resourceName $resourceGroupName;
+
 #wait for storage to be created...
 WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
 
 #connect the activity log - workspace must exist
 ConnectAzureActivityLog $resourceName $resourceGroupName;
 
+WaitForResource $resourceGroupName $resourceName "Microsoft.Sql/servers" 1000;
+
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 
 #enable vm vulnerability
 EnableVMVulnerability;
-
-#wait for log analytics to be created...
-WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
-
-#set log analytics config
-SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
-
-DeployAllSolutions $resourceName $resourceGroupName;
 
 #enable JIT
 $excludeVms = @("$resourceName-win10");

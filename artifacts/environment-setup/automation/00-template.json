@@ -1387,7 +1387,7 @@
       ],
       "properties": {
         "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataOwnerRoleID'))]",
-        "principalId": "[reference(concat('Microsoft.MachineLearningServices/workspaces/', variables('resourceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+        "principalId": "[reference(concat('Microsoft.MachineLearningServices/workspaces/', variables('resourceName')), '2021-10-01', 'Full').identity.principalId]",
         "principalType": "ServicePrincipal"
       }
     },

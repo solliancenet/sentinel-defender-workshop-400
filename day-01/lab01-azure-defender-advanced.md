@@ -5,9 +5,15 @@
 ### Task 1: Network Map
 
 1. Open the Azure Portal.
-2. Search for `Security Center`, then select it.
+2. Search for `Microsoft Defender for Cloud`, then select it.
 3. Under **Cloud Security**, select **Workload protections**.
+
+    ![Select Workload protections](./media/asc_workloadprotections.png "Select Workload protections")
+
 4. Select **Network Map**.
+
+    ![Select Network Map](./media/asc_networkmap.png "Select Network Map")
+
 5. Change all the filters to be **All**
 
    ![Network map filters are set to all](./media/asc_network_map_filters.png "Network map filters are set to all")
@@ -37,16 +43,18 @@
 
 ### Task 1: VM Vulnerability Assessment
 
-1. Open the Azure Portal
-2. Browse to **Security Center**
-3. Under **General**, select **Recommendations**
-4. Under the **Controls** section, expand the **Remediate vulnerabilities**
-5. Select the **Vulnerabilities in your virtual machine should be remediated** item, you should see a set of recommendations.
+1. Browse to **Microsoft Defender for Cloud**
+2. Under **General**, select **Recommendations**
+3. Under the **Controls** section, expand the **Remediate vulnerabilities**
+4. Select the **Vulnerabilities in your virtual machine should be remediated** item, you should see a set of recommendations.
 
     ![VM Vulnerabilities option.](./media/vm_vulnerabilities.png "VM Vulnerabilities item is highlighted")
 
-6. In the Azure Portal, search for **Resource Graph Explorer**
-7. In the query window, copy the following query:
+5. In the Azure Portal, search for **Resource Graph Explorer**
+
+    ![Open the resource Graph Explorer.](./media/search_resourcegraphexplorer.png "Open the resource Graph Explorer.")
+
+6. In the query window, copy the following query:
 
         ```kql
         securityresources 
@@ -71,84 +79,82 @@
         | order by all desc, numOfResources desc
         ```
 
-8. Press **Run query**
-9. You should see the same results as in the Azure Portal.
+7. Press **Run query**
+8. You should see the same results as in the Azure Portal.
 
     ![Assessment results are displayed.](./media/resource_graph_assessments_query.png "Assessment results are displayed.")
 
 ### Task 2: SQL Vulnerability Assessment
 
-1. Open the Azure Portal
-2. Browse to **Security Center**
-3. Under **General**, select **Recommendations**
-4. Under the **Controls** section, expand the **Remediate security configurations**
-5. Select the **SQL databases should have vulnerability findings resolved** item, you should see a set of recommendations.
+1. Browse to **Microsoft Defender for Cloud**
+2. Under **General**, select **Recommendations**
+3. Under the **Controls** section, expand the **Remediate security configurations**
+4. Select the **SQL databases should have vulnerability findings resolved** item, you should see a set of recommendations.
 
     ![SQL Vulnerabilities option.](./media/sql_vulnerabilities.png "SQL Vulnerabilities item is highlighted")
 
-6. In the Azure Portal, search for **Resource Graph Explorer**
-7. In the query window, run the following query:
+5. In the Azure Portal, search for **Resource Graph Explorer**
+6. In the query window, run the following query:
 
-        ```kql
-        securityresources 
-        | where type =~ "microsoft.security/assessments/subassessments"
-        | extend assessmentKey=extract(@"(?i)providers/Microsoft.Security/assessments/([^/]*)", 1, id), subAssessmentId=tostring(properties.id), parentResourceId= extract("(.+)/providers/Microsoft.Security", 1, id)
-        | extend resourceIdTemp = iff(properties.resourceDetails.id != "", properties.resourceDetails.id, extract("(.+)/providers/Microsoft.Security", 1, id))
-        | extend resourceId = iff(properties.resourceDetails.source =~ "OnPremiseSql", strcat(resourceIdTemp, "/servers/", properties.resourceDetails.serverName, "/databases/" , properties.resourceDetails.databaseName), resourceIdTemp)
-        | where assessmentKey == "82e20e14-edc5-4373-bfc4-f13121257c37"
-        | extend subAssessmentName=tostring(properties.displayName),
-            subAssessmentDescription=tostring(properties.description),
-            subAssessmentRemediation=tostring(properties.remediation),
-            subAssessmentCategory=tostring(properties.category),
-            subAssessmentImpact=tostring(properties.impact),
-            severity=tostring(properties.status.severity),
-            status=tostring(properties.status.code),
-            cause=tostring(properties.status.cause),
-            additionalData=tostring(properties.additionalData)
-        | summarize
-                numOfResources=dcount(resourceId),
-                (subAssessmentNameLatest, subAssessmentName)=arg_max(todatetime(properties.timeGenerated), subAssessmentName),
-                (subAssessmentCategoryLatest, subAssessmentCategory)=arg_max(todatetime(properties.timeGenerated), subAssessmentCategory),
-                (severityLatest, severity)=arg_max(todatetime(properties.timeGenerated), severity),
-                (subAssessmentDescriptionLatest, subAssessmentDescription)=arg_max(todatetime(properties.timeGenerated), subAssessmentDescription),
-                (subAssessmentRemediationLatest, subAssessmentRemediation)=arg_max(todatetime(properties.timeGenerated), subAssessmentRemediation),
-                (subAssessmentImpactLatest, subAssessmentImpact)=arg_max(todatetime(properties.timeGenerated), subAssessmentImpact),
-                (causeLatest, cause)=arg_max(todatetime(properties.timeGenerated), cause),
-                (additionalDataLatest, additionalData)=arg_max(todatetime(properties.timeGenerated), additionalData),
-                timeGenerated=max(todatetime(properties.timeGenerated))
-            by assessmentKey, subAssessmentId, status
-        | extend high = iff(severity == "High", 3,0), medium = iff(severity == "Medium", 2, 0), low = iff(severity == "Low", 1 ,0)
-        | extend all = high + medium + low
-        | order by all desc, numOfResources desc
-        ```
+    ```kql
+    securityresources 
+    | where type =~ "microsoft.security/assessments/subassessments"
+    | extend assessmentKey=extract(@"(?i)providers/Microsoft.Security/assessments/([^/]*)", 1, id), subAssessmentId=tostring(properties.id), parentResourceId= extract("(.+)/providers/Microsoft.Security", 1, id)
+    | extend resourceIdTemp = iff(properties.resourceDetails.id != "", properties.resourceDetails.id, extract("(.+)/providers/Microsoft.Security", 1, id))
+    | extend resourceId = iff(properties.resourceDetails.source =~ "OnPremiseSql", strcat(resourceIdTemp, "/servers/", properties.resourceDetails.serverName, "/databases/" , properties.resourceDetails.databaseName), resourceIdTemp)
+    | where assessmentKey == "82e20e14-edc5-4373-bfc4-f13121257c37"
+    | extend subAssessmentName=tostring(properties.displayName),
+        subAssessmentDescription=tostring(properties.description),
+        subAssessmentRemediation=tostring(properties.remediation),
+        subAssessmentCategory=tostring(properties.category),
+        subAssessmentImpact=tostring(properties.impact),
+        severity=tostring(properties.status.severity),
+        status=tostring(properties.status.code),
+        cause=tostring(properties.status.cause),
+        additionalData=tostring(properties.additionalData)
+    | summarize
+            numOfResources=dcount(resourceId),
+            (subAssessmentNameLatest, subAssessmentName)=arg_max(todatetime(properties.timeGenerated), subAssessmentName),
+            (subAssessmentCategoryLatest, subAssessmentCategory)=arg_max(todatetime(properties.timeGenerated), subAssessmentCategory),
+            (severityLatest, severity)=arg_max(todatetime(properties.timeGenerated), severity),
+            (subAssessmentDescriptionLatest, subAssessmentDescription)=arg_max(todatetime(properties.timeGenerated), subAssessmentDescription),
+            (subAssessmentRemediationLatest, subAssessmentRemediation)=arg_max(todatetime(properties.timeGenerated), subAssessmentRemediation),
+            (subAssessmentImpactLatest, subAssessmentImpact)=arg_max(todatetime(properties.timeGenerated), subAssessmentImpact),
+            (causeLatest, cause)=arg_max(todatetime(properties.timeGenerated), cause),
+            (additionalDataLatest, additionalData)=arg_max(todatetime(properties.timeGenerated), additionalData),
+            timeGenerated=max(todatetime(properties.timeGenerated))
+        by assessmentKey, subAssessmentId, status
+    | extend high = iff(severity == "High", 3,0), medium = iff(severity == "Medium", 2, 0), low = iff(severity == "Low", 1 ,0)
+    | extend all = high + medium + low
+    | order by all desc, numOfResources desc
+    ```
 
-8. You should see the same results as in the Azure Portal.
+7. You should see the same results as in the Azure Portal.
 
 ### Task 3: File Integrity
 
-1. Open the Azure Portal
-2. Browse to the **wssecuritySUFFIX** log analytics workspace
-3. Under **General**, select **Logs**
-4. Close any dialogs
-5. Expand the **Change Tracking** category/solution, notice the two tables `ConfigurationChange` and `ConfigurationData`
+1. Browse to the **wssecuritySUFFIX** log analytics workspace
+2. Under **General**, select **Logs**
+3. Close any dialogs
+4. Expand the **Change Tracking** category/solution, notice the two tables `ConfigurationChange` and `ConfigurationData`
 
     ![Log analytics change tracking tables.](./media/log_analytics_change_tracking.png "Log analytics change tracking tables.")
 
-6. To find changes to files that contain a path, run the following query:
+5. To find changes to files that contain a path, run the following query:
 
     ```kql
     ConfigurationChange
     | where ConfigChangeType == "Files" and FileSystemPath contains " c:\windows\system32\drivers\"
     ```
 
-7. To find changes to windows services, run the following query:
+6. To find changes to windows services, run the following query:
 
     ```kql
     ConfigurationChange
     | where ConfigChangeType == "WindowsServices" and SvcName contains "w3svc" and SvcState == "Stopped"
     ```
 
-8. To find changes to registry settings, run the following query:
+7. To find changes to registry settings, run the following query:
 
     ```kql
     ConfigurationChange
@@ -157,11 +163,10 @@
 
 ### Task 4: Container Image Scanning
 
-1. Open the Azure Portal
-2. Browse to the **wssecuritySUFFIX** log analytics workspace
-3. Under **General**, select **Logs**
-4. Close any dialogs
-5. Run the following query:
+1. Browse to the **wssecuritySUFFIX** log analytics workspace
+2. Under **General**, select **Logs**
+3. Close any dialogs
+4. Run the following query:
 
     ```kql
     SecurityBaseline
@@ -197,18 +202,17 @@
 
 ### Task 5: Adaptive Application Control
 
-1. Open the Azure Portal
-2. Browse to **Security Center**
-3. Under **Cloud Security**, select **Workload Protections**
-4. At the bottom of the page, select **Adaptive application control**
-5. Select the group with the most machines:
+1. Browse to **Microsoft Defender for Cloud**
+2. Under **Cloud Security**, select **Workload Protections**
+3. At the bottom of the page, select **Adaptive application control**
+4. Select the group with the most machines:
 
     ![Adaptive Application control.](./media/adaptive_application_control.png "Adaptive Application control.")
 
-6. Select **Audit**, wait for the protection mode to be **Auditing**
-7. Review each of the sections by expanding them.  You will likely not see any data for a few hours.
-8. In the Azure Portal, search for **Resource Graph Explorer**
-9. In the query window, run the following query to see application control events:
+5. Select **Audit**, wait for the protection mode to be **Auditing**
+6. Review each of the sections by expanding them.  You will likely not see any data for a few hours.
+7. In the Azure Portal, search for **Resource Graph Explorer**
+8. In the query window, run the following query to see application control events:
 
     ```kql
     securityresources
@@ -353,7 +357,7 @@ You can gain access to the data in the network map through the Azure Management 
 
 ### Task 1: Enable Continuous Export
 
-1. Browse to Azure Security Center
+1. Browse to Azure Microsoft Defender for Cloud
 2. Under **Management**, select **Pricing and settings**
 3. Select the lab subscription
 
@@ -390,32 +394,35 @@ You can gain access to the data in the network map through the Azure Management 
 
 ### Task 1: Enable Microsoft Defender for IoT
 
-1. Open the Azure Portal
-2. Browse to the **wssecuritySUFFIX** IoT Hub
-3. Under **Security**, select **Overview**
-4. Select **Secure your IoT solutions**, then refresh the page
+1. Browse to the **wssecuritySUFFIX** IoT Hub
+2. Under **Defender for IoT**, select **Overview**
+
+    ![Microsoft Defender for IoT.](./media/iot_defender_overview.png "Microsoft Defender for IoT.")
+
+3. Select **Secure your IoT solution**, then refresh the page
 
     ![Microsoft Defender for IoT.](./media/azure_defender_iot.png "Microsoft Defender for IoT.")
 
-5. Under **Security**, select **Settings**
-6. Select **Data Collection**
-7. For the workspace configuration, toggle to **On**
-8. Select the lab subscription
-9. Select the **wssecuritySUFFIX** workspace
+4. Under **Defender for IoT**, select **Settings**
+5. Select **Data Collection**
+
+    ![Microsoft Defender for IoT.](./media/azure_defender_iot_settings.png "Microsoft Defender for IoT.")
+
+6. For the workspace configuration, toggle to **On**
+7. Select the lab subscription
+8. Select the **wssecuritySUFFIX** workspace
 
     ![Microsoft Defender for IoT settings.](./media/azure_defender_iot_data_settings.png "Microsoft Defender for IoT settings.")
 
-10. Select **Save**
+9. Select **Save**
 
 ## Reference Links
 
 - [Network Map](https://docs.microsoft.com/en-us/azure/security-center/security-center-network-recommendations#network-map)
 - [VM Vulnerability Assessments](https://docs.microsoft.com/en-us/azure/security-center/deploy-vulnerability-assessment-vm)
 - [SQL Vulnerability Assessments](https://docs.microsoft.com/en-us/azure/azure-sql/database/sql-vulnerability-assessment)
-- [File Integrity](https://docs.microsoft.com/en-us/azure/security-center/security-center-file-integrity-monitoring)
 - [Container Image Scanning](https://docs.microsoft.com/en-us/azure/security-center/defender-for-container-registries-introduction)
 - [Adaptive Network Hardening](https://docs.microsoft.com/en-us/azure/security-center/security-center-adaptive-network-hardening)
 - [JIT VM Access](https://docs.microsoft.com/en-us/azure/security-center/security-center-just-in-time?tabs=jit-config-asc%2Cjit-request-asc)
-- [Continuos Export](https://docs.microsoft.com/en-us/azure/security-center/continuous-export?tabs=azure-portal)
 - [Azure Resource Graph](https://docs.microsoft.com/en-us/azure/governance/resource-graph/)
 - [Microsoft Defender for IoT](https://docs.microsoft.com/en-us/azure/defender-for-iot/)

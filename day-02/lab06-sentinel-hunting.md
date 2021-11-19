@@ -32,11 +32,11 @@ The previous exercise created a breach in a system in your environment. You will
 
 ### Task 1: Review Alerts
 
-1. Open Azure Security Center
+1. Open Microsoft Defender for Cloud
 2. Under **General**, select **Security alerts**
 3. Select the alert called **Potential attempt to bypass AppLocker detected**
 
-    ![Azure Security Center alerts.](./media/azure_security_center_alerts.png "Select the first alert")
+    ![Microsoft Defender for Cloud alerts.](./media/azure_security_center_alerts.png "Select the first alert")
 
 4. Select **View full details**
 

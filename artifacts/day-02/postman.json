@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "5a550f98-8890-4319-aa33-36e3b2370eb0",
-		"name": "Azure Security Center REST APIs",
+		"name": "Microsoft Defender for Cloud REST APIs",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [

@@ -153,7 +153,7 @@
 3. For the type, select **ipv4-addr**
 4. For the address type **80.89.137.214**
 
-    > **NOTE** This is a known bad ip address originating from Russia and injected into the Azure Security Center and Sentinel logs from previous steps.
+    > **NOTE** This is a known bad ip address originating from Russia and injected into the Microsoft Defender for Cloud and Sentinel logs from previous steps.
 
 5. For the threat types, select all options
 6. For the confidence, move the scroll bar to **100**

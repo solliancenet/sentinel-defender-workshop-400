@@ -1,6 +1,6 @@
 # Activity 3: Estimating Azure Sentinel + Log Analytics
 
-Wide World Importers would like to explore migrating from their on-premises SIEM/SOAR system to Azure Defender + Log Analytics + Azure Sentinel.  They would like to have Microsoft present a migration path and potential costs.
+Wide World Importers would like to explore migrating from their on-premises SIEM/SOAR system to Microsoft Defender for Cloud + Log Analytics + Azure Sentinel.  They would like to have Microsoft present a migration path and potential costs.
 
 **Requirements**
 

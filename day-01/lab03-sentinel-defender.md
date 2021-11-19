@@ -41,9 +41,9 @@
 3. Select **Connect**
 4. Select **Enable**
 
-### Task 3: Enable Azure Defender Connector
+### Task 3: Enable Microsoft Defender Connector
 
-1. Navigate back to Azure Sentinel blade, select **Azure Defender**
+1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Cloud**
 2. Select **Open connector page**
 3. Select your subscription, then select **Connect**
 4. In the dialog, select **OK**
@@ -84,7 +84,7 @@
 ## Exercise 3 : Azure Sentinel Workbooks
 
 1. In the Azure Sentinel blade, under **Threat Management**, select **Workbooks**
-2. Select **Azure Defender for IoT Alerts**
+2. Select **Microsoft Defender for IoT Alerts**
 
    ![IoT Workbook is displayed.](media/sentinel-workbook-iot.png "Select the IoT Workbook")
 

@@ -1,4 +1,4 @@
-# Azure Security Center + Azure Defender Setup : Lab 2 : Execute Azure Defender Protections
+# Microsoft Defender for Cloud : Lab 2 : Execute Protections
 
 ## Exercise 1: Network Map
 
@@ -6,7 +6,7 @@
 
 1. Open the Azure Portal.
 2. Search for `Security Center`, then select it.
-3. Under **Cloud Security**, select **Azure Defender**.
+3. Under **Cloud Security**, select **Workload protections**.
 4. Select **Network Map**.
 5. Change all the filters to be **All**
 
@@ -33,7 +33,7 @@
 15. Select the **wssecuritySUFFIX** protection plan
 16. Select **Save**
 
-## Exercise 2: Azure Defender KQL Queries
+## Exercise 2: Microsoft Defender for Cloud KQL Queries
 
 ### Task 1: VM Vulnerability Assessment
 
@@ -199,7 +199,7 @@
 
 1. Open the Azure Portal
 2. Browse to **Security Center**
-3. Under **Cloud Security**, select **Azure Defender**
+3. Under **Cloud Security**, select **Workload Protections**
 4. At the bottom of the page, select **Adaptive application control**
 5. Select the group with the most machines:
 
@@ -386,16 +386,16 @@ You can gain access to the data in the network map through the Azure Management 
     SecurityRecommendation
     ```
 
-## Exercise 4: Azure Defender for IoT
+## Exercise 4: Microsoft Defender for IoT
 
-### Task 1: Enable Azure Defender for IoT
+### Task 1: Enable Microsoft Defender for IoT
 
 1. Open the Azure Portal
 2. Browse to the **wssecuritySUFFIX** IoT Hub
 3. Under **Security**, select **Overview**
 4. Select **Secure your IoT solutions**, then refresh the page
 
-    ![Azure Defender for IoT.](./media/azure_defender_iot.png "Azure Defender for IoT.")
+    ![Microsoft Defender for IoT.](./media/azure_defender_iot.png "Microsoft Defender for IoT.")
 
 5. Under **Security**, select **Settings**
 6. Select **Data Collection**
@@ -403,7 +403,7 @@ You can gain access to the data in the network map through the Azure Management 
 8. Select the lab subscription
 9. Select the **wssecuritySUFFIX** workspace
 
-    ![Azure Defender for IoT settings.](./media/azure_defender_iot_data_settings.png "Azure Defender for IoT settings.")
+    ![Microsoft Defender for IoT settings.](./media/azure_defender_iot_data_settings.png "Microsoft Defender for IoT settings.")
 
 10. Select **Save**
 
@@ -418,4 +418,4 @@ You can gain access to the data in the network map through the Azure Management 
 - [JIT VM Access](https://docs.microsoft.com/en-us/azure/security-center/security-center-just-in-time?tabs=jit-config-asc%2Cjit-request-asc)
 - [Continuos Export](https://docs.microsoft.com/en-us/azure/security-center/continuous-export?tabs=azure-portal)
 - [Azure Resource Graph](https://docs.microsoft.com/en-us/azure/governance/resource-graph/)
-- [Azure Defender for IoT](https://docs.microsoft.com/en-us/azure/defender-for-iot/)
+- [Microsoft Defender for IoT](https://docs.microsoft.com/en-us/azure/defender-for-iot/)

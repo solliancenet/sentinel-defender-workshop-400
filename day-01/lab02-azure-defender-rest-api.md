@@ -1,4 +1,4 @@
-# Azure Security Center + Azure Defender : Lab 2 : REST APIs
+# Microsoft Defender for Cloud : Lab 2 : REST APIs
 
 ## Exercise 1: REST APIs
 
@@ -149,7 +149,7 @@
     ```
 
 8. Select **Close & Apply**, when prompted, enter your lab credentials
-9. You should see all the tabs update with Azure Defender related items. Review each tab.
+9. You should see all the tabs update with Microsoft Defender for Cloud related items. Review each tab.
 
 ## Reference Links
 

@@ -266,9 +266,6 @@ $dataLakeStorageBlobUrl = "https://"+ $wsName + ".blob.core.windows.net/"
 $dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $wsName)[0].Value
 $dataLakeContext = New-AzStorageContext -StorageAccountName $wsName -StorageAccountKey $dataLakeStorageAccountKey
 
-$storageContainerName = "sqlimport";
-$sqlImportContainer = New-AzStorageContainer -Permission Container -name $storageContainerName -context $dataLakeContext;
-
 $container = New-AzStorageContainer -Permission Container -name "logs" -context $dataLakeContext;
 $destinationSasKey = New-AzStorageContainerSASToken -Container "logs" -Context $dataLakeContext -Permission rwdl
 

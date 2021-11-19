@@ -1,4 +1,4 @@
-# Azure Security Center + Azure Defender Setup : Lab 4 : Setup incident response with on-premises runbooks
+# Microsoft Defender for Cloud Setup : Lab 4 : Setup incident response with on-premises runbooks
 
 ## Exercise 1: Setup gateway agent
 

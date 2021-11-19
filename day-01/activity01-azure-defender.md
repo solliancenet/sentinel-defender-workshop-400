@@ -1,4 +1,4 @@
-# Activity 01: Azure Defender
+# Activity 01: Microsoft Defender for Cloud
 
 Contoso is migrating their entire on-premises infrastructure to Azure.  They would like to implement security best practices across all of their migrated resources and ensure that new resources meet their baseline standards.
 

@@ -167,11 +167,11 @@ $content = $content | ForEach-Object {$_ -Replace "GET-REGION", $region};
 $content = $content | ForEach-Object {$_ -Replace "ARTIFACTS-LOCATION", "https://raw.githubusercontent.com/$repoUrl/$branchName/artifacts/environment-setup/automation/"};
 $content | Set-Content -Path "$($parametersFile).json";
 
-#enable azure defender on the subscription - do BEFORE deployment
+#enable Microsoft defender for cloud on the subscription - do BEFORE deployment
 EnableAzureDefender
 
 #setup agent provisioning...
-EnableASCAutoProvision
+EnableASCAutoProvision $resourceName;
 
 #enable the default policy
 EnableDefaultASCPolicy
@@ -194,14 +194,6 @@ Write-Host "Executing main ARM deployment" -ForegroundColor Green -Verbose
 #will fire deployment async so the main deployment shows "succeeded"
 ExecuteDeployment $templatesFile "$($parametersFile).json" $resourceGroupName;
 
-#wait for log analytics to be created...
-WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
-
-#set log analytics config
-SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
-
-DeployAllSolutions $resourceName $resourceGroupName;
-
 #wait for storage to be created...
 WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
 
@@ -219,7 +211,18 @@ $endip = "0.0.0.0";
 
 cd "c:\labfiles\$workshopName\artifacts\environment-setup\automation";
 
+$wsName = $resourceName;
+$serverName = $resourceName;
+$storageAccountName = $resourceName;
+
+$dataLakeStorageBlobUrl = "https://"+ $wsName + ".blob.core.windows.net/"
+$dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $wsName)[0].Value
+$dataLakeContext = New-AzStorageContext -StorageAccountName $wsName -StorageAccountKey $dataLakeStorageAccountKey
+
 $databaseName = "Insurance";
+
+$storageContainerName = "sqlimport";
+$sqlImportContainer = New-AzStorageContainer -Permission Container -name $storageContainerName -context $dataLakeContext;
 
 Set-AzStorageBlobContent -Container $storagecontainername -File $bacpacFilename -Context $dataLakeContext
 
@@ -241,6 +244,13 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -AdministratorLogin "wsuser" `
     -AdministratorLoginPassword $(ConvertTo-SecureString -String $password -AsPlainText -Force)
 
+#wait for log analytics to be created...
+WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
+
+DeployAllSolutions $resourceName $resourceGroupName;
+
+#set log analytics config - not needed b/c autoprovisioning?
+#SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
@@ -249,14 +259,10 @@ EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroup
 EnableVMVulnerability;
 
 #enable JIT
-$excludeVms = @("$resourceName-win10");
+#$excludeVms = @("$resourceName-win10");
+#$excludeVms = @("labvm-$deploymentId");
 
 EnableJIT $resourceGroupName $excludeVms;
-
-cd "./$workshopName/artifacts/environment-setup/automation"
-
-#execute setup scripts
-Write-Host "Executing post scripts." -ForegroundColor Green -Verbose
 
 sleep 20
 

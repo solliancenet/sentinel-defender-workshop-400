@@ -20,6 +20,8 @@ $workshopName = "sentinel-defender-workshop-400";
 cd C:\LabFiles\"#IN_WORKSHOP_NAME#"\artifacts
 
 $ht = new-object System.Collections.Hashtable;
+
+$ht.add("#USERNAME#", "#IN_USERNAME#");
 $ht.add("#WORKSHOP_NAME#", "#IN_WORKSHOP_NAME#");
 $ht.add("#TODAY#",[DateTime]::NOW.ToString("yyyy-MM-dd"));
 $ht.add("#TOMORROW#",[DateTime]::NOW.AddDays(1).ToString("yyyy-MM-dd"));
@@ -43,6 +45,9 @@ $ht.add("#IP_2#", "80.89.137.214"); #russia
 $ht.add("#IP_3#", "117.82.191.160"); #china
 
 UpdateFile "./day-01/Azure Sentinel ML.ipynb" $ht;
+UpdateFile "./day-01/ExportLogsToStorage.ipynb" $ht;
+UpdateFile "./day-01/ExportLogsToStorage.ps1" $ht;
+UpdateFile "./day-01/storage_post.json" $ht;
 
 UpdateFile "./day-02/logfile.txt" $ht;
 UpdateFile "./day-02/logs.json" $ht;
@@ -53,11 +58,9 @@ UpdateFile "./day-02/Attack_windows.ps1" $ht;
 UpdateFile "./day-02/Enumerate.ps1" $ht;
 UpdateFile "./day-02/CreateExternalTable.ps1" $ht;
 UpdateFile "./day-02/CreateIncident.ps1" $ht;
-UpdateFile "./day-02/ExportLogsToStorage.ipynb" $ht;
-UpdateFile "./day-02/ExportLogsToStorage.ps1" $ht;
-UpdateFile "./day-02/storage_post.json" $ht;
 UpdateFile "./day-02/incident_post.json" $ht;
 UpdateFile "./day-02/EnableAzureAutomation.ps1" $ht;
+UpdateFile "./day-02/riskiq-runbook.json" $ht;
 
 UpdateFile "./day-02/users.csv" $ht;
 UpdateFile "./day-02/logfile.txt" $ht;
@@ -65,7 +68,6 @@ UpdateFile "./day-02/host_logins.csv" $ht;
 UpdateFile "./day-02/logs.json" $ht;
 UpdateFile "./day-02/aad_logons.pkl" $ht;
 UpdateFile "./day-02/webattack.ps1" $ht;
-UpdateFile "./day-02/riskiq-runbook.json" $ht;
 
 UpdateFile "./day-02/logs-01/logs-01.log" $ht;
 UpdateFile "./day-02/logs-01/logs-02.log" $ht;

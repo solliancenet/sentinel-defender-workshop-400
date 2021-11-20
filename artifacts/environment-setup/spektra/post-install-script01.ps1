@@ -108,7 +108,7 @@ InstallNotepadPP
 #InstallDockerDesktop "wsuser"
 
 InstallGit
-        
+       
 InstallAzureCli
 
 InstallOffice

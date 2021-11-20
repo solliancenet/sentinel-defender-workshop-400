@@ -6,7 +6,7 @@ $exportName = "ExportStorageAccount";
 
 $url = "https://management.azure.com/subscriptions/$subscriptionId/resourcegroups/$resourceGroupName/providers/Microsoft.operationalInsights/workspaces/$workspaceName/dataexports/$($exportName)?api-version=2020-08-01";
 
-cd "c:/labfiles/#WORKSHOP_NAME#/artifacts/day-02";
+cd "c:/labfiles/#WORKSHOP_NAME#/artifacts/day-01";
 
 $post = get-content "storage_post.json";
 
@@ -15,11 +15,13 @@ $post = get-content "storage_post.json";
 #$post = $post.replace("#WORKSPACE_NAME#",$workspaceName);
 #$post = $post.replace("#STORAGE_ACCOUNT_NAME#",$storageAccountName);
 
-#login so you can get a token
-az login -u #USERNAME# -p #PASSWORD#
+. C:\LabFiles\Common.ps1
 
-#get an access token...
-$tokenValue = ((az account get-access-token --resource https://management.azure.com) | ConvertFrom-Json).accessToken
+Login-AzureCredsPowerShell
+
+$azToken = Get-AzAccessToken -ResourceUrl "https://management.azure.com";
+
+tokenValue = $azToken.Token;
 
 #do the post...
 $headers = @{

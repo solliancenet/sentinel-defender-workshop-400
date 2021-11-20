@@ -450,6 +450,90 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 4. Eventually the incident will be ready to be investigated, in the meantime we will continue with some other lab work.
 
+## Exercise 5 : Extending Azure Sentinel Incidents (Optional)
+
+This task requires registration to gain access to an API Key. It can take a few days to do this action.
+
+### Task 1 : RiskIQ Api Key
+
+1. Open a browser window to https://api.riskiq.net
+2. In the left navigation, select the **Register Now** link, or login to your account
+3. Fill out the form, login using the email you used in the form
+4. Register and validate your email address in the verification email
+5. [Login to the site](https://community.riskiq.com/login), select the profile icon, then select **Account Settings**
+
+    ![The click path is displayed.](./media/maxmind-profile.png "Browse to the API key")
+
+6. Select **Show** for the User, record your API Key and Secret
+
+### Task 2 : Extend Azure Sentinel
+
+1. Switch to the Azure Portal, browse to your resource group
+2. Select **Create**
+3. Search for **Template deployment**, then select it
+4. Select **Create**
+5. Select **Build your own template in the editor**
+6. Copy the **/artifacts/day-02/riskiq-runbook.json** into the template window.
+7. Select **Save**
+8. For the playbook name, ensure **Recent-Host-Passive-DNS** is displayed
+9. For your username, type the lab username (ex: odl_user_SUFFIX@DOMAIN.onmicrosoft.com):
+
+    ![The custom deployment parameters are displayed.](./media/riskiq-azure-deployment.png "Enter the template parameters")
+
+10. Select **Review and create**
+11. Select **Create**
+12. In the Azure portal, navigate to your Azure Sentinel workspace
+13. Under **Configuration**, select **Automation** from the Azure Sentinel navigation menu
+14. Select the **Active playbooks** tab
+15. Select the **Recent-Host-Passive-DNS** playbook by selecting the playbook name
+
+    ![The imported playbook is displayed.](./media/riskiq-playbook.png "Select the imported playbook")
+
+16. Under **Development Tools**, select **API Connections**
+17. Select the **azuresentinel-Recent-Host-Passive-DNS** connection
+
+    ![RiskIQ settings are displayed.](./media/riskiq-connections.png "Enter your information")
+
+18. Under **General**, select **Edit API Connection**
+19. Select **Authorize**
+20. Login using your lab credentials
+21. Select **Save**
+22. Select the **riskiqintelligence-Recent-Host-Passive-DNS** connection
+23. Under **General**, select **Edit API Connection**
+24. Enter your RiskIQ API token and secret obtained from RiskIQ portal
+
+    ![RiskIQ settings are displayed.](./media/riskiq-connections-2.png "Enter your information")
+
+25. Select **Save**
+26. Navigate to your Azure Sentinel **Analytics** page
+27. Select the **Custom Threats** rule you created earlier, then select **Edit**
+
+    > **NOTE** The Recent-IP-Passive-DNS playbook works with analytics rules which map IP address entities so make sure you are working with such a rule. For simple testing of the playbook automation you can use rule logic as shown below to force an alert creation with a specific IP address.
+
+    ```output
+    AzureActivity
+    | take 1
+    | extend IPCustomEntity = "144.91.119.160"
+    ```
+
+28. Navigate to the **Automated response** tab
+29. Place a check mark in the box for the Recent-Host-Passive-DNS playbook which will enable the playbook to run each time the analytic rule generates security alerts
+30. Select **Next: Review**
+31. Select **Save** to finish and return to the Analytics page
+
+### Task 3 : Review Incident
+
+1. Navigate back to your Azure Sentinel Incidents page
+2. Locate the new incident generated from the analytic rule previously and select it
+3. Select **View full details** from the information pane
+4. Select the **View playbooks** on the far right
+5. For the **Recent-Host-Passive-DNS** playbook, select **Run**.  After a few moments you will see a new comment added.
+6. Select the **Comments** tab to see the enrichment added by the Recent-Host-Passive-DNS playbook automation. You can also view the information in the RiskIQ portal by following the link provided at the bottom of the comment.
+
+    ![Azure Sentinel incident is enriched with comments.](./media/sentinel-enrichment.png "Review the enrichment comments")
+
+> **Congrats, you have used Machine Learning to analyze signals from your Azure resources and tied that data to Azure Sentinel with extended external API calls for incident enrichment. Good luck on your security journey in Azure!**
+
 ## Reference Links
 
 - [Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/overview)

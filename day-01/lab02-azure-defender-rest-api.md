@@ -98,11 +98,10 @@
     ![Open advanced editor.](./media/power-bi-alerts-advanced-edit.png "Open advanced editor")
 
 5. Repeat for all the data sources in the Power BI report.
-6. Run the following PowerShell to get your subscription, tenant and workspaceId
-7. Run the `/artifacts/day-01/GenerateVariables.ps1` PowerShell script
-8. Run the `/artifacts/day-01/GenerateTokens.ps1` PowerShell script
-9. Select **Close & Apply**, when prompted, enter your lab credentials
-10. You should see all the tabs update with Microsoft Defender for Cloud related items. Review each tab.
+6. Run the `/artifacts/day-01/GenerateVariables.ps1` PowerShell script, this will retrieve your subscription, tenant and workspaceId into a file
+7. Run the `/artifacts/day-01/GenerateTokens.ps1` PowerShell script, this will generate access tokens valid for one hour for accessing the various rest apis
+8. Select **Refresh Preview**, you should see all the data sources update with Microsoft Defender for Cloud related items.
+9. Review each data source.
 
 ## Reference Links
 

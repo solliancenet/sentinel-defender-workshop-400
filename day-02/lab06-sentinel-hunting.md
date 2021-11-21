@@ -20,10 +20,10 @@ You will execute an attack on your paw virtual machine that will do some not so 
 
 ### Task 1: Execute Attack
 
-1. Open a PowerShell window, run the following, please do not look at the script (it won't help you much anyway):
+1. Open a PowerShell window, run the following:
 
     ```PowerShell
-    `.\artifacts\day-02\Attack_windows.ps1`
+    & powershell.exe -encodedCommand "YwBkACAAIgBDADoAXABsAGEAYgBmAGkAbABlAHMAXABzAGUAbgB0AGkAbgBlAGwALQBkAGUAZgBlAG4AZABlAHIALQB3AG8AcgBrAHMAaABvAHAALQA0ADAAMABcAGEAcgB0AGkAZgBhAGMAdABzAFwAZABhAHkALQAwADIAIgANAAoADQAKAC4AXABBAHQAdABhAGMAawBfAHcAaQBuAGQAbwB3AHMALgBwAHMAMQA="
     ```
 
     > **Note** This script will execute some commands that were the result of a hacker gaining access to the credentials of an administrator.  It is up to you to determine how they did it through the next series of exercises.

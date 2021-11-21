@@ -7,6 +7,15 @@ function CreateMacro($file)
     return $cmd;
 }
 
+function CreateEncodedCommand($file)
+{
+    $encoded = EncodeScript $file;
+
+    $cmd = "`"powershell.exe -encodedCommand $encoded`"";
+
+    return $cmd;
+}
+
 function EncodeScript($file)
 {
     $raw = get-content $file -raw;
@@ -20,6 +29,10 @@ $file = "$path\Enumerate.ps1";
 
 $cmd = EncodeScript $file;
 
+$file = "$path\Obfuscate.ps1";
+
+CreateEncodedCommand $file;
+
 #$cmd = CreateMacro $file;
 
-$cmd;
+#$cmd;

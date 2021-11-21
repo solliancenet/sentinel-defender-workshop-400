@@ -300,6 +300,8 @@ $targetPath = "";
 
 UploadFolderToOnedrive $sourcepath $targetpath;
 
+mkdir c:\logs -ea SilentlyContinue;
+
 InstallICD
 
 Install-WindowsFeature -Name Windows-Server-Antimalware

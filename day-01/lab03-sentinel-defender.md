@@ -86,7 +86,19 @@
 3. Select **All Events** radio button
 4. Select **Apply Changes**
 
-### Task 6: Enable Defender for Endpoint
+### Task 6: Enable DNS Events
+
+1. Navigate back to Azure Sentinel blade, select **DNS (Preview)**
+2. Select **Open connector page**
+3. Select **Install Solution** radio button
+
+### Task 7: Enable Windows Firewall
+
+1. Navigate back to Azure Sentinel blade, select **Windows Firewall**
+2. Select **Open connector page**
+3. Select **Install Solution** radio button
+
+### Task 8: Enable Defender for Endpoint
 
 1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Endpoint**
 2. Select **Open connector page**

@@ -48,25 +48,34 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
 22. Select **Next**
 23. For the log collection paths, select **Windows**, then type **C:\logs\\*.log**
+
+    ![Log Analytics add custom log.](./media/log-analytics-custom-collectionpath.png "Log Analytics workspace add custom log")
+
 24. Select **Next**
 25. For the name, type **CustomSecurity**
+
+    ![Log Analytics add custom log.](./media/log-analytics-custom-collectionpath-name.png "Log Analytics workspace add custom log")
+
 26. Select **Next**
 27. Select **Create**
-28. Select **Save**, in the dialog select **OK**
-29. Browse back to the log analytics workspace blade
-30. Under **Workspace Data Sources**, select **Virtual Machines**
-31. Select the **wssecuritySUFFIX-linux-1** machine
-32. Select **Connect**.
 
-> **Note** If you get an error, browse to the **wssecuritySUFFIX-linux-1** virtual machine and start it and attempt to connect again.
+### Task 2: Ensure VM Connections
+
+1. Under **Workspcae Data Sources**, select **Virtual Machines**
+2. Make sure all the virtual machines are connected to the workspace
+3. If they are not connected, un-connect them and re-connect to the **wssecuritySUFFIX** workspace
+
+    ![Log Analytics connections.](./media/log-analytics-vms-connected.png "Log Analytics connections")
 
 ### Task 3: Generate some log data
 
 1. In the **Paw-1** virtual machine, copy the **c:\lab files\sentinel-defender-workshop-400\artifacts\day-02\logs-01** folder contents to the **c:\logs** folder
 
+    > **NOTE** If the folder does not exist, create it.
+
 ### Task 4: Setup Sysmon
 
-1. From the **paw-1** virtual machine, unzip the **c:\labfiles\security-workshop\artifacts\day-02\sysmon.zip** file
+1. From the **paw-1** virtual machine, unzip the **c:\labfiles\sentinel-defender-workshop-400\artifacts\day-02\sysmon.zip** file
 2. Right-click it and select **Extract All**, then select **Extract**
 3. Open a command prompt, run the following command:
 
@@ -74,6 +83,8 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
     cd c:\labfiles\sentinel-defender-workshop-400\artifacts\day-02\sysmon
     sysmon -accepteula -I
     ```
+
+    > **NOTE** Since we enabled the log collection in a previous step, all sysmon logs will be ingested into Log Analytics.
 
 ### Task 5: Search custom logs #1
 
@@ -98,11 +109,15 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
     > **NOTE** It could take 5-10 minutes before you see custom log data. Azure Monitor will collect new entries from each custom log approximately every 5 minutes.
 
-7. You should see the following results, notice the **RawData** column.
+7. Depending on when the lab was created, you may need to change the `Time range` to see results:
+
+   ![KQL Time range.](./media/kql_time_range.png "KQL Time range")
+
+8. You should see the following results, notice the **RawData** column.
 
     ![Notice the rawdata column.](./media/rawdata.png "Note the RawData column")
 
-8. You can manually break out the information using Kusto functions. Run the following query:
+9. You can manually break out the information using Kusto functions. Run the following query:
 
     ```sql
     CustomSecurity_CL
@@ -132,9 +147,14 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
     ![Raw data extract.](./media/rawdata-extractfields.png "Select the ellipses and then Extract fields from option")
 
+    > **NOTE** If you get an error, press **Refresh**
+
 4. The Field Extraction Wizard is opened, and the record you selected is displayed in the Main Example column. The custom field will be defined for those records with the same values in the properties that are selected.
 
-5. Select the Date part of the raw data
+5. With your mouse, select the Date part of the raw data
+
+    ![Select date.](./media/kql_custom_field_select.png "Select date")
+
 6. Type **LogDate_CF** for the field title
 7. For the field type, select **Date/Time (ISO 8601 Format)**
 8. Select **Extract**
@@ -155,7 +175,7 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
     > **Note** Custom fields will not be applied to any data that already been collected
 
-17. Copy the **c:\lab files\security-workshop\artifacts/logs-02** folder contents to the **c:\logs** folder
+17. Copy the **c:\lab files\security-workshop\artifacts\logs-02** folder contents to the **c:\logs** folder
 18. Run the following query to show data based on a specific IP address:
 
     ```sql
@@ -224,7 +244,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 1. Open the Azure Portal
 2. Browse to the **wssecuritySUFFIX** Log Analytics portal
 3. Under **General**, select **Logs**
-4. Copy and run the following kql query, be sure to replace the `SUFFIX`:
+4. Copy and run the following kql query, be sure to replace the `SUFFIX` with your lab account number:
 
     ```kql
     externaldata (UserPrincipalName: string) [h"https://wssecuritySUFFIX.blob.core.windows.net/logs/users.csv"] with (ignoreFirstRecord=true)
@@ -247,15 +267,17 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
     | where UserPrincipalName !in~ (allowlist)
     ```
 
+    > **NOTE** You may not get any results back from the `SigninLogs` table.
+
 ### Task 2: Create Custom Table
 
 1. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
-2. Open the `/labfiles/sentinel-defender-workshop-400/artifacts/day-02/CreateExternalTable.ps1` script in a Windows Powershell ISE window
+2. Open the `c:/labfiles/sentinel-defender-workshop-400/artifacts/day-02/CreateExternalTable.ps1` script in a Windows Powershell ISE window
 3. Press **F5** to run the script
 4. Switch to your Log Analytics workspace, run the following KQL query
 
     ```KQL
-    users_lookup
+    users_lookup_CL
     ```
 
     > **Note** It can take up to 15 minutes for your custom table to be displayed.
@@ -284,6 +306,9 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 5. For the name, type **users_lookup**
 6. For the legacy category, type **Functions**
+
+    ![Save query as function.](./media/kql_save_as_function.png "Save query as function.")
+
 7. Select **Save**
 8. Run the following queries to see how to use this new function:
 
@@ -292,7 +317,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
     ```
 
     ```kql
-    let watchlist = users_lookup | where Risk > 90
+    users_lookup | where Risk > 90
     ```
 
 ### Task 4: Create Sentinel Watchlist
@@ -301,15 +326,26 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 2. Select your lab workspace
 3. Under **Configuration**, select **Watchlist**
 4. Select **+ Add new**
+
+    ![New sentinel watchlist.](./media/sentinel_watchlist_add.png "New sentinel watchlist.")
+
 5. For the name, type **Users**
 6. For the alias, type **Users**
 7. Select **Next: Source>**
 8. Select **Browse for files**, browse to the `C:\labfiles\sentinel-defender-workshop-400\artifacts\day-02\users.csv` file
 9. For the search key field, select **UserName**
+
+    ![New sentinel watchlist.](./media/sentinel_watchlist_searchkey.png "New sentinel watchlist.")
+
 10. Select **Next: Review and create**
 11. Select **Create**, you should see a new watchlist displayed:
 
     ![New sentinel watchlist.](./media/sentinel_watchlist_users.png "New sentinel watchlist.")
+
+12. Select the new watchlist
+13. Select **View in Log Analytics**, you should see the `_GetWatchlist` function is being called:
+
+    ![New sentinel watchlist.](./media/sentinel_watchlist_getkql.png "New sentinel watchlist.")
 
 ## Exercise 4: Mapping Log Data
 
@@ -363,7 +399,8 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
     ![Workspace usage workbook.](./media/azure_monitor_workspace_usage_add_query.png "Workspace usage workbook")
 
-12. Copy the following query, notice the replacement of the query items with workbook variables:
+12. Copy the following query into the `Log Analytics workspace Logs Query` textbox
+13. Review the query, notice the replacement of the query items with workbook variables:
 
     ```kql
     let myLongitude= -0.925915; 
@@ -383,21 +420,27 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
     | sort by TimeGenerated asc 
     ```
 
-13. For the **Log Analytics workspace** dropdown, select **Load all subscriptions**
+14. For the **Log Analytics workspace** dropdown, select **Load all subscriptions**
 
     ![Workspace usage workbook.](./media/azure_monitor_workspace_usage_select_sub_filter.png "Workspace usage workbook")
 
-14. After selecting to load the subscriptions, select the **wssecuritySUFFIX** workspace
-15. In the Visualization dropdown, select **Map**
-16. Select **Run Query**
-17. In the Map settings, set the latitude to **TODO**
-18. In the Map settings, set the longitude to **TODO**
-19. Select **Apply**, then select **Save & Close**
-20. Select **Save As**
-21. For the title, type **Malicious IP Map**
-22. For the resource group, select the lab resource group
-23. Select **Save**
-24. Select **Done Editing**, you should now see your logs mapped onto a world map.
+15. After selecting to load the subscriptions, select the **wssecuritySUFFIX** workspace
+16. In the Visualization dropdown, select **Map**
+
+    ![Workbook visualization map.](./media/monitor_visualization_map.png "Workbook visualization map")
+
+17. Select **Run Query**
+18. In the Map settings, set the latitude to **TODO**
+19. In the Map settings, set the longitude to **TODO**
+20. Select **Apply**, then select **Save & Close**
+21. Select **Save As**
+22. For the title, type **Malicious IP Map**
+23. For the resource group, select the lab resource group
+
+    ![Workbook Save.](./media/monitor_workbook_save.png "Workbook save")
+
+24. Select **Save**
+25. Select **Done Editing**, you should now see your logs mapped onto a world map.
 
 ## Exercise 5 : Azure Sentinel Incidents and Investigation
 
@@ -433,6 +476,9 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 12. For the time frame, select **5 Hours**
 13. For the grouping, select **Grouping alerts into a single incident if the selected entities match**
 14. Select the **IP** entity
+
+    ![Incident settings.](./media/sentinel_rule_incident_settings.png "Incident settings")
+
 15. Select **Next: Automated response**
 16. Select **Next: Review**
 17. Select **Create**
@@ -452,7 +498,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 ## Exercise 5 : Extending Azure Sentinel Incidents (Optional)
 
-This task requires registration to gain access to an API Key. It can take a few days to do this action.
+This task requires registration with RiskIQ to gain access to an API Key. It can take a few days to do this action, but if you wish to perform these steps, you can get through most of them without the account/key.
 
 ### Task 1 : RiskIQ Api Key
 
@@ -473,7 +519,7 @@ This task requires registration to gain access to an API Key. It can take a few 
 3. Search for **Template deployment**, then select it
 4. Select **Create**
 5. Select **Build your own template in the editor**
-6. Copy the **/artifacts/day-02/riskiq-runbook.json** into the template window.
+6. Copy the **c:/labfiles/{workshopname}/artifacts/day-02/riskiq-runbook.json** into the template window.
 7. Select **Save**
 8. For the playbook name, ensure **Recent-Host-Passive-DNS** is displayed
 9. For your username, type the lab username (ex: odl_user_SUFFIX@DOMAIN.onmicrosoft.com):

@@ -264,6 +264,8 @@ EnableVMVulnerability;
 
 EnableJIT $resourceGroupName $excludeVms;
 
+mkdir c:\logs -ea SilentlyContinue;
+
 sleep 20
 
 Stop-Transcript

@@ -10,15 +10,17 @@ You will execute an attack on your paw virtual machine that will do some not so 
 
 ### Task 0: Setup
 
-1. Open **OneDrive**
-2. Login as your lab credentials, open the OneDrive folder, ensure that you see the following files:
+1. Switch to your **wssecuritySUFFIX-paw-1** virtual machine
+2. Open **OneDrive**
+3. Login as your lab credentials, you can find your credentials in the `AzureCreds.txt` file on the desktop
+4. Click through the setup dialogs
+5. Open the OneDrive folder, ensure that you see the following files:
 
     ![OneDrive initialize.](./media/one-drive-init.png "OneDrive initialize")
 
 ### Task 1: Execute Attack
 
-1. Switch to your **wssecuritySUFFIX-paw-1** virtual machine
-2. Open a PowerShell window, run the following, please do not look at the script (it won't help you much anyway):
+1. Open a PowerShell window, run the following, please do not look at the script (it won't help you much anyway):
 
     ```PowerShell
     `.\artifacts\day-02\Attack_windows.ps1`

@@ -5,23 +5,8 @@
 ### Task 1: Enable Azure Automation in Log Analytics Workspace
 
 1. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
-2. Open a Windows Powershell window, run the following:
-
-    ```PowerShell
-    . C:\LabFiles\AzureCreds.ps1
-
-    $userName = $AzureUserName                # READ FROM FILE
-    $password = $AzurePassword                # READ FROM FILE
-    $clientId = $TokenGeneratorClientId       # READ FROM FILE
-    $global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
-
-    $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
-    $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
-
-    Connect-AzAccount -Credential $cred | Out-Null
-
-    Set-AzOperationalInsightsIntelligencePack -ResourceGroupName "{RESOURCE_GROUP_NAME}" -WorkspaceName "{WORKSPACE_NAME}" -IntelligencePackName "AzureAutomation" -Enabled $true
-    ```
+2. Open the `c:\labfiles\workshopname\artifacts\lday-02\EnableAzureAutomation.ps1` file in a Windows PowerShell ISE window
+3. Press **F5** to execute it.
 
     ![Results of the above command.](./media/loganalytics-enable_automation.png "Results of the above command.")
 
@@ -29,27 +14,15 @@
 
 1. Browse to the **wssecuritySUFFIX** Azure Automation account
 2. Under **Account Settings**, select **Keys**
-3. Record the `url` and the `primary access key`
+3. Notice the `url` and the `primary access key`, you would need these items in order to register a hybrid worker.
 
     ![Automation account url and key](./media/automation_keys.png "Automation account url and key")
 
-4. On the **wssecuritySUFFIX-paw-1** virtual machine, open a Windows Powershell window as administrator
-5. Run the following to register the machine, replace the agent version, and the automation account url and key:
-
-    ```PowerShell
-    cd "C:\Program Files\Microsoft Monitoring Agent\Agent\AzureAutomation\{VERSION}\HybridRegistration"
-
-    Import-Module .\HybridRegistration.psd1
-
-    $groupName = "onpremises-win-group";
-    $url = "{URL}";
-    $key = "{KEY}";
-
-    Add-HybridRunbookWorker –GroupName $groupName -Url $url -Key $key;
-    ```
-
-6. Switch back to the Azure Automation Account
-7. Under **Process Automation**, select **Hybrid worker groups**, you should see your new `onpremises-win-group` displayed
+4. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
+5. Open the `c:\labfiles\workshopname\artifacts\lday-02\AddHybridWorker.ps1` file in a Windows PowerShell ISE window.  Notice we have replaced the automation account values for you.
+6. Press **F5** to register the machine
+7. Switch back to the Azure Automation Account
+8. Under **Process Automation**, select **Hybrid worker groups**, you should see your new `onpremises-win-group` displayed
 
     ![Automation worker group is displayed](./media/automation_worker_group.png "Automation worker group is displayed")
 
@@ -59,8 +32,12 @@
 2. Select **Create a runbook**
 3. For the name, type **Reboot**
 4. For the type, select **PowerShell**
-5. Select **Create**
-6. In the runbook window, paste the following
+5. For the runtime version, select **5.1**
+
+    ![Create Runbook](./media/automation_runbook_create.png "Create Runbook")
+
+6. Select **Create**
+7. In the runbook window, paste the following
 
     ```PowerShell
     mkdir "c:\logs" -ea silentlycontinue;
@@ -70,31 +47,31 @@
     Add-Content "c:\logs\runbook.log" $line;
     ```
 
-7. Select **Test pane**
+8. Select **Test pane**
 
     ![Automation runbook with test pane highlighted](./media/automation_runbook_reboot.png "Automation runbook with test pane highlighted")
 
-8. Select **Hybrid worker**, then select **onpremises-win-group**
-9. Select **Start**, wait for the test to complete.
+9. Select **Hybrid worker**, then select **onpremises-win-group**
+10. Select **Start**, wait for the test to complete.
 
     ![Hybrid worker group selected with start highlighted](./media/automation_runbook_reboot_run.png "Hybrid worker group selected with start highlighted")
 
-10. Switch to your virtual machine, browse to the `c:\logs` folder, notice the new `runbook.log` file
+11. Switch to your virtual machine, browse to the `c:\logs` folder, notice the new `runbook.log` file
 
     ![Automation test results displayed.](./media/azure_automation_test.png "Automation test results displayed.")
 
-11. Switch back to the Automation account, close the test pane
-12. Select **Publish**, then select **Yes**
-13. Under **Runbook settings**, select **Logging and tracing**
-14. Toggle the options to **On**
-15. Select **Save**
-16. Switch to your VM, in a PowerShell window, run the following:
+12. Switch back to the Automation account, close the test pane
+13. Select **Publish**, then select **Yes**
+14. Under **Runbook settings**, select **Logging and tracing**
+15. Toggle the options to **On**
+16. Select **Save**
+17. Switch to your VM, in a PowerShell window, run the following, be sure to replace the values:
 
     ```PowerShell
     Start-AzAutomationRunbook -ResourceGroupName "{RESOURCE_GROUP_NAME}" -AutomationAccountName "{ACCOUNT_NAME}" -Name "Reboot" -RunOn "onpremises-win-group"
     ```
 
-17. Switch to your virtual machine, browse to the `c:\logs` folder, again open the `runbook.log` file, you should see a newline displayed.
+18. Switch to your **paw-1** virtual machine, browse to the `c:\logs` folder, again open the `runbook.log` file, you should see a newline displayed.
 
 ### Task 4: Create a Logic App
 
@@ -111,14 +88,20 @@
 
 9. Select **Review + create**
 10. Select **Create**, once it is created, select **Go to resource**
-11. Select **Blank Logic App**
+11. Under **Templates**, select **Blank Logic App**
 12. For the trigger, select **When Azure Sentinel incident creation rule was triggered**
+
+    ![Select trigger](./media/logic_app_sentinel_trigger.png "Select trigger")
+
 13. Select **Sign in**, sign in using your lab credentials
-14. Select the **+** button in the workspace, then select **Add an action**
+14. Select the **+ New Step** button in the workspace, then select **Add an action**
 15. Search for **Create job** in the **Azure Automation** namespace
+
+    ![Select action](./media/logic_app_sentinel_action.png "Select action")
+
 16. Select it, then select **Sign in**
 17. Select the lab subscription and resource group
-18. Select the automation account
+18. Select the **wssecuritySUFFIX** automation account
 19. Add the Hybrid Automation Worker Group parameter, set to `onpremises-win-group`
 20. Add the Runbook Name parameter, select **Reboot**
 

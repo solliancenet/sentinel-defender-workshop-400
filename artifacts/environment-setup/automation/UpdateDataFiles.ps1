@@ -38,6 +38,8 @@ $ht.add("#WORKSPACE_KEY#", "#IN_WORKSPACE_KEY#");
 $ht.add("#SUBSCRIPTION_ID#", "#IN_SUBSCRIPTION_ID#");
 $ht.add("#RESOURCE_GROUP_NAME#", "#IN_RESOURCE_GROUP_NAME#");
 $ht.add("#DEPLOYMENT_ID#", "#IN_DEPLOYMENT_ID#");
+$ht.add("#AUTOMATION_URL#", "#IN_AUTOMATION_URL#");
+$ht.add("#AUTOMATION_KEY#", "#IN_AUTOMATION_KEY#");
 $ht.add("#WAF_IP#", "#IN_WAF_IP#");
 $ht.add("#APP_SVC_URL#", "#IN_APP_SVC_URL#");
 $ht.add("#IP_1#", "203.160.71.100"); #china
@@ -60,6 +62,8 @@ UpdateFile "./day-02/CreateExternalTable.ps1" $ht;
 UpdateFile "./day-02/CreateIncident.ps1" $ht;
 UpdateFile "./day-02/incident_post.json" $ht;
 UpdateFile "./day-02/EnableAzureAutomation.ps1" $ht;
+UpdateFile "./day-02/AddHybridWorker.ps1" $ht;
+UpdateFile "./day-02/StartRunbook.ps1" $ht;
 UpdateFile "./day-02/riskiq-runbook.json" $ht;
 
 UpdateFile "./day-02/users.csv" $ht;

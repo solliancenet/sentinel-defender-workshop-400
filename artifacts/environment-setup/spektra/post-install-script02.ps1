@@ -219,6 +219,9 @@ $workspaceKey = $keys.PrimarySharedKey;
 #storage account key
 $dataLakeStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $wsName)[0].Value
 
+#automation account
+$regInfo = Get-AzAutomationRegistrationInfo -AutomationAccountName $resourceName -ResourceGroupName $resourceGroupName;
+
 #update the updatedatafiles.ps1
 $content = get-content "c:\labfiles\$workshopName\artifacts\environment-setup\automation\updatedatafiles.ps1" -raw
 $content = $content.replace("#IN_WORKSHOP_NAME#",$workshopName);
@@ -235,6 +238,8 @@ $content = $content.replace("#IN_DEPLOYMENT_ID#",$deploymentId);
 $content = $content.replace("#IN_IP#","192.168.102.2");
 $content = $content.replace("#IN_WAF_IP#",$wafIp);
 $content = $content.replace("#IN_APP_SVC_URL#",$appHost);
+$content = $content.replace("#IN_AUTOMATION_URL#",$regInfo.Endpoint);
+$content = $content.replace("#IN_AUTOMATION_KEY#",$regInfo.PrimaryKey);
 
 set-content "c:\labfiles\$workshopName\artifacts\environment-setup\automation\updatedatafiles.ps1" $content;
 

@@ -14,11 +14,14 @@ $post = $post.replace("#SUBSCRIPTION_ID#",$subscriptionId);
 $post = $post.replace("#RESOURCE_GROUP_NAME#",$resourceGroupName);
 $post = $post.replace("#WORKSPACE_NAME#",$workspaceName);
 
-#login so you can get a token
-az login -u #USERNAME# -p #PASSWORD#
+. C:\LabFiles\Common.ps1
+
+Login-AzureCredsPowerShell
+
+$azToken = Get-AzAccessToken -ResourceUrl "https://management.azure.com";
 
 #get an access token...
-$tokenValue = ((az account get-access-token --resource https://management.azure.com) | ConvertFrom-Json).accessToken
+$tokenValue = $azToken.Token;
 
 #do the post...
 $headers = @{

@@ -420,6 +420,8 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
     | sort by TimeGenerated asc 
     ```
 
+    > **NOTE** The MaliciousIP is added on ingestion when you have Threat Indicators created.  If you do not have any IoCs, you will not see any data here.
+
 14. For the **Log Analytics workspace** dropdown, select **Load all subscriptions**
 
     ![Workspace usage workbook.](./media/azure_monitor_workspace_usage_select_sub_filter.png "Workspace usage workbook")
@@ -430,8 +432,8 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
     ![Workbook visualization map.](./media/monitor_visualization_map.png "Workbook visualization map")
 
 17. Select **Run Query**
-18. In the Map settings, set the latitude to **TODO**
-19. In the Map settings, set the longitude to **TODO**
+18. In the Map settings, set the latitude to **RemoteIPLatitude**
+19. In the Map settings, set the longitude to **RemoteIPLongitude**
 20. Select **Apply**, then select **Save & Close**
 21. Select **Save As**
 22. For the title, type **Malicious IP Map**
@@ -441,6 +443,8 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 24. Select **Save**
 25. Select **Done Editing**, you should now see your logs mapped onto a world map.
+
+    ![Workbook Save.](./media/log-analytics-query-map.png "Workbook save")
 
 ## Exercise 5 : Azure Sentinel Incidents and Investigation
 

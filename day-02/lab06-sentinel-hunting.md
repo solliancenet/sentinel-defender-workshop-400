@@ -144,13 +144,13 @@ The previous exercise created a breach in a system in your environment. You will
     | where ResultType == "0"
     ```
 
-4. Run the following KQL to find all entries related to a device:
+4. Run the following KQL to find all entries related to a device, replace `COMPUTER_NAME` with a computer name:
 
     ```KQL
     search Computer in ("COMPUTER_NAME")
     ```
 
-5. Run the following KQL to find all entries related to an IP address:
+5. Run the following KQL to find all entries related to an IP address, replace the `IP_ADDRESS` with a target IP:
 
     ```KQL
     search ComputerIP in ("IP_ADDRESS")
@@ -197,19 +197,21 @@ As part of your investigation, you found out someone else had already discovered
 8. Enter the API Root, type **https://cti-taxii.mitre.org/stix**
 9. For Collection ID, type **95ecc380-afe9-11e4-9b6c-751b66dd541e**
 10. For username and password leave blank
-11. Click the **Add** button.
+11. For polling frequency, select **Once a minute**
+12. Click the **Add** button.
 
     ![Mitre Taxii.](./media/sentinel_data_connector_taxii_config.png "Mitre Taxii")
 
-12. For the **Friendly name**, type **Anomali**
-13. Enter the API Root, type **https://limo.anomali.com/api/v1/taxii2/feeds/**
-14. For Collection ID, type **107**
-15. For username and password, type **guest**
-16. Click the **Add** button.
+13. For the **Friendly name**, type **Anomali**
+14. Enter the API Root, type **https://limo.anomali.com/api/v1/taxii2/feeds/**
+15. For Collection ID, type **107**
+16. For username and password, type **guest**
+17. For polling frequency, select **Once a minute**
+18. Click the **Add** button.
 
     > **Note** If you get an error, make sure you entered guest for the username and password.
 
-17. You should now see a confirmation on the notification dialog that the connection was established successfully. The TAXII Server will now show up in the List of the configured TAXII Servers.
+19. You should now see a confirmation on the notification dialog that the connection was established successfully. The TAXII Server will now show up in the List of the configured TAXII Servers.
 
     ![Taxii connections.](./media/sentinel_data_connector_taxii_config2.png "Taxii connections")
 
@@ -221,15 +223,22 @@ As part of your investigation, you found out someone else had already discovered
 
     ![Taxii data.](./media/sentinel_data_connector_taxii_data.png "Taxii data")
 
-4. Under **Threat Management**, select **Threat Intelligence**
-5. You should notice several new items displayed based on type and the source (you should see Anomali and Mitre as sources)
+4. Under **Configuration**, select **Analytics**
+5. You should notice several new rules have been created based on the `Anomali` and `Mitre` feeds:
+
+    ![Taxii data anomali.](./media/sentinel_data_connector_analytics_anomali.png "Taxii data anomali")
+
+6. Under **Threat Management**, select **Threat Intelligence**
+7. You should notice several new items displayed based on type and the source (you should see Anomali and Mitre as sources)
 
     ![Taxii data anomali.](./media/sentinel_data_connector_ti_anomali.png "Taxii data anomali")
 
-6. Select one of the items
-7. In the dialog on the right, click the **0 Alerts** area. You will be directed to Log Analytics with the query that represents the item
-8. Select **New alert rule->Create Azure Sentinel alert**, follow the dialogs as you have done before in previous labs.
-9. Congrats, you have imported external security provider data and created an alert from it using the STIX and TAXII standards.
+    > **NOTE** You may not see any IoCs as the feed \ import process is still being designed.
+
+8. Select one of the items
+9. In the dialog on the right, click the **0 Alerts** area. You will be directed to Log Analytics with the query that represents the item
+10. Select **New alert rule->Create Azure Sentinel alert**, follow the dialogs as you have done before in previous labs.
+11. Congrats, you have imported external security provider data and created an alert from it using the STIX and TAXII standards.
 
 ## Exercise 4 : SOC Efficiency
 
@@ -244,6 +253,6 @@ You would like to measure your SOC efficiency, specifically around Incident resp
 
 3. In the dialog, scroll to the bottom, select **Save**
 4. Select the region, then select **OK**
-5. Select **View template**
-6. Select **Auto refresh:Off**, then select **10 minutes**
+5. Select **View saved workbook**
+6. Select **Auto refresh:Off**, then select **5 minutes**
 7. Select **Apply**, you should now see metrics based on your Azure Sentinel incidents

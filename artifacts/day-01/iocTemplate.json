@@ -1,0 +1,32 @@
+{
+  "kind": "indicator",
+  "properties": {
+    "confidence": 100,
+    "createdByRef": "#USERNAME#",
+    "description": "#DESCRIPTION#",
+    "externalReferences": [],
+    "granularMarkings": [],
+    "threatTypes": [
+      "anomalous-activity",
+      "anonymization",
+      "attribution",
+      "benign",
+      "compromised",
+      "malicious-activity",
+      "unknown"
+    ],
+    "killChainPhases": [],
+    "labels": [],
+    "displayName": "#NAME#",
+    "pattern": "[ipv4-addr:value = '#IP_ADDRESS#']",
+    "patternType": "ipv4-addr",
+    "revoked": false,
+    "created": "#CREATED#",
+    "lastUpdatedTimeUtc": null,
+    "validFrom": "#CREATED#",
+    "validUntil": null,
+    "source": "Azure Sentinel",
+    "threatIntelligenceTags": []
+  },
+  "id": ""
+}

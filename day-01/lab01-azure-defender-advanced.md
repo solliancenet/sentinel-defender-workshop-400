@@ -353,7 +353,7 @@ You can gain access to the data in the network map through the Azure Management 
 
 4. Review the results in the output.
 
-## Exercise 3: Continuous Export
+## Exercise 3: Continuous Export (Storage Account)
 
 ### Task 1: Enable Continuous Export
 

@@ -50,6 +50,9 @@ UpdateFile "./day-01/Azure Sentinel ML.ipynb" $ht;
 UpdateFile "./day-01/ExportLogsToStorage.ipynb" $ht;
 UpdateFile "./day-01/ExportLogsToStorage.ps1" $ht;
 UpdateFile "./day-01/storage_post.json" $ht;
+UpdateFile "./day-01/iocTemplate.json" $ht;
+UpdateFile "./day-01/CreaetIoCs.ps1" $ht;
+
 
 UpdateFile "./day-02/logfile.txt" $ht;
 UpdateFile "./day-02/logs.json" $ht;

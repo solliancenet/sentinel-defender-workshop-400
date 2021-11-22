@@ -211,6 +211,11 @@
     ![View new threat indicator.](./media/sentinel_threat_intel_added.png "View new threat indicator")
 
 9. Any time this IP is found in log data, an alert will be generated.
+10. In a PowerShell ISE window, oOpen the `c:\LabFiles\sentinel-defender-workshop-400\artifacts\day-01\CreateIoCs.ps1` file
+11. Press **F5** to run the script
+12. Refresh the Threat Intelligence, you should see some new IPs added.
+
+    > **NOTE** You will need to ensure that you see the IPs added as other labs will reference these IoCs later.
 
 ## Exercise 7 : Azure Sentinel Notebooks
 

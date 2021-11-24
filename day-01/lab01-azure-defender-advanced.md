@@ -5,7 +5,7 @@
 ### Task 1: Network Map
 
 1. Open the Azure Portal.
-2. Search for `Microsoft Defender for Cloud`, then select it.
+2. In the global search, search for `Microsoft Defender for Cloud`, then select it.
 3. Under **Cloud Security**, select **Workload protections**.
 
     ![Select Workload protections](./media/asc_workloadprotections.png "Select Workload protections")

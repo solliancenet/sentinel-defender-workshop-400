@@ -144,6 +144,8 @@ InstallPowerBI
 
 InstallPython
 
+InstallSplunk
+
 $extensions = @("jupyter", "python", "ipykernel");
 
 InstallVisualStudioCode $extensions;
@@ -313,6 +315,11 @@ InstallICD
 
 Install-WindowsFeature -Name Windows-Server-Antimalware
 
-sleep 20
+#remove AppLocker
+Write-host "Removeing App Locker Policies";
+
+$policy = Get-AppLockerPolicy -local
+$policy.DeleteRuleCollections()
+
 
 Stop-Transcript

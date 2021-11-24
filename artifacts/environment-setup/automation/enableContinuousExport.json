@@ -10,10 +10,6 @@
     "description": "",
     "isEnabled": true,
     "metadata": {
-      "createdBy": "{PRINCIPAL_ID}",
-      "createdDateTimeUtc": "Fri, 19 Nov 2021 17:17:54 GMT",
-      "lastUpdatedBy": "{PRINCIPAL_ID}",
-      "lastUpdatedDateTimeUtc": "2021-11-19T17:17:54.000Z"
     },
     "actions": [
       {

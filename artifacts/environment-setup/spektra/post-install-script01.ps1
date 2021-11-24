@@ -185,10 +185,17 @@ EnableAKSPolicy $resourceGroupName;
 
 EnableOtherCompliancePolicy $resourceGroupName;
 
-Write-Host "Assiging Permissions"
+Write-Host "Assiging Permissions [Subscription]"
 
 New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope "/subscriptions/$subscriptionId" -ErrorAction SilentlyContinue;
 New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" -Scope "/subscriptions/$subscriptionId" -ErrorAction SilentlyContinue;
+
+Write-Host "Assiging Permissions [Management Group]"
+
+$mgmtGroup = Get-AzManagementGroup
+
+New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
+New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
 
 Write-Host "Executing main ARM deployment" -ForegroundColor Green -Verbose
 
@@ -253,6 +260,9 @@ WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/
 
 DeployAllSolutions $resourceName $resourceGroupName;
 
+#create a computer group
+CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
+
 #set log analytics config - not needed b/c autoprovisioning?
 #SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
@@ -276,6 +286,9 @@ SetDefenderWorkspace $resourceName $resourceGroupName $subscriptionId;
 
 #enable continous export
 EnableContinousExport $workshopName;
+
+#create a saved search
+CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
 
 mkdir c:\logs -ea SilentlyContinue;
 

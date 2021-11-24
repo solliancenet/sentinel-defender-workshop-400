@@ -21,7 +21,6 @@ cd C:\LabFiles\"#IN_WORKSHOP_NAME#"\artifacts
 
 $ht = new-object System.Collections.Hashtable;
 
-$ht.add("#USERNAME#", "#IN_USERNAME#");
 $ht.add("#WORKSHOP_NAME#", "#IN_WORKSHOP_NAME#");
 $ht.add("#TODAY#",[DateTime]::NOW.ToString("yyyy-MM-dd"));
 $ht.add("#TOMORROW#",[DateTime]::NOW.AddDays(1).ToString("yyyy-MM-dd"));
@@ -51,8 +50,7 @@ UpdateFile "./day-01/ExportLogsToStorage.ipynb" $ht;
 UpdateFile "./day-01/ExportLogsToStorage.ps1" $ht;
 UpdateFile "./day-01/storage_post.json" $ht;
 UpdateFile "./day-01/iocTemplate.json" $ht;
-UpdateFile "./day-01/CreaetIoCs.ps1" $ht;
-
+UpdateFile "./day-01/CreateIoCs.ps1" $ht;
 
 UpdateFile "./day-02/logfile.txt" $ht;
 UpdateFile "./day-02/logs.json" $ht;

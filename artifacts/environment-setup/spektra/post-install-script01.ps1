@@ -141,6 +141,10 @@ $resourceGroupName = $rg.ResourceGroupName
 $region = $rg.Location;
 $deploymentId =  $rg.Tags["DeploymentId"]
 
+$sub = Get-AzSubscription;
+
+$subscriptionId = $sub.SubscriptionId;
+
 $resourceName = "wssecurity$deploymentId";
 
 $branchName = "main";
@@ -264,8 +268,15 @@ EnableVMVulnerability;
 
 EnableJIT $resourceGroupName $excludeVms;
 
-mkdir c:\logs -ea SilentlyContinue;
+#turn on auto provision
+SetDefenderAutoprovision $subscriptionId;
 
-sleep 20
+#set the workspace to the one we created not the ASC one.
+SetDefenderWorkspace $resourceName $resourceGroupName $subscriptionId;
+
+#enable continous export
+EnableContinousExport $workshopName;
+
+mkdir c:\logs -ea SilentlyContinue;
 
 Stop-Transcript

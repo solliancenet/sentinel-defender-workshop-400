@@ -177,6 +177,8 @@ $rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEN
 $resourceGroupName = $rg.ResourceGroupName
 $deploymentId =  (Get-AzResourceGroup -Name $resourceGroupName).Tags["DeploymentId"]
 
+$resourceName = "wssecurity$deploymentId";
+
 $branchName = "main";
 $workshopName = "sentinel-defender-workshop-400";
 

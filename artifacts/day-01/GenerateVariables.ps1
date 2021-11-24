@@ -10,7 +10,7 @@ remove-item $filepath -ea SilentlyContinue;
 $line = "SubscriptionId,TenantId,WorkspaceId"
 add-content "$filePath" $line
 
-$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*AZDEFEND*-02" });
+$rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*-security" });
 $resourceGroupName = $rg.ResourceGroupName
 $deploymentId =  $rg.Tags["DeploymentId"]
 $resourceName = "wssecurity$deploymentId";

@@ -4,56 +4,49 @@
       "Language": "English",
       "Files": [
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity01-azure-defender-onboarding.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity01-azure-defender.md",
           "Order": 1
         },
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab01-azure-defender-part-i.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab01-azure-defender-advanced.md",
           "Order": 2
         },
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity02-azure-defender-onboarding-discussion.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab02-azure-defender-rest-api.md",
           "Order": 3
         }     ,
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab02-azure-defender-part-ii.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/activity02-migrating-sentinel.md",
           "Order": 4
         },
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab03-azure-defender-part-iii.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab03-sentinel-defender.md",
           "Order": 5
         }
         ,
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-01/lab04-security-portals.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity03-cost-estimating.md",
           "Order": 6
         }
         ,
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity03-azure-defender.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab04-log-analytics-customization.md",
           "Order": 7
         }
         ,
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab05-azure-defender-part-iv.md",
-          
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity04-automation.md",
           "Order": 8
         }
         ,
         {
-            "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity04-attack-patterns.md",
-
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab05-automation.md",
           "Order": 9
         }
         ,
         {
-          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/activity05-restoring-systems.md",
+          "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab06-sentinel-hunting.md",
           "Order": 10
-        }
-        ,
-        {
-        "RawFilePath": "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/day-02/lab06-azure-defender-part-v.md",
-          "Order": 11
         }
       ]
     }

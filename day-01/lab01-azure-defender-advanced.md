@@ -311,29 +311,13 @@ You can gain access to the data in the network map through the Azure Management 
 3. Copy into the window and run the following PowerShell script:
 
     ```PowerShell
-    . C:\LabFiles\AzureCreds.ps1
+    . C:\LabFiles\Common.ps1
 
-    $userName = $AzureUserName                # READ FROM FILE
-    $password = $AzurePassword                # READ FROM FILE
-    $clientId = $TokenGeneratorClientId       # READ FROM FILE
-    $global:sqlPassword = $AzureSQLPassword          # READ FROM FILE
+    Login-AzureCredsPowerShell
 
-    $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
-    $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
+    $azToken = Get-AzAccessToken -ResourceUrl "https://api.loganalytics.io";
 
-    Connect-AzAccount -Credential $cred | Out-Null
-
-    $azToken = Get-AzAccessToken;
-    $token = $azToken.Token;
-    $global:loginDomain = $azToken.TenantId;
-
-    $ropcBodyCore = "client_id=$($clientId)&username=$($userName)&password=$($password)&grant_type=password"
-    $global:ropcBodyManagement = "$($ropcBodyCore)&scope=https://management.azure.com/.default"
-
-    $result = Invoke-RestMethod  -Uri "https://login.microsoftonline.com/$($global:logindomain)/oauth2/v2.0/token" `
-        -Method POST -Body $global:ropcBodyManagement -ContentType "application/x-www-form-urlencoded"
-
-    $global:managementToken = $result.access_token
+    $global:managementToken = $azToken.Token;
 
     $sub = Get-AzSubscription
     $subscriptionId = $sub.Id;

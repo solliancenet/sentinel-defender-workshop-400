@@ -188,6 +188,9 @@ EnableAKSPolicy $resourceGroupName;
 
 EnableOtherCompliancePolicy $resourceGroupName;
 
+#try to login again...
+Connect-AzAccount -Credential $cred | Out-Null
+
 Write-Host "Assiging Permissions [Subscription]"
 
 New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope "/subscriptions/$subscriptionId" -ErrorAction SilentlyContinue;
@@ -261,6 +264,9 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
 #wait for database
 WaitForResource $resourceGroupName $databaseName "Microsoft.Sql/servers/databases" 1000;
 
+#enable sql vulnerability
+EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
+
 ExecuteSqlDatabaseScan $resourceName $databaseName;
 
 #wait for log analytics to be created...
@@ -275,9 +281,6 @@ CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" 
 #SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
 SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
-
-#enable sql vulnerability
-EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 
 #enable vm vulnerability
 EnableVMVulnerability;

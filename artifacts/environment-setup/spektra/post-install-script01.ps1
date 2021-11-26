@@ -258,16 +258,23 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -AdministratorLogin "wsuser" `
     -AdministratorLoginPassword $(ConvertTo-SecureString -String $password -AsPlainText -Force)
 
+#wait for database
+WaitForResource $resourceGroupName $databaseName "Microsoft.Sql/servers/databases" 1000;
+
+ExecuteSqlDatabaseScan $resourceName $databaseName;
+
 #wait for log analytics to be created...
 WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
 
-DeployAllSolutions $resourceName $resourceGroupName;
+#DeployAllSolutions $resourceName $resourceGroupName;
 
 #create a computer group
 CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
 
 #set log analytics config - not needed b/c autoprovisioning?
 #SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
+
+SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
@@ -276,7 +283,6 @@ EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroup
 EnableVMVulnerability;
 
 WaitForResource $resourceGroupName "$resourcename-win10" "Microsoft.Compute/virtualMachines" 1000;
-
 
 #enable JIT
 #$excludeVms = @("$resourceName-win10");
@@ -299,5 +305,11 @@ EnableContinousExport $workshopName;
 CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
 
 mkdir c:\logs -ea SilentlyContinue;
+
+#remove AppLocker
+Write-host "Removeing App Locker Policies";
+
+$policy = Get-AppLockerPolicy -local
+$policy.DeleteRuleCollections()
 
 Stop-Transcript

@@ -1,0 +1,44 @@
+{
+  "id": "/subscriptions/#SUBSCRIPTION_ID#/resourceGroups/#RESOURCE_GROUP_NAME#/providers/Microsoft.Security/locations/#LOCATION#/jitNetworkAccessPolicies/default",
+  "name": "default",
+  "kind": "Basic",
+  "type": "Microsoft.Security/locations/jitNetworkAccessPolicies",
+  "location": "#LOCATION#",
+  "properties": {
+    "virtualMachines": [
+      {
+        "id": "/subscriptions/#SUBSCRIPTION_ID#/resourceGroups/#RESOURCE_GROUP_NAME#/providers/Microsoft.Compute/virtualMachines/#VM_NAME#",
+        "ports": [
+          {
+            "number": 22,
+            "protocol": "*",
+            "maxRequestAccessDuration": "PT3H",
+            "allowedSourceAddressPrefix": "*",
+            "allowedSourceAddressPrefixes": null
+          },
+          {
+            "number": 3389,
+            "protocol": "*",
+            "maxRequestAccessDuration": "PT3H",
+            "allowedSourceAddressPrefix": "*",
+            "allowedSourceAddressPrefixes": null
+          },
+          {
+            "number": 5985,
+            "protocol": "*",
+            "maxRequestAccessDuration": "PT3H",
+            "allowedSourceAddressPrefix": "*",
+            "allowedSourceAddressPrefixes": null
+          },
+          {
+            "number": 5986,
+            "protocol": "*",
+            "maxRequestAccessDuration": "PT3H",
+            "allowedSourceAddressPrefix": "*",
+            "allowedSourceAddressPrefixes": null
+          }
+        ]
+      }
+    ]
+  }
+}

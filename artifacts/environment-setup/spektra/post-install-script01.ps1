@@ -134,6 +134,9 @@ $securePassword = $password | ConvertTo-SecureString -AsPlainText -Force
 $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $SecurePassword
 
 Connect-AzAccount -Credential $cred | Out-Null
+
+#make sure management groups are present...
+StartTenantBackFill
  
 # Template deployment
 $rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*-security" });
@@ -272,11 +275,16 @@ EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroup
 #enable vm vulnerability
 EnableVMVulnerability;
 
+WaitForResource $resourceGroupName "$resourcename-win10" "Microsoft.Compute/virtualMachines" 1000;
+
+
 #enable JIT
 #$excludeVms = @("$resourceName-win10");
 #$excludeVms = @("labvm-$deploymentId");
 
 EnableJIT $resourceGroupName $excludeVms;
+
+#EnableJITRestApi $workshopName $excludeVms;
 
 #turn on auto provision
 SetDefenderAutoprovision $subscriptionId;

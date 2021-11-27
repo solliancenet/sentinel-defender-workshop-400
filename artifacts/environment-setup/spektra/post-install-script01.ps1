@@ -353,6 +353,8 @@ foreach($vm in $vms)
   ExecuteDeployment "$($templatesFile).$($vm).json" "$($parametersFile).json" $resourceGroupName;
 }
 
+#wait for teh deployments to start...
+Start-Sleep -seconds 240;
 
 Stop-Transcript
 

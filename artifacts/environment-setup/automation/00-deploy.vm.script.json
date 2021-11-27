@@ -1,0 +1,55 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "azureUsername": {
+        "type": "string"
+      },
+      "azurePassword": {
+        "type": "securestring"
+      },
+      "odlId": {
+        "type": "string"
+      },
+      "deploymentId": {
+        "type": "string"
+      }
+    },
+    "variables": {
+      "postInstallParameters": "[concat(' -azureUsername ', parameters('azureUsername'), ' -azurePassword ', parameters('azurePassword'), ' -azureTenantID ', variables('azureTenantID'), ' -azureSubscriptionID ', variables('azureSubscriptionID'), ' -odlId ', parameters('odlId'), ' -deploymentId ', parameters('deploymentId'))]",
+      "azureSubscriptionID": "[subscription().subscriptionId]",
+      "azureTenantID": "[subscription().tenantId]",
+      "location": "[resourceGroup().location]"
+    },
+    "resources": [
+      
+          {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat('#VM_NAME#','/', 'winExtension')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "comments": "Script",
+            "tags": {
+              "displayName": "VM Extension"
+            },
+            "properties": {
+              "publisher": "Microsoft.Compute",
+              "type": "CustomScriptExtension",
+              "typeHandlerVersion": "1.8",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": [
+                  "#SCRIPT_URL#"
+                ]
+              },
+              "protectedSettings": {
+                "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File #SCRIPT_NAME#', variables('postInstallParameters'))]"
+              }
+            }
+          }
+        ]  
+    ,
+    "outputs": {
+      
+    }
+  }

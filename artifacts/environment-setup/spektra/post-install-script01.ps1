@@ -327,6 +327,34 @@ SetFileIntegrityLink $resourceName;
 #set the workspace windows logging level
 SetWorkspaceEventLevel "All";
 
+#Do the sub vm script deployments...
+#will fire deployment async so the main deployment shows "succeeded"
+
+$templatesFile = "c:\labfiles\$workshopName\artifacts\environment-setup\automation\00-deploy.vm.script.json"
+$parametersFile = "c:\labfiles\$workshopName\artifacts\environment-setup\spektra\deploy.parameters.script.json"
+$content = Get-Content -Path $parametersFile -raw;
+
+$content = $content.Replace("GET-AZUSER-PASSWORD",$azurepassword);
+$content = $content | ForEach-Object {$_ -Replace "GET-AZUSER-UPN", "$AzureUsername"};
+$content = $content | ForEach-Object {$_ -Replace "GET-AZUSER-PASSWORD", "$AzurePassword"};
+$content = $content | ForEach-Object {$_ -Replace "GET-ODL-ID", "$deploymentId"};
+$content = $content | ForEach-Object {$_ -Replace "GET-DEPLOYMENT-ID", "$deploymentId"};
+$content | Set-Content -Path "$($parametersFile).json";
+
+$vms = @("$resourcename-paw-1","$resourcename-win-10")
+
+foreach($vm in $vms)
+{
+  $content = Get-Content -Path $templatesFile -raw;
+  $content = $content.Replace("#VM_NAME#",$vm);
+  $content = $content | ForEach-Object {$_ -Replace "#SCRIPT_URL#", "https://raw.githubusercontent.com/$repoUrl/$branchName/artifacts/environment-setup/spektra/post-install-script02.ps1"};
+  $content = $content | ForEach-Object {$_ -Replace "#SCRIPT_NAME#", "post-install-script02.ps1"};
+  $content | Set-Content -Path "$($templatesFile).$($vm).json";
+
+  ExecuteDeployment "$($templatesFile).$($vm).json" "$($parametersFile).json" $resourceGroupName;
+}
+
+
 Stop-Transcript
 
 #restart for good measure

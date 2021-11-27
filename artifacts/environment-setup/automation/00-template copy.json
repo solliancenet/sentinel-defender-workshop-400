@@ -1824,7 +1824,33 @@
         "[resourceId('Microsoft.Storage/StorageAccounts', variables('resourceName'))]"
       ],
       "resources": [
-        
+        /*
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('resourceName'),'-win10','/', 'winExtension')]",
+          "apiVersion": "2015-06-15",
+          "location": "[resourceGroup().location]",
+          "comments": "Script",
+          "tags": { "displayName": "VM Extension" },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('resourceName'),'-win10')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.8",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
+              ]
+            },
+            "protectedSettings": {
+              "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File post-install-script02.ps1', variables('postInstallParameters'))]"
+            }
+          }
+        }
+        */
       ],
       "properties": {
         "hardwareProfile": { "vmSize": "Standard_D2s_v3" },
@@ -2052,7 +2078,33 @@
         }
       },
       "resources": [
-        
+        /*
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('resourceName'),'-paw-1','/', 'winExtension')]",
+          "apiVersion": "2015-06-15",
+          "location": "[resourceGroup().location]",
+          "comments": "Script",
+          "tags": { "displayName": "VM Extension" },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(variables('resourceName'),'-paw-1'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.8",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/environment-setup/spektra/post-install-script02.ps1"
+              ]
+            },
+            "protectedSettings": {
+              "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File post-install-script02.ps1', variables('postInstallParameters'))]"
+            }
+          }
+        }
+        */
       ]
     },
     {

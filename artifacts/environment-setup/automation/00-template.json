@@ -2481,31 +2481,6 @@
           }
         }
       }
-    },
-    {
-      "apiVersion": "2021-04-01",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('resourceName'), '-paw-1','/joindomain')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('adBDCVMName'),'PrepareBDC')]",
-        "[concat('Microsoft.Compute/virtualMachines/', concat(variables('resourceName'), '-paw-1'))]",
-        "UpdateVNetDNS2"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "JsonADDomainExtension",
-        "typeHandlerVersion": "1.3",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "Name": "[parameters('domainName')]",
-          "OUPath": "[variables('ouPath')]",
-          "User": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
-          "Restart": "true",
-          "Options": "[variables('domainJoinOptions')]"
-        },
-        "protectedSettings": { "Password": "[parameters('adminPassword')]" }
-      }
     }
   ]
 }

@@ -315,17 +315,16 @@ InstallICD
 
 Install-WindowsFeature -Name Windows-Server-Antimalware
 
-#remove AppLocker
-Write-host "Removeing App Locker Policies";
-
-$policy = Get-AppLockerPolicy -local
-$policy.DeleteRuleCollections()
+RemoveAppLocker
 
 #try again after VMs are configured...
 EnableJIT $resourceGroupName $excludeVms;
 
+#try again to enable across all...
+EnableVMVulnerability;
+
 #try again..
-#SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
+SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
 Stop-Transcript
 

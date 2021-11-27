@@ -286,9 +286,6 @@ ConnectAzureActivityLog $resourceName $resourceGroupName;
 
 #SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
-#enable vm vulnerability
-EnableVMVulnerability;
-
 WaitForResource $resourceGroupName "$resourcename-win10" "Microsoft.Compute/virtualMachines" 1000;
 
 #enable JIT
@@ -313,10 +310,7 @@ CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" 
 
 mkdir c:\logs -ea SilentlyContinue;
 
-#remove AppLocker
-Write-host "Removeing App Locker Policies";
-$policy = Get-AppLockerPolicy -local
-$policy.DeleteRuleCollections()
+RemoveAppLocker
 
 #execute a database scan
 ExecuteSqlDatabaseScan $resourceName $databaseName;
@@ -326,6 +320,9 @@ SetFileIntegrityLink $resourceName;
 
 #set the workspace windows logging level
 SetWorkspaceEventLevel "All";
+
+#enable vm vulnerability - should be one of the last steps.
+EnableVMVulnerability;
 
 #Do the sub vm script deployments...
 #will fire deployment async so the main deployment shows "succeeded"

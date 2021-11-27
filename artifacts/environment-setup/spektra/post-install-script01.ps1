@@ -341,10 +341,12 @@ $content = $content | ForEach-Object {$_ -Replace "GET-ODL-ID", "$deploymentId"}
 $content = $content | ForEach-Object {$_ -Replace "GET-DEPLOYMENT-ID", "$deploymentId"};
 $content | Set-Content -Path "$($parametersFile).json";
 
-$vms = @("$resourcename-paw-1","$resourcename-win-10")
+$vms = @("$resourcename-paw-1","$resourcename-win10")
 
 foreach($vm in $vms)
 {
+  WaitForResource $resourceGroupName $vm "Microsoft.Compute/virtualMachines" 1000;
+
   $content = Get-Content -Path $templatesFile -raw;
   $content = $content.Replace("#VM_NAME#",$vm);
   $content = $content | ForEach-Object {$_ -Replace "#SCRIPT_URL#", "https://raw.githubusercontent.com/$repoUrl/$branchName/artifacts/environment-setup/spektra/post-install-script02.ps1"};

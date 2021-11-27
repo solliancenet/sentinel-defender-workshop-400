@@ -321,5 +321,10 @@ Write-host "Removeing App Locker Policies";
 $policy = Get-AppLockerPolicy -local
 $policy.DeleteRuleCollections()
 
+#try again after VMs are configured...
+EnableJIT $resourceGroupName $excludeVms;
+
+#try to set the workspace again
+SetDefenderWorkspace $resourceName $resourceGroupName $subscriptionId;
 
 Stop-Transcript

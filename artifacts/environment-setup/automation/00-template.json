@@ -1023,6 +1023,36 @@
       }
     },
     {
+      "apiVersion": "2017-03-01-preview",
+      "type": "Microsoft.Sql/servers/securityAlertPolicies",
+      "name": "[concat(variables('resourceName'), '/Default')]",
+      "properties": {
+        "state": "Enabled",
+        "disabledAlerts": [],
+        "emailAddresses": [],
+        "emailAccountAdmins": true
+      }
+    },
+    {
+      "apiVersion": "2018-06-01-preview",
+      "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+      "name": "[concat(variables('resourceName'), '/Default')]",
+      "properties": {
+            "storageContainerPath": "[if(parameters('enableADS'), concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('resourceName')), '2018-07-01').primaryEndpoints.blob, 'vulnerability-assessment'), '')]",
+            "storageAccountAccessKey": "[if(parameters('enableADS'), listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('resourceName')), '2018-02-01').keys[0].value, '')]",
+        "recurringScans": {
+          "isEnabled": true,
+          "emailSubscriptionAdmins": true,
+          "emails": []
+        }
+      },
+      "dependsOn": [
+          "[concat('Microsoft.Sql/servers/', variables('resourceName'))]",
+          "[concat('Microsoft.Sql/servers/', variables('resourceName'), '/securityAlertPolicies/Default')]"
+    
+      ]
+    }
+    {
       "type": "Microsoft.Storage/storageAccounts",
       "sku": { "name": "Standard_LRS" },
       "kind": "Storage",

@@ -198,10 +198,18 @@ New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" 
 
 Write-Host "Assiging Permissions [Management Group]"
 
-$mgmtGroup = Get-AzManagementGroup
+$mgmtGroup = Get-AzManagementGroup -ea SilentlyContinue
 
-New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
-New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
+if ($mgmtGroup)
+{
+  Write-Host "Assiging Permissions [Management Group] : $($mgmtGroup.id)"
+
+  New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Reader" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
+  New-AzRoleAssignment -SignInName $username -RoleDefinitionName "Security Admin" -Scope $mgmtGroup.Id -ErrorAction SilentlyContinue;
+}
+else {
+  Write-Host "ERROR: No Access to Management Groups"
+}
 
 Write-Host "Executing main ARM deployment" -ForegroundColor Green -Verbose
 
@@ -272,7 +280,7 @@ ExecuteSqlDatabaseScan $resourceName $databaseName;
 #wait for log analytics to be created...
 WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
 
-#DeployAllSolutions $resourceName $resourceGroupName;
+DeployAllSolutions $resourceName $resourceGroupName;
 
 #create a computer group
 CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;

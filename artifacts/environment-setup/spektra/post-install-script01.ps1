@@ -275,8 +275,6 @@ WaitForResource $resourceGroupName $databaseName "Microsoft.Sql/servers/database
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 
-ExecuteSqlDatabaseScan $resourceName $databaseName;
-
 #wait for log analytics to be created...
 WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
 
@@ -319,6 +317,9 @@ mkdir c:\logs -ea SilentlyContinue;
 
 #remove AppLocker
 Write-host "Removeing App Locker Policies";
+
+#execute a database scan
+ExecuteSqlDatabaseScan $resourceName $databaseName;
 
 $policy = Get-AppLockerPolicy -local
 $policy.DeleteRuleCollections()

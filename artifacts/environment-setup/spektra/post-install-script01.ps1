@@ -281,9 +281,6 @@ DeployAllSolutions $resourceName $resourceGroupName;
 #connect the activity log - workspace must exist
 ConnectAzureActivityLog $resourceName $resourceGroupName;
 
-#create a computer group
-CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
-
 #set log analytics config - not needed b/c autoprovisioning?
 #SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
@@ -318,15 +315,14 @@ mkdir c:\logs -ea SilentlyContinue;
 
 #remove AppLocker
 Write-host "Removeing App Locker Policies";
+$policy = Get-AppLockerPolicy -local
+$policy.DeleteRuleCollections()
 
 #execute a database scan
 ExecuteSqlDatabaseScan $resourceName $databaseName;
 
 #set the file integrity storage account
 SetFileIntegrityLink $resourceName;
-
-$policy = Get-AppLockerPolicy -local
-$policy.DeleteRuleCollections()
 
 #set the workspace windows logging level
 SetWorkspaceEventLevel "All";

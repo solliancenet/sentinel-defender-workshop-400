@@ -135,9 +135,6 @@ $cred = new-object -typename System.Management.Automation.PSCredential -argument
 
 Connect-AzAccount -Credential $cred | Out-Null
 
-#make sure management groups are present...
-StartTenantBackFill
- 
 # Template deployment
 $rg = (Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -like "*-security" });
 $resourceGroupName = $rg.ResourceGroupName
@@ -153,6 +150,9 @@ $resourceName = "wssecurity$deploymentId";
 $branchName = "main";
 $workshopName = "sentinel-defender-workshop-400";
 $repoUrl = "solliancenet/sentinel-defender-workshop-400";
+
+#make sure management groups are present...
+StartTenantBackFill
 
 #adding MS Defender exclude path...
 Add-MpPreference -ExclusionPath "C:\labfiles"
@@ -222,8 +222,6 @@ ExecuteDeployment $templatesFile "$($parametersFile).json" $resourceGroupName;
 #wait for storage to be created...
 WaitForResource $resourceGroupName $resourceName "Microsoft.Storage/storageAccounts" 1000;
 
-#connect the activity log - workspace must exist
-ConnectAzureActivityLog $resourceName $resourceGroupName;
 
 WaitForResource $resourceGroupName $resourceName "Microsoft.Sql/servers" 1000;
 
@@ -280,6 +278,9 @@ WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/
 
 DeployAllSolutions $resourceName $resourceGroupName;
 
+#connect the activity log - workspace must exist
+ConnectAzureActivityLog $resourceName $resourceGroupName;
+
 #create a computer group
 CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" "Groups" true;
 
@@ -321,7 +322,13 @@ Write-host "Removeing App Locker Policies";
 #execute a database scan
 ExecuteSqlDatabaseScan $resourceName $databaseName;
 
+#set the file integrity storage account
+SetFileIntegrityLink $resourceName;
+
 $policy = Get-AppLockerPolicy -local
 $policy.DeleteRuleCollections()
+
+#set the workspace windows logging level
+SetWorkspaceEventLevel "All";
 
 Stop-Transcript

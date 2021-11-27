@@ -288,7 +288,7 @@ CreateSavedSearch $resourceName "all_computers" "Heartbeat | distinct Computer" 
 #set log analytics config - not needed b/c autoprovisioning?
 #SetLogAnalyticsAgentConfig $resourceName $resourceGroupName;
 
-SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
+#SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
 #enable vm vulnerability
 EnableVMVulnerability;

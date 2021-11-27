@@ -144,7 +144,7 @@ InstallPowerBI
 
 InstallPython
 
-InstallSplunk
+InstallSplunkServer
 
 $extensions = @("jupyter", "python", "ipykernel");
 
@@ -324,7 +324,7 @@ $policy.DeleteRuleCollections()
 #try again after VMs are configured...
 EnableJIT $resourceGroupName $excludeVms;
 
-#try to set the workspace again
-SetDefenderWorkspace $resourceName $resourceGroupName $subscriptionId;
+#try again..
+#SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
 Stop-Transcript

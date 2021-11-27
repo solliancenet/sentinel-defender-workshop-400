@@ -328,3 +328,6 @@ EnableJIT $resourceGroupName $excludeVms;
 #SetLogAnalyticsAgentConfigRest $resourceName $resourceGroupName;
 
 Stop-Transcript
+
+#restart for good measure
+Restart-Computer

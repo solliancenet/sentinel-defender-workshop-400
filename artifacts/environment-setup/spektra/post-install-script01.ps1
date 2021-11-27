@@ -332,3 +332,6 @@ $policy.DeleteRuleCollections()
 SetWorkspaceEventLevel "All";
 
 Stop-Transcript
+
+#restart for good measure
+Restart-Computer

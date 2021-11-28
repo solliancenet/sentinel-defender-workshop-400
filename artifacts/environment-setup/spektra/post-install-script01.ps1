@@ -298,9 +298,6 @@ EnableJIT $resourceGroupName $excludeVms;
 
 #EnableJITRestApi $workshopName $excludeVms;
 
-#turn on auto provision
-SetDefenderAutoprovision $subscriptionId;
-
 #set the workspace to the one we created not the ASC one.
 SetDefenderWorkspace $resourceName $resourceGroupName $subscriptionId;
 
@@ -355,6 +352,9 @@ foreach($vm in $vms)
 
   ExecuteDeployment "$($templatesFile).$($vm).json" "$($parametersFile).$($vm).json" $resourceGroupName;
 }
+
+#turn on auto provision (should be one of the last items to prevent race conditions with agent installs)
+SetDefenderAutoprovision $subscriptionId;
 
 #wait for teh deployments to start...
 StartSleeping 240;

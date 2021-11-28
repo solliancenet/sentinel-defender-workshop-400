@@ -126,9 +126,9 @@ InstallAzPowerShellModule
 
 InstallGit
 
-InstallPostman
+#InstallPostman
 
-InstallPutty
+#InstallPutty
 
 InstallFiddler
 

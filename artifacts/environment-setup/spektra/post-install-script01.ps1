@@ -254,6 +254,8 @@ Set-AzStorageBlobContent -Container $storagecontainername -File $bacpacFilename 
 #allow azure
 $serverFirewallRule = New-AzSqlServerFirewallRule -ResourceGroupName $resourceGroupName -ServerName $serverName -AllowAllAzureIPs
 
+write-host "Creating database [$databaseName]";
+
 #deploy the bacpac file...
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName $serverName `
@@ -268,13 +270,13 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -AdministratorLoginPassword $(ConvertTo-SecureString -String $password -AsPlainText -Force)
 
 #wait for database
-WaitForResource $resourceGroupName $databaseName "Microsoft.Sql/servers/databases" 1000;
+WaitForResource $resourceGroupName $databaseName "Microsoft.Sql/servers/databases" 750;
 
 #enable sql vulnerability
 EnableSQLVulnerability $resourceName $resourceName $AzureUserName $resourceGroupName;
 
 #wait for log analytics to be created...
-WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 1000;
+WaitForResource $resourceGroupName $resourceName "microsoft.operationalinsights/workspaces" 750;
 
 DeployAllSolutions $resourceName $resourceGroupName;
 
@@ -336,7 +338,6 @@ $content = $content | ForEach-Object {$_ -Replace "GET-AZUSER-UPN", "$AzureUsern
 $content = $content | ForEach-Object {$_ -Replace "GET-AZUSER-PASSWORD", "$AzurePassword"};
 $content = $content | ForEach-Object {$_ -Replace "GET-ODL-ID", "$deploymentId"};
 $content = $content | ForEach-Object {$_ -Replace "GET-DEPLOYMENT-ID", "$deploymentId"};
-$content | Set-Content -Path "$($parametersFile).json";
 
 $vms = @("$resourcename-paw-1","$resourcename-win10")
 
@@ -344,17 +345,19 @@ foreach($vm in $vms)
 {
   WaitForResource $resourceGroupName $vm "Microsoft.Compute/virtualMachines" 1000;
 
-  $content = Get-Content -Path $templatesFile -raw;
-  $content = $content.Replace("#VM_NAME#",$vm);
-  $content = $content | ForEach-Object {$_ -Replace "#SCRIPT_URL#", "https://raw.githubusercontent.com/$repoUrl/$branchName/artifacts/environment-setup/spektra/post-install-script02.ps1"};
-  $content = $content | ForEach-Object {$_ -Replace "#SCRIPT_NAME#", "post-install-script02.ps1"};
-  $content | Set-Content -Path "$($templatesFile).$($vm).json";
+  $content2 = Get-Content -Path $templatesFile -raw;
+  $content2 = $content2.Replace("#VM_NAME#",$vm);
+  $content2 = $content2 | ForEach-Object {$_ -Replace "#SCRIPT_URL#", "https://raw.githubusercontent.com/$repoUrl/$branchName/artifacts/environment-setup/spektra/post-install-script02.ps1"};
+  $content2 = $content2 | ForEach-Object {$_ -Replace "#SCRIPT_NAME#", "post-install-script02.ps1"};
+  $content2 | Set-Content -Path "$($templatesFile).$($vm).json";
 
-  ExecuteDeployment "$($templatesFile).$($vm).json" "$($parametersFile).json" $resourceGroupName;
+  $content | Set-Content -Path "$($parametersFile).$($vm).json";
+
+  ExecuteDeployment "$($templatesFile).$($vm).json" "$($parametersFile).$($vm).json" $resourceGroupName;
 }
 
 #wait for teh deployments to start...
-Start-Sleep -seconds 240;
+StartSleeping 240;
 
 Stop-Transcript
 

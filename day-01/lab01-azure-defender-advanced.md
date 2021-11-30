@@ -400,7 +400,7 @@ You can gain access to the data in the network map through the Azure Management 
 
 9. Select **Save**
 
-### Task 2: Enable Microsoft Defender for IoT
+### Task 2: Microsoft Defender for IoT
 
 1. Browse to **Microsoft Defender for Cloud**
 2. Under **Cloud Security**, select **Workload protections**

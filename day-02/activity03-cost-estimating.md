@@ -28,8 +28,8 @@ Open your whiteboard for the event, and in the area for Activity 1 provide your 
 
 Challenges
 
-1. What will the final cost of the solution be?
-2. Are there any programs WWI could take advantage of to keep costs low?
+1. What will the estimated final cost of the solution be?
+2. Are there any programs WWI could take advantage of to keep costs competitive?
 
 ## Resources
 

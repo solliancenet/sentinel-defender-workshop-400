@@ -144,7 +144,7 @@
 
         ```kql
         ConfigurationChange
-        | where ConfigChangeType == "Files" and FileSystemPath contains " c:\windows\system32\drivers\"
+        | where ConfigChangeType == "Files" and FileSystemPath contains @"c:\windows\system32\drivers\"
         ```
 
 6. To find changes to windows services, run the following query:
@@ -367,15 +367,15 @@ You can gain access to the data in the network map through the Azure Management 
 12. Close any dialogs
 13. After a few hours, the data will start to flow into the log analytics workspace, run the following KQL to query for security alerts:
 
-        ```kql
-        SecurityAlert
-        ```
+    ```kql
+    SecurityAlert
+    ```
 
 14. Run the following query to query for security recommendations:
 
-        ```kql
-        SecurityRecommendation
-        ```
+    ```kql
+    SecurityRecommendation
+    ```
 
 ## Exercise 4: Microsoft Defender for IoT
 

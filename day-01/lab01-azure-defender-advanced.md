@@ -307,6 +307,9 @@ You can review the adaptive network hardening recommendations via the Azure Reso
 You can gain access to the data in the network map through the Azure Management REST endpoints.
 
 1. Login to the **wssecuritySUFFIX-win10** virtual machine.
+
+    > **NOTE** You will need to enable access via JIT
+
 2. Open a PowerShell ISE window.
 3. Copy into the window and run the following PowerShell script:
 
@@ -315,7 +318,7 @@ You can gain access to the data in the network map through the Azure Management 
 
     Login-AzureCredsPowerShell
 
-    $azToken = Get-AzAccessToken -ResourceUrl "https://api.loganalytics.io";
+    $azToken = Get-AzAccessToken -ResourceUrl "https://management.azure.com";
 
     $global:managementToken = $azToken.Token;
 
@@ -332,7 +335,7 @@ You can gain access to the data in the network map through the Azure Management 
 
     $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
 
-    $result;
+    $result.value;
     ```
 
 4. Review the results in the output.
@@ -341,9 +344,9 @@ You can gain access to the data in the network map through the Azure Management 
 
 ### Task 1: Enable Continuous Export
 
-1. Browse to Azure Microsoft Defender for Cloud
-2. Under **Management**, select **Pricing and settings**
-3. Select the lab subscription
+1. Browse to Microsoft Defender for Cloud
+2. Under **Management**, select **Environment settings**
+3. Expand the management group, select the lab subscription
 
     ![Pricing and settings.](./media/pricing_settings_subscription.png "Pricing and settings is displayed.")
 

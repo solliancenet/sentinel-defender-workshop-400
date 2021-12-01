@@ -1,3 +1,7 @@
+. C:\LabFiles\Common.ps1
+
+Login-AzureCredsPowerShell
+
 $context = Get-AzContext
 
 $username = $context.Account.id;

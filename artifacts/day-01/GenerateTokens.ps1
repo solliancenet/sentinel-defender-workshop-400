@@ -9,6 +9,10 @@ function GetToken($res)
     return $line;
 }
 
+. C:\LabFiles\Common.ps1
+
+Login-AzureCredsPowerShell
+
 $tokens = @();
 
 $context = Get-AzContext

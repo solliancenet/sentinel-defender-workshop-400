@@ -83,7 +83,7 @@
 
 4. Select **Export->Export to Power BI (M Query)**
 5. Open the downloaded file
-6. Follow in the instructions in the downloaded file to run the analytics query
+6. In the **wssecuritySUFFIX-paw1** virtual machine, follow the instructions in the downloaded file to run the analytics query
 
 ### Task 2: Export All Microsoft Defender for Cloud data with Power BI
 
@@ -100,8 +100,10 @@
 5. Repeat for all the data sources in the Power BI report.
 6. Run the `/artifacts/day-01/GenerateVariables.ps1` PowerShell script, this will retrieve your subscription, tenant and workspaceId into a file
 7. Run the `/artifacts/day-01/GenerateTokens.ps1` PowerShell script, this will generate access tokens valid for one hour for accessing the various rest apis
-8. Select **Refresh Preview**, you should see all the data sources update with Microsoft Defender for Cloud related items.
-9. Review each data source.
+8. Change the user parameter to match your lab user name
+9. Select **Refresh Preview**, you should see all the data sources update with Microsoft Defender for Cloud related items.
+10. If prompted, select **Anonymous**
+11. Review each data source.
 
 ## Reference Links
 

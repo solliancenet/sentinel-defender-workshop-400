@@ -1,4 +1,4 @@
-# Activity 01: Migrate SIEM to Azure Sentinel
+# Activity 2: Migrate SIEM to Azure Sentinel
 
 For compliance reasons, Contoso would like to maintain raw and filtered logs for longer than 90 days, but no longer than 365 days (1 year).  They would like to know how they might be able to accomplish this with Azure Sentinel and Azure tools.
 
@@ -18,7 +18,7 @@ For compliance reasons, Contoso would like to maintain raw and filtered logs for
 
 ## Whiteboard
 
-Open your whiteboard for the event, and in the area for Activity 1 provide your answers to the following challenges.
+Open your whiteboard for the event, and in the area for Activity 2 provide your answers to the following challenges.
 
 *The following challenges are already present within the whiteboard template provided.*
 

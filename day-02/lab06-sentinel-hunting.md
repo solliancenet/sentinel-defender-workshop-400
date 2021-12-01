@@ -1,9 +1,5 @@
 # Sentinel Extensibility + Hunting
 
-- Topics
-  - TODO KQL UNIONs
-  - TODO Create bookmarks...
-
 ## Exercise 1: Execute Attack
 
 You will execute an attack on your paw virtual machine that will do some not so great things. Since your environment has Azure Sentinel configured with all the various data connectors, you should get a basic alert fired. It will be your job to determine what the attack did.

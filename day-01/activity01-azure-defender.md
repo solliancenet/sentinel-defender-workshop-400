@@ -13,7 +13,7 @@ Contoso is migrating their entire on-premises infrastructure to Azure.  They wou
 * Contoso is moving to a micro-services and container based platform as part of their modernization efforts using Azure Kubernetes Service (AKS)
 * Contoso applications are using hard coded app configuration values, but they would like to move to Azure Key Vault, however, they are worried that administrators may abuse the Key Vault service and still gain access to confidential values.
 * Contoso would like to enable self-service Azure resource groups, but want to ensure that any resources that are deployed are done so in a secure and compliant manner.
-* How can they integrate alerts with their current Splunk SIEM?
+* How can they integrate alerts and recommendations with their current Splunk SIEM?
 
 ## Whiteboard
 

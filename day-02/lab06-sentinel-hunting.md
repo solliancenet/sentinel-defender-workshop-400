@@ -1,4 +1,4 @@
-# Sentinel Extensibility + Hunting
+# Lab 6 : Sentinel Extensibility + Hunting
 
 ## Exercise 1: Execute Attack
 

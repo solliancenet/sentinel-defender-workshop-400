@@ -1,4 +1,4 @@
-# Microsoft Defender for Cloud : Lab 2 : REST APIs
+# Lab 2 : Microsoft Defender for Cloud : REST APIs
 
 ## Exercise 1: REST APIs
 

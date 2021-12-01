@@ -1,4 +1,4 @@
-# Microsoft Defender for Cloud : Lab 2 : Execute Protections
+# Lab 1 : Microsoft Defender for Cloud : Execute Protections
 
 ## Exercise 1: Network Map
 

@@ -1,4 +1,4 @@
-# Microsoft Defender for Cloud Setup : Lab 4 : Setup incident response with on-premises runbooks
+# Lab 5 : Microsoft Defender for Cloud Setup : Setup incident response with on-premises runbooks
 
 ## Exercise 1: Setup gateway agent
 

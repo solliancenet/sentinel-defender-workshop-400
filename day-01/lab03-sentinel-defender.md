@@ -1,4 +1,4 @@
-# Configure Sentinel and Defender Integration
+# Lab 3 : Configure Sentinel and Defender Integration
 
 ## Exercise 1 : Azure Sentinel Basics
 

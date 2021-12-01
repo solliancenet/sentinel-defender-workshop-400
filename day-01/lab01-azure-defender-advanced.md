@@ -360,7 +360,7 @@ You can gain access to the data in the network map through the Azure Management 
 
 9. Select **Save**
 
-    > **Note** You can also deploy continuos export using Azure Policy
+    > **Note** You can also deploy continuous export using Azure Policy
 
 10. Browse to the **wssecuritySUFFIX** log analytics workspace
 11. Under **General**, select **Logs**
@@ -407,7 +407,7 @@ You can gain access to the data in the network map through the Azure Management 
 
 1. Browse to **Microsoft Defender for Cloud**
 2. Under **Cloud Security**, select **Workload protections**
-3. Select **IoT Security**.  Review the blades, notice this IoT Security is very different from the IoT Security features.
+3. Select **IoT Security**.  Review the blades, notice this IoT Security is very different from the IoT Security features on the IoT Hub.
 
 ## Reference Links
 

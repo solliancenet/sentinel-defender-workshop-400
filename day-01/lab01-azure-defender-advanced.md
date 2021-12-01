@@ -96,38 +96,38 @@
 5. In the Azure Portal, search for **Resource Graph Explorer**
 6. In the query window, run the following query:
 
-    ```kql
-    securityresources 
-    | where type =~ "microsoft.security/assessments/subassessments"
-    | extend assessmentKey=extract(@"(?i)providers/Microsoft.Security/assessments/([^/]*)", 1, id), subAssessmentId=tostring(properties.id), parentResourceId= extract("(.+)/providers/Microsoft.Security", 1, id)
-    | extend resourceIdTemp = iff(properties.resourceDetails.id != "", properties.resourceDetails.id, extract("(.+)/providers/Microsoft.Security", 1, id))
-    | extend resourceId = iff(properties.resourceDetails.source =~ "OnPremiseSql", strcat(resourceIdTemp, "/servers/", properties.resourceDetails.serverName, "/databases/" , properties.resourceDetails.databaseName), resourceIdTemp)
-    | where assessmentKey == "82e20e14-edc5-4373-bfc4-f13121257c37"
-    | extend subAssessmentName=tostring(properties.displayName),
-        subAssessmentDescription=tostring(properties.description),
-        subAssessmentRemediation=tostring(properties.remediation),
-        subAssessmentCategory=tostring(properties.category),
-        subAssessmentImpact=tostring(properties.impact),
-        severity=tostring(properties.status.severity),
-        status=tostring(properties.status.code),
-        cause=tostring(properties.status.cause),
-        additionalData=tostring(properties.additionalData)
-    | summarize
-            numOfResources=dcount(resourceId),
-            (subAssessmentNameLatest, subAssessmentName)=arg_max(todatetime(properties.timeGenerated), subAssessmentName),
-            (subAssessmentCategoryLatest, subAssessmentCategory)=arg_max(todatetime(properties.timeGenerated), subAssessmentCategory),
-            (severityLatest, severity)=arg_max(todatetime(properties.timeGenerated), severity),
-            (subAssessmentDescriptionLatest, subAssessmentDescription)=arg_max(todatetime(properties.timeGenerated), subAssessmentDescription),
-            (subAssessmentRemediationLatest, subAssessmentRemediation)=arg_max(todatetime(properties.timeGenerated), subAssessmentRemediation),
-            (subAssessmentImpactLatest, subAssessmentImpact)=arg_max(todatetime(properties.timeGenerated), subAssessmentImpact),
-            (causeLatest, cause)=arg_max(todatetime(properties.timeGenerated), cause),
-            (additionalDataLatest, additionalData)=arg_max(todatetime(properties.timeGenerated), additionalData),
-            timeGenerated=max(todatetime(properties.timeGenerated))
-        by assessmentKey, subAssessmentId, status
-    | extend high = iff(severity == "High", 3,0), medium = iff(severity == "Medium", 2, 0), low = iff(severity == "Low", 1 ,0)
-    | extend all = high + medium + low
-    | order by all desc, numOfResources desc
-    ```
+        ```kql
+        securityresources 
+        | where type =~ "microsoft.security/assessments/subassessments"
+        | extend assessmentKey=extract(@"(?i)providers/Microsoft.Security/assessments/([^/]*)", 1, id), subAssessmentId=tostring(properties.id), parentResourceId= extract("(.+)/providers/Microsoft.Security", 1, id)
+        | extend resourceIdTemp = iff(properties.resourceDetails.id != "", properties.resourceDetails.id, extract("(.+)/providers/Microsoft.Security", 1, id))
+        | extend resourceId = iff(properties.resourceDetails.source =~ "OnPremiseSql", strcat(resourceIdTemp, "/servers/", properties.resourceDetails.serverName, "/databases/" , properties.resourceDetails.databaseName), resourceIdTemp)
+        | where assessmentKey == "82e20e14-edc5-4373-bfc4-f13121257c37"
+        | extend subAssessmentName=tostring(properties.displayName),
+            subAssessmentDescription=tostring(properties.description),
+            subAssessmentRemediation=tostring(properties.remediation),
+            subAssessmentCategory=tostring(properties.category),
+            subAssessmentImpact=tostring(properties.impact),
+            severity=tostring(properties.status.severity),
+            status=tostring(properties.status.code),
+            cause=tostring(properties.status.cause),
+            additionalData=tostring(properties.additionalData)
+        | summarize
+                numOfResources=dcount(resourceId),
+                (subAssessmentNameLatest, subAssessmentName)=arg_max(todatetime(properties.timeGenerated), subAssessmentName),
+                (subAssessmentCategoryLatest, subAssessmentCategory)=arg_max(todatetime(properties.timeGenerated), subAssessmentCategory),
+                (severityLatest, severity)=arg_max(todatetime(properties.timeGenerated), severity),
+                (subAssessmentDescriptionLatest, subAssessmentDescription)=arg_max(todatetime(properties.timeGenerated), subAssessmentDescription),
+                (subAssessmentRemediationLatest, subAssessmentRemediation)=arg_max(todatetime(properties.timeGenerated), subAssessmentRemediation),
+                (subAssessmentImpactLatest, subAssessmentImpact)=arg_max(todatetime(properties.timeGenerated), subAssessmentImpact),
+                (causeLatest, cause)=arg_max(todatetime(properties.timeGenerated), cause),
+                (additionalDataLatest, additionalData)=arg_max(todatetime(properties.timeGenerated), additionalData),
+                timeGenerated=max(todatetime(properties.timeGenerated))
+            by assessmentKey, subAssessmentId, status
+        | extend high = iff(severity == "High", 3,0), medium = iff(severity == "Medium", 2, 0), low = iff(severity == "Low", 1 ,0)
+        | extend all = high + medium + low
+        | order by all desc, numOfResources desc
+        ```
 
 7. You should see the same results as in the Azure Portal.
 
@@ -142,24 +142,24 @@
 
 5. To find changes to files that contain a path, run the following query:
 
-    ```kql
-    ConfigurationChange
-    | where ConfigChangeType == "Files" and FileSystemPath contains " c:\windows\system32\drivers\"
-    ```
+        ```kql
+        ConfigurationChange
+        | where ConfigChangeType == "Files" and FileSystemPath contains " c:\windows\system32\drivers\"
+        ```
 
 6. To find changes to windows services, run the following query:
 
-    ```kql
-    ConfigurationChange
-    | where ConfigChangeType == "WindowsServices" and SvcName contains "w3svc" and SvcState == "Stopped"
-    ```
+        ```kql
+        ConfigurationChange
+        | where ConfigChangeType == "WindowsServices" and SvcName contains "w3svc" and SvcState == "Stopped"
+        ```
 
 7. To find changes to registry settings, run the following query:
 
-    ```kql
-    ConfigurationChange
-    | where RegistryKey contains @"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy"
-    ```
+        ```kql
+        ConfigurationChange
+        | where RegistryKey contains @"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy"
+        ```
 
 ### Task 4: Container Image Scanning
 
@@ -168,37 +168,37 @@
 3. Close any dialogs
 4. Run the following query:
 
-    ```kql
-    SecurityBaseline
-    | where BaselineType == "Docker"
-    | where AnalyzeResult == "Failed"
-    | summarize arg_max(TimeGenerated, *) by CceId
-    | project
-        CceId,
-        Description,
-        Resource,
-        ResourceGroup,
-        RuleSeverity,
-        ActualResult,
-        BaselineType,
-        Type,
-        SubscriptionId,
-        TenantId,
-        ResourceId,
-        ComputerEnvironment
-    | order by RuleSeverity asc nulls last
-    ```
+        ```kql
+        SecurityBaseline
+        | where BaselineType == "Docker"
+        | where AnalyzeResult == "Failed"
+        | summarize arg_max(TimeGenerated, *) by CceId
+        | project
+            CceId,
+            Description,
+            Resource,
+            ResourceGroup,
+            RuleSeverity,
+            ActualResult,
+            BaselineType,
+            Type,
+            SubscriptionId,
+            TenantId,
+            ResourceId,
+            ComputerEnvironment
+        | order by RuleSeverity asc nulls last
+        ```
 
     ![Container Vulnerabilities.](./media/container_vulnerabilities.png "Container Vulnerabilities are displayed")
 
     > **NOTE** If you don't see any recommendations, it is possible the images did not get deployed. The **wssecurity-linux-1** virtual machine is used to do this deployment.  If anything deploys incorrectly in the image via the Azure script extensions, you can check the Azure agent log files using:
 
-    ```bash
-    find /var/ba/waagent/custom-script/download -type d -exec chmod 755 {} \;
-    
-    sudo nano /var/lib/waagent/custom-script/download/0/stdout
-    sudo nano /var/lib/waagent/custom-script/download/0/stderr
-    ```
+        ```bash
+        find /var/ba/waagent/custom-script/download -type d -exec chmod 755 {} \;
+        
+        sudo nano /var/lib/waagent/custom-script/download/0/stdout
+        sudo nano /var/lib/waagent/custom-script/download/0/stderr
+        ```
 
 ### Task 5: Adaptive Application Control
 
@@ -214,22 +214,22 @@
 7. In the Azure Portal, search for **Resource Graph Explorer**
 8. In the query window, run the following query to see application control events:
 
-    ```kql
-    securityresources
-    | where type =~ 'microsoft.security/locations/alerts'
-    | where properties.SystemAlertId contains 'application control' or properties.AlertDisplayName contains 'application control' or properties.ResourceIdentifiers contains 'application control'
-    | where properties.Status in ('Active')
-    | where properties.Severity in ('Low', 'Medium', 'High')
-    | extend SeverityRank = case(
-        properties.Severity == 'High', 3,
-        properties.Severity == 'Medium', 2,
-        properties.Severity == 'Low', 1,
-        0
-        )
-    | sort by  SeverityRank desc, tostring(properties.SystemAlertId) asc
-    | project-away SeverityRank
-    | project id, subscriptionId, AlertDisplayName = properties.AlertDisplayName, AlertType = properties.AlertType, AlertUri = properties.AlertUri, Entities = properties.Entities, Intent = properties.Intent, IsIncident = properties.IsIncident, ResourceIdentifiers = properties.ResourceIdentifiers, Severity = properties.Severity, StartTimeUtc = properties.StartTimeUtc, Status = properties.Status, SystemAlertId = properties.SystemAlertId
-    ```
+        ```kql
+        securityresources
+        | where type =~ 'microsoft.security/locations/alerts'
+        | where properties.SystemAlertId contains 'application control' or properties.AlertDisplayName contains 'application control' or properties.ResourceIdentifiers contains 'application control'
+        | where properties.Status in ('Active')
+        | where properties.Severity in ('Low', 'Medium', 'High')
+        | extend SeverityRank = case(
+            properties.Severity == 'High', 3,
+            properties.Severity == 'Medium', 2,
+            properties.Severity == 'Low', 1,
+            0
+            )
+        | sort by  SeverityRank desc, tostring(properties.SystemAlertId) asc
+        | project-away SeverityRank
+        | project id, subscriptionId, AlertDisplayName = properties.AlertDisplayName, AlertType = properties.AlertType, AlertUri = properties.AlertUri, Entities = properties.Entities, Intent = properties.Intent, IsIncident = properties.IsIncident, ResourceIdentifiers = properties.ResourceIdentifiers, Severity = properties.Severity, StartTimeUtc = properties.StartTimeUtc, Status = properties.Status, SystemAlertId = properties.SystemAlertId
+        ```
 
 ### Task 6: Adaptive Network Hardening
 
@@ -313,30 +313,30 @@ You can gain access to the data in the network map through the Azure Management 
 2. Open a PowerShell ISE window.
 3. Copy into the window and run the following PowerShell script:
 
-    ```PowerShell
-    . C:\LabFiles\Common.ps1
+        ```PowerShell
+        . C:\LabFiles\Common.ps1
 
-    Login-AzureCredsPowerShell
+        Login-AzureCredsPowerShell
 
-    $azToken = Get-AzAccessToken -ResourceUrl "https://management.azure.com";
+        $azToken = Get-AzAccessToken -ResourceUrl "https://management.azure.com";
 
-    $global:managementToken = $azToken.Token;
+        $global:managementToken = $azToken.Token;
 
-    $sub = Get-AzSubscription
-    $subscriptionId = $sub.Id;
+        $sub = Get-AzSubscription
+        $subscriptionId = $sub.Id;
 
-    $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/topologies?includeResourceInformation=true&api-version=2015-06-01-preview"
+        $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/topologies?includeResourceInformation=true&api-version=2015-06-01-preview"
 
-    $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+        $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
 
-    $result;
+        $result;
 
-    $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/allowedConnections?api-version=2015-06-01-preview";
+        $url = "https://management.azure.com/subscriptions/$subscriptionId/providers/Microsoft.Security/allowedConnections?api-version=2015-06-01-preview";
 
-    $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
+        $result = Invoke-RestMethod  -Uri $url -Method Get -ContentType "application/json" -Headers @{"Authorization"="Bearer $managementToken"};
 
-    $result.value;
-    ```
+        $result.value;
+        ```
 
 4. Review the results in the output.
 
@@ -367,15 +367,15 @@ You can gain access to the data in the network map through the Azure Management 
 12. Close any dialogs
 13. After a few hours, the data will start to flow into the log analytics workspace, run the following KQL to query for security alerts:
 
-    ```kql
-    SecurityAlert
-    ```
+        ```kql
+        SecurityAlert
+        ```
 
 14. Run the following query to query for security recommendations:
 
-    ```kql
-    SecurityRecommendation
-    ```
+        ```kql
+        SecurityRecommendation
+        ```
 
 ## Exercise 4: Microsoft Defender for IoT
 

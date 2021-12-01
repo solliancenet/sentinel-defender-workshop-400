@@ -1,4 +1,4 @@
-# Microsoft Defender for Cloud : Lab 2 : Log Analytics Customization
+# Lab 4 : Microsoft Defender for Cloud : Log Analytics Customization
 
 This lab will walk you through how to create custom logs in your host machines and then send those custom logs to Azure Log Analytics.
 

@@ -87,23 +87,26 @@
 
 ### Task 2: Export All Microsoft Defender for Cloud data with Power BI
 
-1. Open the `/artifacts/day-01/MicrosoftDefender.pbix` file
-2. Right-click the `Alerts` data source, select **Edit**
+1. Open the `C:/labfiles/workshopName/artifacts/day-01/MicrosoftDefender.pbix` file
+2. Select **File->Options and settings**, then select **Options**
+3. Under **GLOBAL**, select **Privacy**
+4. For the privacy level, select **Always ignore Privacy Level settings**
+5. Right-click the `Alerts` data source, select **Edit**
 
     ![Edit the data source.](./media/power-bi-alerts-edit.png "Edit the data source")
 
-3. Select the `Alerts` data source, in the ribbon, select **Advanced Editor**.
-4. Review the query.  
+6. Select the `Alerts` data source, in the ribbon, select **Advanced Editor**.
+7. Review the query.  
 
     ![Open advanced editor.](./media/power-bi-alerts-advanced-edit.png "Open advanced editor")
 
-5. Repeat for all the data sources in the Power BI report.
-6. Run the `/artifacts/day-01/GenerateVariables.ps1` PowerShell script, this will retrieve your subscription, tenant and workspaceId into a file
-7. Run the `/artifacts/day-01/GenerateTokens.ps1` PowerShell script, this will generate access tokens valid for one hour for accessing the various rest apis
-8. Change the user parameter to match your lab user name
-9. Select **Refresh Preview**, you should see all the data sources update with Microsoft Defender for Cloud related items.
-10. If prompted, select **Anonymous**
-11. Review each data source.
+8. Repeat for all the data sources in the Power BI report.
+9. Run the `/artifacts/day-01/GenerateVariables.ps1` PowerShell script, this will retrieve your subscription, tenant and workspaceId into a file
+10. Run the `/artifacts/day-01/GenerateTokens.ps1` PowerShell script, this will generate access tokens valid for one hour for accessing the various rest apis
+11. Change the user parameter to match your lab user name
+12. Select **Refresh Preview**, you should see all the data sources update with Microsoft Defender for Cloud related items.
+13. If prompted, select **Anonymous**
+14. Review each data source.
 
 ## Reference Links
 

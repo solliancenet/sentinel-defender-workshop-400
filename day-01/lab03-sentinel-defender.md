@@ -32,7 +32,7 @@
 
     ![The click path is displayed.](./media/sentinel-data-connector-aad-details.png "Select Azure Active Directory connector")
 
-    > **NOTE** You would need to have `global administrator` or `security administrator` access to the Azure AD tenant in order to make the connection. Unfortunately in these labs, your lab user does not have this level of access.
+    > **NOTE** You would need to have `global administrator` or `security administrator` access to the Azure AD tenant in order to make the connection.
 
 5. Select the **Launch Azure Policy Assignment wizard**
 

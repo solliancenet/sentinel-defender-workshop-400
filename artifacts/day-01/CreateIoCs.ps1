@@ -6,7 +6,7 @@ $id = [Guid]::NewGuid();
 
 $url = "https://management.azure.com/subscriptions/$subscriptionId/resourcegroups/$resourceGroupName/providers/Microsoft.operationalInsights/workspaces/$workspaceName/providers/Microsoft.SecurityInsights/threatintelligence/main/createIndicator?api-version=2019-01-01-preview";
 
-cd "c:/labfiles/#WORKSHOP_NAME#/artifacts/day-02"
+cd "c:/labfiles/#WORKSHOP_NAME#/artifacts/day-01"
 
 . C:\LabFiles\Common.ps1
 

@@ -2,7 +2,7 @@
 
 ## Exercise 1: Execute Attack
 
-You will execute an attack on your paw virtual machine that will do some not so great things. Since your environment has Azure Sentinel configured with all the various data connectors, you should get a basic alert fired. It will be your job to determine what the attack did.
+You will execute an attack on your paw virtual machine that will do some not so great things. Since your environment has Microsoft Sentinel configured with all the various data connectors, you should get a basic alert fired. It will be your job to determine what the attack did.
 
 ### Task 0: Setup
 
@@ -52,7 +52,7 @@ The previous exercise created a breach in a system in your environment. You will
 
 ### Task 2: Go Hunting
 
-1. Open Azure Sentinel
+1. Open Microsoft Sentinel
 2. Under Threat Management, select **Hunting**
 3. Select **Run all queries**
 
@@ -73,7 +73,7 @@ The previous exercise created a breach in a system in your environment. You will
 
 ### Task 4: Review Incidents
 
-1. Open Azure Sentinel
+1. Open Microsoft Sentinel
 2. Under Threat Management, select **Incidents**
 3. Answer the following questions:
 
@@ -102,7 +102,7 @@ The previous exercise created a breach in a system in your environment. You will
 
     ![Investigate.](./media/azure_sentinel_incidents_investigate.png "Investigate")
 
-    > **Note** You'll only be able to investigate the incident if you used the entity mapping fields when you set up your analytics rule. The investigation graph requires that your original incident includes entities. Azure Sentinel currently supports investigation of incidents up to 30 days old.
+    > **Note** You'll only be able to investigate the incident if you used the entity mapping fields when you set up your analytics rule. The investigation graph requires that your original incident includes entities. Microsoft Sentinel currently supports investigation of incidents up to 30 days old.
 
 4. Review the items that are displayed:
 
@@ -174,14 +174,14 @@ The previous exercise created a breach in a system in your environment. You will
 2. For the comment, type `User error in judgement`.
 3. Select **Apply**
 
-## Exercise 3 : Use STIX and TAXII with Azure Sentinel
+## Exercise 3 : Use STIX and TAXII with Microsoft Sentinel
 
-As part of your investigation, you found out someone else had already discovered this attack pattern and published it to a TAXII feed. You want to bring these alerts into your Azure Sentinel for future incident creation.
+As part of your investigation, you found out someone else had already discovered this attack pattern and published it to a TAXII feed. You want to bring these alerts into your Microsoft Sentinel for future incident creation.
 
 ### Task 1: Create TAXII Connections
 
 1. Open the Azure Portal in your **wssecuritySUFFIX-paw-1** virtual machine
-2. Select **Azure Sentinel**
+2. Select **Microsoft Sentinel**
 3. Select the log analytics workspace
 4. Under **Configuration**, select **Data Connectors**
 5. Select **Threat Intelligence – TAXII** from the list of the data connectors
@@ -214,7 +214,7 @@ As part of your investigation, you found out someone else had already discovered
 ### Task 2: Create alerts
 
 1. Under **General**, select **Logs**
-2. You should now see an **Azure Sentinel** table category displayed
+2. You should now see an **Microsoft Sentinel** table category displayed
 3. Expand it and then expand **ThreatIntelligenceIndicator**. You should now see a list of all the alerts that were imported from the TAXII connectors
 
     ![Taxii data.](./media/sentinel_data_connector_taxii_data.png "Taxii data")
@@ -233,7 +233,7 @@ As part of your investigation, you found out someone else had already discovered
 
 8. Select one of the items
 9. In the dialog on the right, click the **0 Alerts** area. You will be directed to Log Analytics with the query that represents the item
-10. Select **New alert rule->Create Azure Sentinel alert**, follow the dialogs as you have done before in previous labs.
+10. Select **New alert rule->Create Microsoft Sentinel alert**, follow the dialogs as you have done before in previous labs.
 11. Congrats, you have imported external security provider data and created an alert from it using the STIX and TAXII standards.
 
 ## Exercise 4 : SOC Efficiency
@@ -251,4 +251,4 @@ You would like to measure your SOC efficiency, specifically around Incident resp
 4. Select the region, then select **OK**
 5. Select **View saved workbook**
 6. Select **Auto refresh:Off**, then select **5 minutes**
-7. Select **Apply**, you should now see metrics based on your Azure Sentinel incidents
+7. Select **Apply**, you should now see metrics based on your Microsoft Sentinel incidents

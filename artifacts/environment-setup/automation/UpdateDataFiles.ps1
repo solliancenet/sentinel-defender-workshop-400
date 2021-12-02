@@ -45,7 +45,7 @@ $ht.add("#IP_1#", "203.160.71.100"); #china
 $ht.add("#IP_2#", "80.89.137.214"); #russia
 $ht.add("#IP_3#", "117.82.191.160"); #china
 
-UpdateFile "./day-01/Azure Sentinel ML.ipynb" $ht;
+UpdateFile "./day-01/Microsoft Sentinel ML.ipynb" $ht;
 UpdateFile "./day-01/ExportLogsToStorage.ipynb" $ht;
 UpdateFile "./day-01/ExportLogsToStorage.ps1" $ht;
 UpdateFile "./day-01/storage_post.json" $ht;

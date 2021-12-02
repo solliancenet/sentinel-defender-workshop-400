@@ -1,6 +1,6 @@
 # Activity 4: Log Analytics + Azure Automation
 
-Wide World Importers has several automation commands setup in their on-premises Splunk instance that fire automatically when certain alerts are created. These commands do various things against both on-premises environments and cloud-based environments.  They would like to know how they would do the same with a cloud-based SEIM/SOAR software like Azure Sentinel.
+Wide World Importers has several automation commands setup in their on-premises Splunk instance that fire automatically when certain alerts are created. These commands do various things against both on-premises environments and cloud-based environments.  They would like to know how they would do the same with a cloud-based SEIM/SOAR software like Microsoft Sentinel.
 
 **Requirements**
 
@@ -22,6 +22,6 @@ Open your whiteboard for the event, and in the area for Activity 1 provide your 
 
 Challenges
 
-1. Can you run automated processes from Azure Sentinel on on-premises devices
+1. Can you run automated processes from Microsoft Sentinel on on-premises devices
 2. How would you remediate alerts in Azure-based resources?
 3. How would you remediate alerts in other cloud-based providers?

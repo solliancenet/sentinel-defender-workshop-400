@@ -15,12 +15,12 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>&nbsp;</td>
             <td>Microsoft 365 Defender</td>
-            <td>Azure Sentinel + M365 Defender</td>
+            <td>Microsoft Sentinel + M365 Defender</td>
         </tr>
         <tr>
             <td>08:00</td>
             <td rowspan=2>Keynote: Welcome, Objectives, Sentinel+Microsoft Defender - Better together</td>
-            <td rowspan=4>Design Presentation: Azure Sentinel</td>
+            <td rowspan=4>Design Presentation: Microsoft Sentinel</td>
         </tr>
         <tr><td>08:15</td></tr>
         <tr>
@@ -31,7 +31,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>09:00</td>
             <td>Break</td>
-            <td rowspan=2>Demo Walkthrough - Azure Sentinel</td>
+            <td rowspan=2>Demo Walkthrough - Microsoft Sentinel</td>
         </tr>
         <tr>
             <td>09:15</td>
@@ -45,7 +45,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>10:00</td>
             <td>Break</td>
-            <td rowspan=5>Design Presentation: Azure Sentinel + Microsoft Defender : Better Together!</td>
+            <td rowspan=5>Design Presentation: Microsoft Sentinel + Microsoft Defender : Better Together!</td>
         </tr>
         <tr>
             <td>10:15</td>
@@ -64,7 +64,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         </tr>
         <tr>
             <td>11:30</td>
-            <td rowspan=3><a href="./day-02/lab03-sentinel-defender.md">Build Hands-on: Configure Azure Sentinel + Microsoft Defender 365 (***)</a></td>
+            <td rowspan=3><a href="./day-02/lab03-sentinel-defender.md">Build Hands-on: Configure Microsoft Sentinel + Microsoft Defender 365 (***)</a></td>
         </tr>
             <tr><td>11:45</td></tr>
             <tr><td>12:00</td></tr>
@@ -89,7 +89,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>14:15</td>
             <td rowspan=4><a href="./day-01/lab02-defender-office-365.md">Hands-on: Microsoft Defender for Office 365(***)</a></td>
-            <td rowspan=4><a href="./day-02/lab04-sentinel-hunting.md">Hands-on: Azure Sentinel: Extending + Threat Hunting (***)</a></td>
+            <td rowspan=4><a href="./day-02/lab04-sentinel-hunting.md">Hands-on: Microsoft Sentinel: Extending + Threat Hunting (***)</a></td>
         </tr>
         <tr><td>14:30</td></tr>
         <tr>

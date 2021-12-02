@@ -1,28 +1,28 @@
 # Lab 3 : Configure Sentinel and Defender Integration
 
-## Exercise 1 : Azure Sentinel Basics
+## Exercise 1 : Microsoft Sentinel Basics
 
 1. Open the Azure Portal in your **paw-1** virtual machine
-2. Search for and select **Azure Sentinel**
+2. Search for and select **Microsoft Sentinel**
 
-    ![Azure Sentinel is displayed.](./media/search_sentinel.png "Browse the Sentinel blade")
+    ![Microsoft Sentinel is displayed.](./media/search_sentinel.png "Browse the Sentinel blade")
 
 3. Select the **wssecuritySUFFIX** log analytics workspace
 
-    ![Azure Sentinel is displayed.](./media/sentinel_select_workspace.png "Browse the Sentinel blade")
+    ![Microsoft Sentinel is displayed.](./media/sentinel_select_workspace.png "Browse the Sentinel blade")
 
 4. Under **General**, select **Logs**
 5. If prompted with any dialogs, close them.
 6. You should see some queries that were run previously when you were exploring Log Analytics
-7. Take a few minutes to explore the various Azure Sentinel blade items
+7. Take a few minutes to explore the various Microsoft Sentinel blade items
 
-    ![Azure Sentinel is displayed.](./media/sentinel-view.png "Browse the Sentinel blade")
+    ![Microsoft Sentinel is displayed.](./media/sentinel-view.png "Browse the Sentinel blade")
 
-## Exercise 2 : Azure Sentinel Data Sources
+## Exercise 2 : Microsoft Sentinel Data Sources
 
 ### Task 1: Enable Azure Active Directory Connector
 
-1. In the Azure Sentinel blade, under **Configuration**, select **Data connectors**
+1. In the Microsoft Sentinel blade, under **Configuration**, select **Data connectors**
 2. Select **Azure Active Directory**
 
     ![The click path is displayed.](./media/sentinel-data-connector-aad.png "Select Azure Active Directory connector")
@@ -56,7 +56,7 @@
 
 ### Task 2: Enable Microsoft Defender Connector
 
-1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Cloud**
+1. Navigate back to Microsoft Sentinel blade, select **Microsoft Defender for Cloud**
 2. Select **Open connector page**
 3. Select your subscription, then select **Connect**
 4. In the dialog, select **OK**
@@ -66,7 +66,7 @@
 
 ### Task 3: Enable Microsoft 365 Defender
 
-1. Navigate back to Azure Sentinel blade, select **Microsoft 365 Defender**
+1. Navigate back to Microsoft Sentinel blade, select **Microsoft 365 Defender**
 2. Select **Open connector page**
 3. Select **Connect incidents & alerts**
 4. Ensure the **Turn off all Microsoft incident creation rules...** checkbox is selected
@@ -74,41 +74,41 @@
 
 ### Task 4: Enable Cloud App Security
 
-1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Cloud Apps**
+1. Navigate back to Microsoft Sentinel blade, select **Microsoft Defender for Cloud Apps**
 2. Select **Open connector page**
 3. Select **Cloud Discovery Logs** checkbox
 4. Select **Apply Changes**
 
 ### Task 5: Enable Security Events
 
-1. Navigate back to Azure Sentinel blade, select **Security Events via Legacy Agent**
+1. Navigate back to Microsoft Sentinel blade, select **Security Events via Legacy Agent**
 2. Select **Open connector page**
 3. Select **All Events** radio button
 4. Select **Apply Changes**
 
 ### Task 6: Enable DNS Events
 
-1. Navigate back to Azure Sentinel blade, select **DNS (Preview)**
+1. Navigate back to Microsoft Sentinel blade, select **DNS (Preview)**
 2. Select **Open connector page**
 3. Select **Install Solution** radio button
 
 ### Task 7: Enable Windows Firewall
 
-1. Navigate back to Azure Sentinel blade, select **Windows Firewall**
+1. Navigate back to Microsoft Sentinel blade, select **Windows Firewall**
 2. Select **Open connector page**
 3. Select **Install Solution** radio button
 
 ### Task 8: Enable Defender for Endpoint
 
-1. Navigate back to Azure Sentinel blade, select **Microsoft Defender for Endpoint**
+1. Navigate back to Microsoft Sentinel blade, select **Microsoft Defender for Endpoint**
 2. Select **Open connector page**
 3. Notice that the connector is already connected due to the parent connector **Microsoft 365 Defender** being connected
 
     ![The connector page is displayed.](./media/sentinel-data-connector-mde-connect.png "Review the connector page screenshot")
 
-## Exercise 3 : Azure Sentinel Workbooks
+## Exercise 3 : Microsoft Sentinel Workbooks
 
-1. In the Azure Sentinel blade, under **Threat Management**, select **Workbooks**
+1. In the Microsoft Sentinel blade, under **Threat Management**, select **Workbooks**
 2. Select **Azure Defender for IoT Alerts**
 
    ![IoT Workbook is displayed.](media/sentinel-workbook-iot.png "Select the IoT Workbook")
@@ -139,9 +139,9 @@
 15. Select **View saved workbook**
 16. Click through the various tabs and review the pre-built reports based on MITRE.
 
-## Exercise 4 : Azure Sentinel Hunting
+## Exercise 4 : Microsoft Sentinel Hunting
 
-1. In the Azure Sentinel blade, select **Hunting**
+1. In the Microsoft Sentinel blade, select **Hunting**
 2. Review the page, notice it has several pre-built queries for `hunting` log data for events that are of interest
 
     ![Hunting is displayed.](media/sentinel-hunting.png "Review the Hunting blade")
@@ -154,9 +154,9 @@
 
     > **Note** You can run these queries, then run them again at a future time to see what the delta is. Typically you would sort based on the number and then explore further if you see results.
 
-## Exercise 5 : Azure Sentinel Entity Behavior
+## Exercise 5 : Microsoft Sentinel Entity Behavior
 
-1. In the Azure Sentinel blade, select **Entity Behavior**
+1. In the Microsoft Sentinel blade, select **Entity Behavior**
 2. Select **Configure UEBA**
 
     ![Select Enable UEBA.](./media/sentinel_enable_ueba.png "Select Enable UEBA.")
@@ -187,7 +187,7 @@
 
 ## Exercise 6 : Threat Intelligence
 
-1. In the Azure Sentinel blade, under **Threat Management**, select **Threat intelligence**
+1. In the Microsoft Sentinel blade, under **Threat Management**, select **Threat intelligence**
 2. In the top navigation, select **+Add new**
 
     ![Add new item.](./media/sentinel_threat_intel_add.png "Add new item")
@@ -217,16 +217,16 @@
 
     > **NOTE** You will need to ensure that you see the IPs added as other labs will reference these IoCs later.
 
-## Exercise 7 : Azure Sentinel Notebooks
+## Exercise 7 : Microsoft Sentinel Notebooks
 
 ### Task 1: Import Notebook
 
-1. In the **Azure Sentinel** blade, under **Threat Management**, select **Notebooks**.
+1. In the **Microsoft Sentinel** blade, under **Threat Management**, select **Notebooks**.
 2. Select the **Templates** tab, review the list of sample notebooks
 
     ![Sentinel notebook templates.](./media/sentinel_notebook_templates.png "Sentinel notebook templates")
 
-3. Select the **A Getting Started Guide for Azure Sentinel ML Notebooks**, in the dialog, select **Clone notebook template**
+3. Select the **A Getting Started Guide for Microsoft Sentinel ML Notebooks**, in the dialog, select **Clone notebook template**
 
     ![Notebook is highlighted.](./media/sentinel-notebook-launch.png "Launch the notebook")
 
@@ -252,7 +252,7 @@
 
     ![Machine Learning Workspace upload file.](./media/sentinel-notebook-mlworkspace-upload.png "Upload the notebook")
 
-14. Upload the `c:\LabFiles\sentinel-defender-workshop-400\artifacts\day-01\Azure Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
+14. Upload the `c:\LabFiles\sentinel-defender-workshop-400\artifacts\day-01\Microsoft Sentinel ML.ipynb` file to the workspace, when prompted, check both checked boxes, then select **Upload**
 15. Browse to your **wssecuritySUFFIX** log analytics workspace, copy the workspace id for later use.
 16. In another browser tab, navigate to the [Azure Active Directory page](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview), copy your `Tenant ID` for use later.
 
@@ -431,10 +431,10 @@ You can forward alerts from Sentinel to other SIEMs using the Sentinel APIs and 
 
 ## Reference Links
 
-- [What is Azure Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/overview)
-- [Investigate incidents with Azure Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/tutorial-investigate-cases)
-- Azure Sentinel Notebooks
-- [Enrich Azure Sentinel security incidents with the RiskIQ Intelligence Connector](https://techcommunity.microsoft.com/t5/azure-sentinel/enrich-azure-sentinel-security-incidents-with-the-riskiq/ba-p/1534412)
+- [What is Microsoft Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/overview)
+- [Investigate incidents with Microsoft Sentinel](https://docs.microsoft.com/en-us/azure/sentinel/tutorial-investigate-cases)
+- Microsoft Sentinel Notebooks
+- [Enrich Microsoft Sentinel security incidents with the RiskIQ Intelligence Connector](https://techcommunity.microsoft.com/t5/azure-sentinel/enrich-azure-sentinel-security-incidents-with-the-riskiq/ba-p/1534412)
 
 ## Resources
 

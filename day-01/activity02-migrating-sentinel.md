@@ -1,6 +1,6 @@
-# Activity 2: Migrate SIEM to Azure Sentinel
+# Activity 2: Migrate SIEM to Microsoft Sentinel
 
-For compliance reasons, Contoso would like to maintain raw and filtered logs for longer than 90 days, but no longer than 365 days (1 year).  They would like to know how they might be able to accomplish this with Azure Sentinel and Azure tools.
+For compliance reasons, Contoso would like to maintain raw and filtered logs for longer than 90 days, but no longer than 365 days (1 year).  They would like to know how they might be able to accomplish this with Microsoft Sentinel and Azure tools.
 
 **Requirements**
 
@@ -24,8 +24,8 @@ Open your whiteboard for the event, and in the area for Activity 2 provide your 
 
 Challenges
 
-1. Is it possible to filter raw event and log data before it gets to Azure Sentinel?
-2. How might WWI enrich their data before it gets into Azure Sentinel?
-3. Are all the current connectors supported in Log Analytics / Azure Sentinel?
+1. Is it possible to filter raw event and log data before it gets to Microsoft Sentinel?
+2. How might WWI enrich their data before it gets into Microsoft Sentinel?
+3. Are all the current connectors supported in Log Analytics / Microsoft Sentinel?
 4. What items will WWI need to migrate from Splunk? Can any of it be automated?
 5. If not all connectors are supported, can they run in a SIEM hybrid mode until they are?

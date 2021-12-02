@@ -25,7 +25,7 @@
     "lastUpdatedTimeUtc": null,
     "validFrom": "#CREATED#",
     "validUntil": null,
-    "source": "Azure Sentinel",
+    "source": "Microsoft Sentinel",
     "threatIntelligenceTags": []
   },
   "id": ""

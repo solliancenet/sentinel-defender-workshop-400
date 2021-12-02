@@ -237,7 +237,7 @@ Almost every Azure resource has the ability to send `control plane` activities t
 
 ## Exercise 3: Implement Lookups
 
-Azure Sentinel has various methods to perform lookups, enabling diverse sources for the lookup data and different ways to process it.
+Microsoft Sentinel has various methods to perform lookups, enabling diverse sources for the lookup data and different ways to process it.
 
 ### Task 1: Use externaldata
 
@@ -322,7 +322,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 ### Task 4: Create Sentinel Watchlist
 
-1. Browse to Azure Sentinel
+1. Browse to Microsoft Sentinel
 2. Select your lab workspace
 3. Under **Configuration**, select **Watchlist**
 4. Select **+ Add new**
@@ -446,11 +446,11 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
     ![Workbook Save.](./media/log-analytics-query-map.png "Workbook save")
 
-## Exercise 5 : Azure Sentinel Incidents and Investigation
+## Exercise 5 : Microsoft Sentinel Incidents and Investigation
 
 ### Task 1: Setup Query Rule
 
-1. In the Azure Sentinel blade, under **Configuration**, select **Analytics**
+1. In the Microsoft Sentinel blade, under **Configuration**, select **Analytics**
 2. Select **+Create**, then select **Schedule query rule**
 
    ![The click path is displayed.](media/sentinel-analytics.png "Select to create a new scheduled query rule")
@@ -489,7 +489,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 ### Task 2: Investigate Incident
 
-1. In the **Azure Sentinel** blade, select **Incidents**.
+1. In the **Microsoft Sentinel** blade, select **Incidents**.
 2. You should see a new incident displayed based on your previously created Alert:
 
     ![New incident is displayed.](./media/sentinel-incident-new.png "Select the new incident")
@@ -500,7 +500,7 @@ Azure Sentinel has various methods to perform lookups, enabling diverse sources 
 
 4. Eventually the incident will be ready to be investigated, in the meantime we will continue with some other lab work.
 
-## Exercise 5 : Extending Azure Sentinel Incidents (Optional)
+## Exercise 5 : Extending Microsoft Sentinel Incidents (Optional)
 
 This task requires registration with RiskIQ to gain access to an API Key. It can take a few days to do this action, but if you wish to perform these steps, you can get through most of them without the account/key.
 
@@ -516,7 +516,7 @@ This task requires registration with RiskIQ to gain access to an API Key. It can
 
 6. Select **Show** for the User, record your API Key and Secret
 
-### Task 2 : Extend Azure Sentinel
+### Task 2 : Extend Microsoft Sentinel
 
 1. Switch to the Azure Portal, browse to your resource group
 2. Select **Create**
@@ -532,8 +532,8 @@ This task requires registration with RiskIQ to gain access to an API Key. It can
 
 10. Select **Review and create**
 11. Select **Create**
-12. In the Azure portal, navigate to your Azure Sentinel workspace
-13. Under **Configuration**, select **Automation** from the Azure Sentinel navigation menu
+12. In the Azure portal, navigate to your Microsoft Sentinel workspace
+13. Under **Configuration**, select **Automation** from the Microsoft Sentinel navigation menu
 14. Select the **Active playbooks** tab
 15. Select the **Recent-Host-Passive-DNS** playbook by selecting the playbook name
 
@@ -555,7 +555,7 @@ This task requires registration with RiskIQ to gain access to an API Key. It can
     ![RiskIQ settings are displayed.](./media/riskiq-connections-2.png "Enter your information")
 
 25. Select **Save**
-26. Navigate to your Azure Sentinel **Analytics** page
+26. Navigate to your Microsoft Sentinel **Analytics** page
 27. Select the **Custom Threats** rule you created earlier, then select **Edit**
 
     > **NOTE** The Recent-IP-Passive-DNS playbook works with analytics rules which map IP address entities so make sure you are working with such a rule. For simple testing of the playbook automation you can use rule logic as shown below to force an alert creation with a specific IP address.
@@ -573,16 +573,16 @@ This task requires registration with RiskIQ to gain access to an API Key. It can
 
 ### Task 3 : Review Incident
 
-1. Navigate back to your Azure Sentinel Incidents page
+1. Navigate back to your Microsoft Sentinel Incidents page
 2. Locate the new incident generated from the analytic rule previously and select it
 3. Select **View full details** from the information pane
 4. Select the **View playbooks** on the far right
 5. For the **Recent-Host-Passive-DNS** playbook, select **Run**.  After a few moments you will see a new comment added.
 6. Select the **Comments** tab to see the enrichment added by the Recent-Host-Passive-DNS playbook automation. You can also view the information in the RiskIQ portal by following the link provided at the bottom of the comment.
 
-    ![Azure Sentinel incident is enriched with comments.](./media/sentinel-enrichment.png "Review the enrichment comments")
+    ![Microsoft Sentinel incident is enriched with comments.](./media/sentinel-enrichment.png "Review the enrichment comments")
 
-> **Congrats, you have used Machine Learning to analyze signals from your Azure resources and tied that data to Azure Sentinel with extended external API calls for incident enrichment. Good luck on your security journey in Azure!**
+> **Congrats, you have used Machine Learning to analyze signals from your Azure resources and tied that data to Microsoft Sentinel with extended external API calls for incident enrichment. Good luck on your security journey in Azure!**
 
 ## Reference Links
 

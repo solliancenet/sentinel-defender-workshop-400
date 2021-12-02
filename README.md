@@ -18,13 +18,13 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
             <td>&nbsp;</td>
             <td>Microsoft Defender for Cloud</td>
             <td>&nbsp;</td>
-            <td>Azure Sentinel + Microsoft Defender for Cloud</td>
+            <td>Microsoft Sentinel + Microsoft Defender for Cloud</td>
         </tr>
         <tr>
             <td>08:00</td>
             <td rowspan=2>Keynote: Welcome, Objectives, Sentinel + Microsoft Defender for Cloud - Better together</td>
             <td rowspan=10>Main</td>
-            <td rowspan=4>Design Presentation: Azure Sentinel</td>
+            <td rowspan=4>Design Presentation: Microsoft Sentinel</td>
             <td rowspan=3>Main</td>
         </tr>
         <tr><td>08:15</td></tr>
@@ -36,7 +36,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>09:00</td>
             <td>Break</td>
-            <td rowspan=2>Demo Walkthrough - Azure Sentinel</td>
+            <td rowspan=2>Demo Walkthrough - Microsoft Sentinel</td>
         </tr>
         <tr>
             <td>09:15</td>
@@ -50,7 +50,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         <tr>
             <td>10:00</td>
             <td>Break</td>
-            <td rowspan=5>Design Presentation: Azure Sentinel + Microsoft Defender for Cloud : Better Together!</td>
+            <td rowspan=5>Design Presentation: Microsoft Sentinel + Microsoft Defender for Cloud : Better Together!</td>
         </tr>
         <tr>
             <td>10:15</td>
@@ -70,7 +70,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
         </tr>
         <tr>
             <td>11:30</td>
-            <td rowspan=3><a href="./day-02/lab03-sentinel-defender.md">Hands-on: Configure Azure Sentinel + Microsoft Defender for Cloud (***)</a></td>
+            <td rowspan=3><a href="./day-02/lab03-sentinel-defender.md">Hands-on: Configure Microsoft Sentinel + Microsoft Defender for Cloud (***)</a></td>
             <td rowspan=13>Table</td>
         </tr>
             <tr><td>11:45</td></tr>
@@ -98,7 +98,7 @@ Event [preflight checklist](artifacts/environment-setup/README.md).
             <td>14:15</td>
             <td rowspan=4><a href="./day-01/lab02-defender-office-365.md">Hands-on: Microsoft Defender for Cloud (Adaptive application control, network hardening and vulnerability assessments) )(***)</a></td>
             <td rowspan=4>Table</td>
-            <td rowspan=4><a href="./day-02/lab04-sentinel-hunting.md">Hands-on: Azure Sentinel: Extending + Threat Hunting (***)</a></td>
+            <td rowspan=4><a href="./day-02/lab04-sentinel-hunting.md">Hands-on: Microsoft Sentinel: Extending + Threat Hunting (***)</a></td>
         </tr>
         <tr><td>14:30</td></tr>
         <tr>

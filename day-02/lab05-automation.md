@@ -89,7 +89,7 @@
 9. Select **Review + create**
 10. Select **Create**, once it is created, select **Go to resource**
 11. Under **Templates**, select **Blank Logic App**
-12. For the trigger, select **When Azure Sentinel incident creation rule was triggered**
+12. For the trigger, select **When Microsoft Sentinel incident creation rule was triggered**
 
     ![Select trigger](./media/logic_app_sentinel_trigger.png "Select trigger")
 
@@ -112,9 +112,9 @@
 ### Task 5: Configure an Alert / Incident
 
 1. Open the Azure Portal in your **wssecuritySUFFIX-paw-1** virtual machine
-2. Select **Azure Sentinel**
+2. Select **Microsoft Sentinel**
 
-    ![Azure Sentinel is highlighted.](./media/sentinel-browse.png "Browse to Azure Sentinel")
+    ![Microsoft Sentinel is highlighted.](./media/sentinel-browse.png "Browse to Microsoft Sentinel")
 
 3. Select the **wssecuritySUFFIX** log analytics workspace
 4. Under **Configuration**, select **Automation**
@@ -123,23 +123,23 @@
 7. For the actions, select **Run playbook**
 8. Select the **Manage playbook permissions** link
 
-    ![Azure Sentinel permissions.](./media/sentinel_automation_rule_create_permissions.png "Set the Azure Sentinel Permissions")
+    ![Microsoft Sentinel permissions.](./media/sentinel_automation_rule_create_permissions.png "Set the Microsoft Sentinel Permissions")
 
 9. Select the lab resource group
 10. Select **Apply**
 11. Select the **Reboot** playbook
 12. Select **Apply**
 
-    ![Azure Sentinel automation rule created.](./media/sentinel_automation_rule_created.png "Azure Sentinel automation rule created")
+    ![Microsoft Sentinel automation rule created.](./media/sentinel_automation_rule_created.png "Microsoft Sentinel automation rule created")
 
 ### Task 6: Configure an Alert / Incident
 
 1. Open the `/artifacts/day-02/CreateIncident.ps1` in Windows PowerShell ISE
 2. Update the values in the script, press **F5** to run it
-3. Browse back to Azure Portal and Azure Sentinel
+3. Browse back to Azure Portal and Microsoft Sentinel
 4. Select **Incidents**, you should see a new incident
 
-    ![Azure Sentinel incident created.](./media/sentinel_automation_incident_create.png "Azure Sentinel incident created")
+    ![Microsoft Sentinel incident created.](./media/sentinel_automation_incident_create.png "Microsoft Sentinel incident created")
 
 ### Task 6: Review Logs
 

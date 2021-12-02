@@ -12,4 +12,4 @@ $groupName = "onpremises-win-group";
 $url = "#AUTOMATION_URL#";
 $key = "#AUTOMATION_KEY#";
 
-Add-HybridRunbookWorker –GroupName $groupName -Url $url -Key $key;
+Add-HybridRunbookWorker -GroupName $groupName -Url $url -Key $key;

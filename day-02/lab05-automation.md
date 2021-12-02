@@ -5,7 +5,7 @@
 ### Task 1: Enable Azure Automation in Log Analytics Workspace
 
 1. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
-2. Open the `c:\labfiles\workshopname\artifacts\lday-02\EnableAzureAutomation.ps1` file in a Windows PowerShell ISE window
+2. Open the `c:\labfiles\workshopname\artifacts\day-02\EnableAzureAutomation.ps1` file in a Windows PowerShell ISE window
 3. Press **F5** to execute it.
 
     ![Results of the above command.](./media/loganalytics-enable_automation.png "Results of the above command.")
@@ -19,7 +19,7 @@
     ![Automation account url and key](./media/automation_keys.png "Automation account url and key")
 
 4. Switch to the **wssecuritySUFFIX-paw-1** virtual machine
-5. Open the `c:\labfiles\workshopname\artifacts\lday-02\AddHybridWorker.ps1` file in a Windows PowerShell ISE window.  Notice we have replaced the automation account values for you.
+5. Open the `c:\labfiles\workshopname\artifacts\day-02\AddHybridWorker.ps1` file in a Windows PowerShell ISE window.  Notice we have replaced the automation account values for you.
 6. Press **F5** to register the machine
 7. Switch back to the Azure Automation Account
 8. Under **Process Automation**, select **Hybrid worker groups**, you should see your new `onpremises-win-group` displayed

